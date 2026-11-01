@@ -1,0 +1,351 @@
+{
+ "configs": {
+  "eval-haiku-base": {
+   "name": "eval-haiku-base",
+   "sims": 160,
+   "tasks": 40,
+   "pass": [
+    0.875,
+    0.85,
+    0.85,
+    0.85
+   ],
+   "db_pass": [
+    0.894,
+    0.875,
+    0.875,
+    0.875
+   ],
+   "writes": 219,
+   "violations": 9,
+   "sims_with_violation": 5,
+   "duplicate_writes": 0,
+   "sims_with_duplicate": 0,
+   "refusals": 0,
+   "overrides": 0,
+   "notes_saves": 0,
+   "crashes": 0,
+   "agent_cost": 0.44,
+   "user_cost": 1.77,
+   "cost_per_sim": 0.0138,
+   "agent_cost_per_success": 0.0031
+  },
+  "eval-haiku-logbook": {
+   "name": "eval-haiku-logbook",
+   "sims": 160,
+   "tasks": 40,
+   "pass": [
+    0.85,
+    0.787,
+    0.756,
+    0.725
+   ],
+   "db_pass": [
+    0.869,
+    0.812,
+    0.781,
+    0.75
+   ],
+   "writes": 217,
+   "violations": 5,
+   "sims_with_violation": 5,
+   "duplicate_writes": 0,
+   "sims_with_duplicate": 0,
+   "refusals": 3,
+   "overrides": 0,
+   "notes_saves": 0,
+   "crashes": 0,
+   "agent_cost": 0.438,
+   "user_cost": 1.55,
+   "cost_per_sim": 0.0124,
+   "agent_cost_per_success": 0.0032
+  },
+  "eval-sonnet-base": {
+   "name": "eval-sonnet-base",
+   "sims": 160,
+   "tasks": 40,
+   "pass": [
+    0.9,
+    0.879,
+    0.863,
+    0.85
+   ],
+   "db_pass": [
+    0.912,
+    0.9,
+    0.887,
+    0.875
+   ],
+   "writes": 213,
+   "violations": 5,
+   "sims_with_violation": 5,
+   "duplicate_writes": 0,
+   "sims_with_duplicate": 0,
+   "refusals": 0,
+   "overrides": 0,
+   "notes_saves": 0,
+   "crashes": 0,
+   "agent_cost": 6.06,
+   "user_cost": 1.32,
+   "cost_per_sim": 0.0461,
+   "agent_cost_per_success": 0.0421
+  },
+  "crash-haiku-transcript": {
+   "name": "crash-haiku-transcript",
+   "sims": 160,
+   "tasks": 40,
+   "pass": [
+    0.863,
+    0.825,
+    0.8,
+    0.775
+   ],
+   "db_pass": [
+    0.869,
+    0.838,
+    0.819,
+    0.8
+   ],
+   "writes": 268,
+   "violations": 116,
+   "sims_with_violation": 52,
+   "duplicate_writes": 49,
+   "sims_with_duplicate": 49,
+   "refusals": 0,
+   "overrides": 0,
+   "notes_saves": 0,
+   "crashes": 141,
+   "agent_cost": 0.561,
+   "user_cost": 1.724,
+   "cost_per_sim": 0.0143,
+   "agent_cost_per_success": 0.0041
+  },
+  "crash-haiku-notes": {
+   "name": "crash-haiku-notes",
+   "sims": 160,
+   "tasks": 40,
+   "pass": [
+    0.894,
+    0.858,
+    0.838,
+    0.825
+   ],
+   "db_pass": [
+    0.906,
+    0.879,
+    0.863,
+    0.85
+   ],
+   "writes": 275,
+   "violations": 127,
+   "sims_with_violation": 57,
+   "duplicate_writes": 58,
+   "sims_with_duplicate": 57,
+   "refusals": 0,
+   "overrides": 0,
+   "notes_saves": 0,
+   "crashes": 140,
+   "agent_cost": 0.547,
+   "user_cost": 1.715,
+   "cost_per_sim": 0.0141,
+   "agent_cost_per_success": 0.0038
+  },
+  "crash-haiku-logbook": {
+   "name": "crash-haiku-logbook",
+   "sims": 160,
+   "tasks": 40,
+   "pass": [
+    0.875,
+    0.833,
+    0.812,
+    0.8
+   ],
+   "db_pass": [
+    0.887,
+    0.854,
+    0.838,
+    0.825
+   ],
+   "writes": 215,
+   "violations": 4,
+   "sims_with_violation": 4,
+   "duplicate_writes": 0,
+   "sims_with_duplicate": 0,
+   "refusals": 1,
+   "overrides": 0,
+   "notes_saves": 0,
+   "crashes": 140,
+   "agent_cost": 0.629,
+   "user_cost": 1.63,
+   "cost_per_sim": 0.0141,
+   "agent_cost_per_success": 0.0045
+  },
+  "crash-sonnet-notes": {
+   "name": "crash-sonnet-notes",
+   "sims": 160,
+   "tasks": 40,
+   "pass": [
+    0.931,
+    0.912,
+    0.894,
+    0.875
+   ],
+   "db_pass": [
+    0.938,
+    0.925,
+    0.912,
+    0.9
+   ],
+   "writes": 246,
+   "violations": 62,
+   "sims_with_violation": 31,
+   "duplicate_writes": 27,
+   "sims_with_duplicate": 27,
+   "refusals": 0,
+   "overrides": 0,
+   "notes_saves": 5,
+   "crashes": 143,
+   "agent_cost": 7.395,
+   "user_cost": 1.43,
+   "cost_per_sim": 0.0552,
+   "agent_cost_per_success": 0.0496
+  },
+  "crash-sonnet-logbook": {
+   "name": "crash-sonnet-logbook",
+   "sims": 160,
+   "tasks": 40,
+   "pass": [
+    0.925,
+    0.925,
+    0.925,
+    0.925
+   ],
+   "db_pass": [
+    0.925,
+    0.925,
+    0.925,
+    0.925
+   ],
+   "writes": 216,
+   "violations": 2,
+   "sims_with_violation": 1,
+   "duplicate_writes": 0,
+   "sims_with_duplicate": 0,
+   "refusals": 2,
+   "overrides": 0,
+   "notes_saves": 0,
+   "crashes": 140,
+   "agent_cost": 9.021,
+   "user_cost": 1.375,
+   "cost_per_sim": 0.065,
+   "agent_cost_per_success": 0.061
+  }
+ },
+ "pairs": [
+  {
+   "a": "eval-haiku-logbook",
+   "b": "eval-haiku-base",
+   "pass1": [
+    -0.025,
+    -0.056,
+    0.0
+   ],
+   "pass4": [
+    -0.125,
+    -0.225,
+    -0.025
+   ],
+   "dup_p": 1.0
+  },
+  {
+   "a": "eval-haiku-logbook",
+   "b": "eval-sonnet-base",
+   "pass1": [
+    -0.05,
+    -0.119,
+    0.006
+   ],
+   "pass4": [
+    -0.125,
+    -0.275,
+    0.0
+   ],
+   "dup_p": 1.0
+  },
+  {
+   "a": "crash-haiku-logbook",
+   "b": "crash-haiku-notes",
+   "pass1": [
+    -0.019,
+    -0.075,
+    0.031
+   ],
+   "pass4": [
+    -0.025,
+    -0.125,
+    0.075
+   ],
+   "dup_p": 1.5497993389898484e-20
+  },
+  {
+   "a": "crash-haiku-logbook",
+   "b": "crash-haiku-transcript",
+   "pass1": [
+    0.012,
+    -0.056,
+    0.075
+   ],
+   "pass4": [
+    0.025,
+    -0.075,
+    0.125
+   ],
+   "dup_p": 2.2817081859720632e-17
+  },
+  {
+   "a": "crash-haiku-notes",
+   "b": "crash-haiku-transcript",
+   "pass1": [
+    0.031,
+    -0.025,
+    0.1
+   ],
+   "pass4": [
+    0.05,
+    -0.05,
+    0.15
+   ],
+   "dup_p": 0.8574653976362184
+  },
+  {
+   "a": "crash-sonnet-logbook",
+   "b": "crash-sonnet-notes",
+   "pass1": [
+    -0.006,
+    -0.056,
+    0.025
+   ],
+   "pass4": [
+    0.05,
+    0.0,
+    0.125
+   ],
+   "dup_p": 2.249604501852247e-09
+  },
+  {
+   "a": "crash-haiku-logbook",
+   "b": "crash-sonnet-notes",
+   "pass1": [
+    -0.056,
+    -0.125,
+    0.0
+   ],
+   "pass4": [
+    -0.075,
+    -0.175,
+    0.025
+   ],
+   "dup_p": 2.249604501852247e-09
+  }
+ ]
+}

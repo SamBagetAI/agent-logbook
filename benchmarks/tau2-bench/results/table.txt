@@ -1,0 +1,18 @@
+config                     sims pass^1 pass^4  db^1  db^4 viol  dup  ref   $/sim agent$/ok
+eval-haiku-base             160  0.875   0.85 0.894 0.875    9    0    0  0.0138    0.0031
+eval-haiku-logbook          160   0.85  0.725 0.869  0.75    5    0    3  0.0124    0.0032
+eval-sonnet-base            160    0.9   0.85 0.912 0.875    5    0    0  0.0461    0.0421
+crash-haiku-transcript      160  0.863  0.775 0.869   0.8  116   49    0  0.0143    0.0041
+crash-haiku-notes           160  0.894  0.825 0.906  0.85  127   57    0  0.0141    0.0038
+crash-haiku-logbook         160  0.875    0.8 0.887 0.825    4    0    1  0.0141    0.0045
+crash-sonnet-notes          160  0.931  0.875 0.938   0.9   62   27    0  0.0552    0.0496
+crash-sonnet-logbook        160  0.925  0.925 0.925 0.925    2    0    2   0.065     0.061
+
+paired differences over tasks (bootstrap 95% interval)
+  eval-haiku-logbook - eval-haiku-base: pass^1 (-0.025, -0.056, 0.0)  pass^4 (-0.125, -0.225, -0.025)  dup-sims 0 vs 0 (one-sided p=1)
+  eval-haiku-logbook - eval-sonnet-base: pass^1 (-0.05, -0.119, 0.006)  pass^4 (-0.125, -0.275, 0.0)  dup-sims 0 vs 0 (one-sided p=1)
+  crash-haiku-logbook - crash-haiku-notes: pass^1 (-0.019, -0.075, 0.031)  pass^4 (-0.025, -0.125, 0.075)  dup-sims 0 vs 57 (one-sided p=1.5e-20)
+  crash-haiku-logbook - crash-haiku-transcript: pass^1 (0.012, -0.056, 0.075)  pass^4 (0.025, -0.075, 0.125)  dup-sims 0 vs 49 (one-sided p=2.3e-17)
+  crash-haiku-notes - crash-haiku-transcript: pass^1 (0.031, -0.025, 0.1)  pass^4 (0.05, -0.05, 0.15)  dup-sims 57 vs 49 (one-sided p=0.86)
+  crash-sonnet-logbook - crash-sonnet-notes: pass^1 (-0.006, -0.056, 0.025)  pass^4 (0.05, 0.0, 0.125)  dup-sims 0 vs 27 (one-sided p=2.2e-09)
+  crash-haiku-logbook - crash-sonnet-notes: pass^1 (-0.056, -0.125, 0.0)  pass^4 (-0.075, -0.175, 0.025)  dup-sims 0 vs 27 (one-sided p=2.2e-09)
