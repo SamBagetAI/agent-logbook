@@ -74,9 +74,9 @@ The benchmark code, its prompts and its agent loop are unchanged. Each setup is 
 
 - **No memory**: AhaBench's default. Each decision sees the current state and the last 8 actions, nothing older.
 - **Agent's own notes**: the agent can add a `note` to any action; its last 25 notes are shown in every later decision.
-- **Logbook** (`vending_logbook.py`): records what the agent was shown since day 1, and puts a short track record in the prompt's PLANNER NOTE block: units and profit per day at each price, sold-out days, effect of assortment and weather, product slot sizes, failed commands and the units they destroyed, supplier search results, quotes and refusals, orders and their issues, losses, money trend. It adds information only and blocks nothing. Every line comes from what the agent had already been shown.
+- **Logbook** ([`vending_logbook.py`](../../logbook/ahabench/vending_logbook.py)): records what the agent was shown since day 1, and puts a short track record in the prompt's PLANNER NOTE block: units and profit per day at each price, sold-out days, effect of assortment and weather, product slot sizes, failed commands and the units they destroyed, supplier search results, quotes and refusals, orders and their issues, losses, money trend. It adds information only and blocks nothing. Every line comes from what the agent had already been shown: `code/verify_replay.py` rebuilds every Logbook block of every published run, byte for byte, from the prompts the agent received and the actions it chose.
 - **Logbook without money and sales lines** (`--arm logbook_noout`): the same record minus the money trend, sales, price, assortment and weather lines.
-- **Generic Logbook** (`generic_logbook.py`, `--arm generic`): knows nothing about the task. After every action it reads the tool's text result, keeps every line that matches a generic failure vocabulary (failed, invalid, insufficient, missing, still need, ...), grouped by message pattern and counted, and the last call that worked per tool. Messages count only when they reply to the agent's own messages; unsolicited ones (possibly phishing) are never repeated back.
+- **Generic Logbook** ([`generic_logbook.py`](../../logbook/ahabench/generic_logbook.py), `--arm generic`): knows nothing about the task. After every action it reads the tool's text result, keeps every line that matches a generic failure vocabulary (failed, invalid, insufficient, missing, still need, ...), grouped by message pattern and counted, and the last call that worked per tool. Messages count only when they reply to the agent's own messages; unsolicited ones (possibly phishing) are never repeated back.
 - **Generic Logbook v2** (`--arm generic2`): v1 plus every sender of a repeated refusal, and where each address came from (returned by the agent's own tools, or wrote first).
 
 ## Protocol
@@ -106,19 +106,21 @@ git clone https://github.com/Marco-Cheng/AhaBench && cd AhaBench && git checkout
 python3.12 -m venv .venv && . .venv/bin/activate
 pip install -e benchmarks/openvending httpx
 export ANTHROPIC_API_KEY=...            # or ANTHROPIC_KEY_FILE=/path/to/key
-python /path/to/code/aha_run_ckpt.py --arm logbook --seed 0 --out runs/eval     # arms: none, notes, logbook, logbook_noout, generic, generic2
-python /path/to/code/report_aha.py runs/eval
-python /path/to/code/plot_aha.py runs/eval results
+CODE=/path/to/agent-logbook/benchmarks/ahabench/code   # a clone of this repo: the runner loads the Logbook from logbook/
+python $CODE/aha_run_ckpt.py --arm logbook --seed 0 --out runs/eval     # arms: none, notes, logbook, logbook_noout, generic, generic2
+python $CODE/report_aha.py runs/eval
+python $CODE/plot_aha.py runs/eval results
 ```
 
-`aha_run_ckpt.py` adds a checkpoint every simulated day to `aha_run.py` (rerun the command to resume). The first Haiku runs (no memory, notes, Logbook) used `aha_run.py`; the generic, ablation and Sonnet runs used `aha_run_ckpt.py`, for example: `python /path/to/code/aha_run_ckpt.py --arm logbook --seed 0 --model claude-sonnet-5-5 --out runs/sonnet`.
+`aha_run_ckpt.py` adds a checkpoint every simulated day to `aha_run.py` (rerun the command to resume). The first Haiku runs (no memory, notes, Logbook) used `aha_run.py`; the generic, ablation and Sonnet runs used `aha_run_ckpt.py`, for example: `python $CODE/aha_run_ckpt.py --arm logbook --seed 0 --model claude-sonnet-5-5 --out runs/sonnet`.
 
 ## Files
 
-- `code/logbook_provider.py`: every setup (provider for AhaBench's `--provider python`)
-- `code/vending_logbook.py`: the task Logbook for Aha-Vending; `code/generic_logbook.py`: the generic Logbook (v1 and v2)
+- `code/logbook_provider.py`: every setup (provider for AhaBench's `--provider python`); it loads the Logbook from [`logbook/ahabench`](../../logbook/ahabench)
+- [`logbook/ahabench/vending_logbook.py`](../../logbook/ahabench/vending_logbook.py): the task Logbook for Aha-Vending; [`logbook/ahabench/generic_logbook.py`](../../logbook/ahabench/generic_logbook.py): the generic Logbook (v1 and v2)
 - `code/aha_run.py`, `code/aha_run_ckpt.py`: runners (the paper's episode loop plus a daily net-worth series)
 - `code/report_aha.py`, `code/analyze_aha.py`, `code/acct_analysis.py`, `code/compare_sonnet.py`, `code/plot_aha.py`, `code/plot_sonnet.py`, `code/replay_test.py`, `code/replay_generic.py`: analysis
+- `code/verify_replay.py`: replays the published call logs through the Logbook, offline, and checks that it rebuilds every block the agent saw (37,837 of 37,837 model calls)
 - `results/runs.csv`: one row per run (Haiku setups including `generic`, `generic2`, `logbook_noout`; `sonnet_none`, `sonnet_logbook`); `results/summary.txt`: full report; `results/*.png`: charts
 - `data/per_run.zip`: benchmark summaries, daily net worth and token usage per run (Sonnet runs under `sonnet/`)
 - `data/logs_calls.zip`: every model call (prompt and reply); `data/logs_traces.zip`: environment traces

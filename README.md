@@ -1,3 +1,5 @@
+![Agent Logbook: a record kept by code, outside the model, shown to the agent at every decision](assets/banner.png)
+
 # Agent Logbook
 
 An agent only knows what it is sent at each call. The Logbook is a record kept by code, outside the model, of what the agent was shown and what happened, and given back to it at every decision.
@@ -68,7 +70,7 @@ The generic versions show the refusal ("x10, from 3 different senders: we still 
 3. **Show**: at every call it puts a short summary of that record in the prompt, next to the benchmark's own context.
 4. **Optionally check**: on τ²-bench it also refused write actions that broke a written policy rule. That gate changed nothing on the score; the AhaBench gain came with no blocking at all.
 
-Each benchmark has its own adapter, because the record has to be written in the task's terms. See each folder.
+The code is in [logbook/](logbook): one Logbook per benchmark, because the record has to be written in the task's terms. Its README shows what each one records, how it reaches the agent, and how to write one for a new task.
 
 ## Limits
 
@@ -81,13 +83,17 @@ Each benchmark has its own adapter, because the record has to be written in the 
 ## Repository
 
 ```text
+logbook/           the Logbook code: what each one records, and how to write one for your task
+  ahabench/        the task Logbook and the two generic versions
+  tau2-bench/      the Logbook gate (retail; the airline version was not used in the results)
+  vending-bench/   the Logbook layer and its first version
 benchmarks/
-  ahabench/        Aha-Vending: the Logbook, the generic versions, runners, analysis, results, full logs
-  tau2-bench/      τ²-bench retail: the Logbook gate, crash protocol, results, every conversation
-  vending-bench/   Vending Bench: the Logbook layer, results, every run
+  ahabench/        Aha-Vending: runners, analysis, results, full logs
+  tau2-bench/      τ²-bench retail: runner, crash protocol, results, every conversation
+  vending-bench/   Vending Bench: runner, results, every run
 ```
 
-Each folder has its own README with the protocol, the numbers and the commands to reproduce. Runs use Claude models through the [Anthropic](https://www.anthropic.com) API; set `ANTHROPIC_API_KEY` before running.
+Each benchmark folder has its own README with the protocol, the numbers and the commands to reproduce. Runs use Claude models through the [Anthropic](https://www.anthropic.com) API; set `ANTHROPIC_API_KEY` before running.
 
 ## License
 

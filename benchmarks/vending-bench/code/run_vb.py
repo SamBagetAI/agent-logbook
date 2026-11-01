@@ -116,7 +116,8 @@ async def play(arm, model, seed, args):
     os.environ.update(VENDING_SEED=str(seed), VENDING_SIM_DAYS=str(args.days),
                       VENDING_STATE_PATH=str(out / "live-state.json"), VENDING_RESUME="0")
     os.environ["ANTHROPIC_API_KEY"] = _api_key()
-    sys.path[:0] = [str(SIM), str(ROOT / "scripts"), str(HERE)]
+    sys.path[:0] = [str(SIM), str(ROOT / "scripts"), str(HERE),
+                    str(HERE.parents[2] / "logbook" / "vending-bench")]  # the Logbook code
     import litellm
     import server
     import sync_config

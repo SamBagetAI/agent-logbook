@@ -2,6 +2,7 @@
 import json, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "logbook" / "ahabench"))  # the Logbook code
 from vending_logbook import VendingLogbook
 from logbook_provider import first_json
 rows = [json.loads(l) for l in open(sys.argv[1]) if l.strip()]

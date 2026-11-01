@@ -2,6 +2,7 @@
 import json, re, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "logbook" / "ahabench"))  # the Logbook code
 from generic_logbook import GenericLogbook
 from logbook_provider import first_json
 LAST_RESULT = re.compile(r"LAST TOOL RESULT\s*\n(.*?)\n\s*\n\s*REMINDER:", re.S)

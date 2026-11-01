@@ -11,6 +11,7 @@ import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "logbook" / "tau2-bench"))  # the Logbook code
 SIM = Path(os.environ.get("TAU2_SIMULATIONS", "tau2-bench/data/simulations"))
 AIR_TOOLS = {"get_reservation_details", "book_reservation", "cancel_reservation",
              "update_reservation_baggages", "update_reservation_flights",

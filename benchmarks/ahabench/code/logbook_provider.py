@@ -37,6 +37,7 @@ from pathlib import Path
 import httpx
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "logbook" / "ahabench"))  # the Logbook code
 
 API = "https://api.anthropic.com/v1/messages"
 KEY_ENV = "ANTHROPIC_API_KEY"  # or point ANTHROPIC_KEY_FILE at a file that holds the key

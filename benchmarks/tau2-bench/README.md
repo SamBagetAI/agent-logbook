@@ -41,7 +41,7 @@ Note: given the chance, the agents rarely saved notes before the crash (Haiku 0 
 ## Files
 
 - `code/run_tau.py`: runs τ²-bench with the standard agent or the Logbook agent (tau2's own environment, tasks, user simulator and evaluation)
-- `code/logbook_agent.py`, `code/logbook_airline.py`: the Logbook for the retail and airline domains
+- [`logbook/tau2-bench/logbook_agent.py`](../../logbook/tau2-bench/logbook_agent.py): the Logbook for the retail domain (used here) and the agent that plugs it into tau2; [`logbook_airline.py`](../../logbook/tau2-bench/logbook_airline.py): the same for the airline domain (not used in these results)
 - `code/crash_agent.py`: the crash protocol
 - `code/report_tau.py`, `code/compare_tau.py`: tables and paired bootstrap intervals; `code/review_tau.py`: τ²'s conversation reviewer, run blind to the setup
 - `results/table.txt`, `results/tau_results.json`: the numbers above
@@ -55,6 +55,7 @@ Note: the "viol" column in `results/table.txt` replays the Logbook's own rules o
 git clone https://github.com/sierra-research/tau2-bench && cd tau2-bench && git checkout 122e243
 pip install -e .
 export ANTHROPIC_API_KEY=...
-python /path/to/code/run_tau.py --arm logbook --agent-model claude-haiku-5-5 --split test --trials 4 --name eval-haiku-logbook
-TAU2_SIMULATIONS=data/simulations python /path/to/code/compare_tau.py
+CODE=/path/to/agent-logbook/benchmarks/tau2-bench/code   # a clone of this repo: the runner loads the Logbook from logbook/
+python $CODE/run_tau.py --arm logbook --agent-model claude-haiku-5-5 --split test --trials 4 --name eval-haiku-logbook
+TAU2_SIMULATIONS=data/simulations python $CODE/compare_tau.py
 ```

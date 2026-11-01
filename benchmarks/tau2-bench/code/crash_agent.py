@@ -15,6 +15,8 @@ execute it, so it counts in the final database.
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
 from typing import Optional
 
 from tau2.agent.llm_agent import LLMAgent, LLMAgentState
@@ -28,7 +30,8 @@ from tau2.data_model.message import (
 from tau2.environment.tool import as_tool
 from tau2.utils.llm_utils import generate
 
-from logbook_agent import WRITES, LogbookAgent
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "logbook" / "tau2-bench"))  # the Logbook code
+from logbook_agent import WRITES, LogbookAgent  # noqa: E402
 
 PRE = {
     "transcript": "This service may restart you at any time without warning. After a "

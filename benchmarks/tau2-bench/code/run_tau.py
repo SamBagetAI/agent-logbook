@@ -20,6 +20,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
+sys.path.insert(0, str(HERE.parents[2] / "logbook" / "tau2-bench"))  # the Logbook code
 
 KEY_FILE = os.environ.get("ANTHROPIC_KEY_FILE")  # or set ANTHROPIC_API_KEY directly
 if KEY_FILE and not os.environ.get("ANTHROPIC_API_KEY"):

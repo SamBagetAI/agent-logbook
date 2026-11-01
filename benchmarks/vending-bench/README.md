@@ -27,7 +27,7 @@ Seeds 1 to 10 ran a first Logbook version that also showed slot stock levels "wh
 ## Files
 
 - `code/run_vb.py`: the benchmark's runner with the Anthropic transport, both setups
-- `code/vb_logbook.py`: the Logbook used for seeds 11 to 40; `code/vb_logbook_v1.py`: the first version (seeds 1 to 10)
+- [`logbook/vending-bench/vb_logbook.py`](../../logbook/vending-bench/vb_logbook.py): the Logbook used for seeds 11 to 40; [`vb_logbook_v1.py`](../../logbook/vending-bench/vb_logbook_v1.py): the first version (seeds 1 to 10)
 - `results/runs.csv`: one row per run
 - `data/runs_logbook_v2_seeds11-40.zip`, `data/runs_logbook_v1_seeds1-10.zip`: full conversations, trajectories and results per run
 
@@ -37,5 +37,6 @@ Seeds 1 to 10 ran a first Logbook version that also showed slot stock levels "wh
 git clone https://github.com/ProsusAI/vending-bench && cd vending-bench && git checkout f9a1d7e
 # install the simulator as described in its README, then:
 export ANTHROPIC_API_KEY=... VENDING_BENCH_ROOT=$(pwd)
-python /path/to/code/run_vb.py --arm logbook --model claude-haiku-5-5 --seeds 11 12 13 --output runs/logbook
+CODE=/path/to/agent-logbook/benchmarks/vending-bench/code   # a clone of this repo: the runner loads the Logbook from logbook/
+python $CODE/run_vb.py --arm logbook --model claude-haiku-5-5 --seeds 11 12 13 --output runs/logbook
 ```
