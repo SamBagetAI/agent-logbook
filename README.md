@@ -1,4 +1,4 @@
-![Agent Logbook: a record kept by code, outside the model, shown to the agent at every decision](assets/banner.png)
+![Agent Logbook. Agents forget. The Logbook doesn’t. A record kept by code, outside the model, shown at every decision.](assets/banner.png)
 
 # Agent Logbook
 
