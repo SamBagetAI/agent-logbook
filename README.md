@@ -4,6 +4,8 @@
 
 An agent only knows what it is sent at each call. The Logbook is a record kept by code, outside the model, of what the agent was shown and what happened, and given back to it at every decision.
 
+![How the Logbook works. A supplier refuses an order because it lacks the account number. Eight actions later, the refusal has left the agent's view. Without a Logbook, the agent sends the same order again and the run stops. With the Logbook, the refusal stays in every prompt and the order goes through.](assets/how-it-works.gif)
+
 We tested it on three public agent benchmarks, with each benchmark's own metrics, to answer one question: **does it help an agent learn from its own experience?**
 
 ## Short answer
