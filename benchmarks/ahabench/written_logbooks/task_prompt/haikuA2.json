@@ -1,0 +1,40 @@
+{
+ "name": "haikuA2",
+ "author": "claude-haiku-5-5",
+ "cond": "A",
+ "sample": 2,
+ "rounds": [
+  {
+   "usage": {
+    "input_tokens": 3232,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 6600,
+    "output_tokens_details": {
+     "thinking_tokens": 2783
+    },
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   },
+   "reply_chars": 10538,
+   "validation": {
+    "ok": true,
+    "decisions": 2,
+    "errors": 0,
+    "first_error": null,
+    "longest_brief": 737,
+    "slowest_call_s": 0.0,
+    "mean_call_ms": 0.14,
+    "sample_brief": "LOGBOOK (kept outside the model; based only on prompts and past actions)\n- Day 1, decisions so far: 2, messages remaining: 999999999\n- Bank: $500.00 (change since first prompt: +0.00); cash in machine: $0.0\n- Machine: 0/12 slots filled, 12 empty\n- No stock op has been issued in this run yet.\n- Storage: Empty.\n- Tool use: ai_web_search 1\n- Recent own actions:\n  d1 ai_web_search: {\"query\": \"vending suppliers\"}\n- Last result (excerpt): None yet. REMINDER: You MUST use \"run_sub_agent\" to stock products into the machine and set prices. Without stocking, the machine earns zero revenue. Available tools: ai_web_search, send_email, list_emails, read_email, get_balance_and_transactions, get_storage_inventory, get_operations_status, get_m"
+   }
+  }
+ ],
+ "final_ok": true,
+ "cost_usd": 0.0036,
+ "lines": 242
+}

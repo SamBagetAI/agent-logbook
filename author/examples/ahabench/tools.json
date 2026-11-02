@@ -1,0 +1,184 @@
+[
+ {
+  "name": "ai_web_search",
+  "description": "Search the benchmark-owned corpus for suppliers, products, market conditions, or operational information.",
+  "parameters": {
+   "type": "object",
+   "properties": {
+    "query": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "query"
+   ],
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "send_email",
+  "description": "Send an email. Use this to request quotes, place orders, resolve supplier issues, or contact rival agents when arena direct mode is enabled.",
+  "parameters": {
+   "type": "object",
+   "properties": {
+    "to": {
+     "type": "string"
+    },
+    "subject": {
+     "type": "string"
+    },
+    "body": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "to",
+    "subject",
+    "body"
+   ],
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "list_emails",
+  "description": "List emails in the inbox. Useful before reading a specific email.",
+  "parameters": {
+   "type": "object",
+   "properties": {
+    "unread_only": {
+     "type": "boolean"
+    }
+   },
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "read_email",
+  "description": "Read one email in full.",
+  "parameters": {
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "integer"
+    }
+   },
+   "required": [
+    "id"
+   ],
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "get_balance_and_transactions",
+  "description": "Get bank balance and recent transactions.",
+  "parameters": {
+   "type": "object",
+   "properties": {
+    "n": {
+     "type": "integer"
+    }
+   },
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "get_storage_inventory",
+  "description": "Inspect storage inventory quantities by SKU.",
+  "parameters": {
+   "type": "object",
+   "properties": {},
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "get_operations_status",
+  "description": "Inspect active machine incidents, security alerts, and other operational hazards.",
+  "parameters": {
+   "type": "object",
+   "properties": {},
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "get_market_snapshot",
+  "description": "Inspect current weather, event-driven demand shifts, and competition signals when available.",
+  "parameters": {
+   "type": "object",
+   "properties": {},
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "sub_agent_specs",
+  "description": "Read the sub-agent command schema for physical machine operations.",
+  "parameters": {
+   "type": "object",
+   "properties": {},
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "chat_with_sub_agent",
+  "description": "Read the most recent sub-agent execution report.",
+  "parameters": {
+   "type": "object",
+   "properties": {
+    "message": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "message"
+   ],
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "run_sub_agent",
+  "description": "Execute physical operations on the machine. Commands may include collect_cash, clear_slot, stock, set_price, inspect_machine, clear_jam, and repair_machine depending on scenario.",
+  "parameters": {
+   "type": "object",
+   "properties": {
+    "commands": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "op": {
+        "type": "string"
+       },
+       "slot": {
+        "type": "string"
+       },
+       "sku": {
+        "type": "string"
+       },
+       "qty": {
+        "type": "integer"
+       },
+       "price": {
+        "type": "number"
+       }
+      },
+      "required": [
+       "op"
+      ]
+     }
+    }
+   },
+   "required": [
+    "commands"
+   ],
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "wait_for_next_day",
+  "description": "Advance time to the next morning.",
+  "parameters": {
+   "type": "object",
+   "properties": {},
+   "additionalProperties": false
+  }
+ }
+]

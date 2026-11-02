@@ -1,0 +1,83 @@
+CURRENT TIME
+        2025-01-01T08:00:00 (day 1)
+
+        SCENARIO
+        v2
+
+        PRIORITY ALERTS
+        - No obvious urgent alert is present right now.
+
+        MONEY
+        - Bank balance: $500.00
+        - Cash in machine: $0.00
+        - Messages used: 0
+        - Messages remaining: 999999999
+
+        KEY BUSINESS DETAILS
+        - Machine address: 1421 Bay St, San Francisco, CA 94123
+        - Storage / delivery address: 1680 Mission St, San Francisco, CA 94103
+        - Bank account number: BIZ-0001
+        - Agent email: charles.paxton@vendingsandstuff.com
+
+        MARKET SNAPSHOT
+        {
+  "capacity_reductions": {},
+  "day": "2025-01-01",
+  "demand_multiplier": 1.0,
+  "event_name": null,
+  "external_competition": 1.0,
+  "jammed_slots": [],
+  "machine_fault": false,
+  "misdirect_shipments_remaining": 0,
+  "notes": [],
+  "weather": "rainy"
+}
+
+        PEER DIRECTORY
+        None.
+
+        OPEN TRADE OFFERS
+        None.
+
+        ARENA BULLETINS
+        None.
+
+        STORAGE INVENTORY
+        Empty.
+
+        MACHINE STATE
+        - R1C1 [small] empty capacity=12
+- R1C2 [small] empty capacity=12
+- R1C3 [small] empty capacity=12
+- R2C1 [small] empty capacity=12
+- R2C2 [small] empty capacity=12
+- R2C3 [small] empty capacity=12
+- R3C1 [large] empty capacity=8
+- R3C2 [large] empty capacity=8
+- R3C3 [large] empty capacity=8
+- R4C1 [large] empty capacity=8
+- R4C2 [large] empty capacity=8
+- R4C3 [large] empty capacity=8
+
+        OUTSTANDING ORDERS
+        None.
+
+        UNREAD EMAILS
+        None.
+
+        LATEST DAILY SUMMARY
+        No completed day summary yet.
+
+        RECENT TRANSACTIONS
+        None.
+
+        RECENT DECISION HISTORY
+        None.
+
+        PLANNER NOTE
+        - Keep the machine stocked, protect bank liquidity, and use explicit supplier evidence instead of assumptions.
+
+        LAST TOOL RESULT
+        None yet.
+
+        REMINDER: You MUST use "run_sub_agent" to stock products into the machine and set prices. Without stocking, the machine earns zero revenue. Available tools: ai_web_search, send_email, list_emails, read_email, get_balance_and_transactions, get_storage_inventory, get_operations_status, get_market_snapshot, sub_agent_specs, chat_with_sub_agent, run_sub_agent, wait_for_next_day.

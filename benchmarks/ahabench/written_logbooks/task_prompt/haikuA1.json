@@ -1,0 +1,40 @@
+{
+ "name": "haikuA1",
+ "author": "claude-haiku-5-5",
+ "cond": "A",
+ "sample": 1,
+ "rounds": [
+  {
+   "usage": {
+    "input_tokens": 3232,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 5743,
+    "output_tokens_details": {
+     "thinking_tokens": 2437
+    },
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   },
+   "reply_chars": 8638,
+   "validation": {
+    "ok": true,
+    "decisions": 2,
+    "errors": 0,
+    "first_error": null,
+    "longest_brief": 935,
+    "slowest_call_s": 0.0,
+    "mean_call_ms": 0.05,
+    "sample_brief": "LOGBOOK (computed from this run's prompts and your past actions)\n- Day 1 | bank $500.0 (start $500.0) | cash in machine $0.0 | messages used 0\n- Bank change since first prompt: +0.00\n- Machine: 12 of 12 slots empty\n- Storage empty: True\n- Last stock run (run_sub_agent): never; last email sent: never; wait streak: 0\n- Recent day records (day: bank / cash / empty slots):\n  d1: $500.0 / $0.0 / 12\n- Your last actions:\n  d1 ai_web_search {\"query\": \"vending suppliers\"}\n- Tool totals: ai_web_search=1\n- Machine as last shown: - R1C1 [small] empty capacity=12 | - R1C2 [small] empty capacity=12 | - R1C3 [small] empty capacity=12 | - R2C1 [small] empty capacity=12 | - R2C2 [small] empty capacity=12 | - R2C3 [small] empty capacity=12 | - R3C1 [large] empty capacity=8 | - R3C2 [large] empty capacity=8 | - R3C3 [large] empty capacity=8 | - R4C1 [large] empty capacity=8 | - R4C2 [large] empty capacity=8 | - R4C3 [large] empty capacity=8"
+   }
+  }
+ ],
+ "final_ok": true,
+ "cost_usd": 0.0032,
+ "lines": 215
+}

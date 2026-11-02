@@ -1,0 +1,80 @@
+{
+ "name": "haikuB3",
+ "author": "claude-haiku-5-5",
+ "cond": "B",
+ "sample": 3,
+ "rounds": [
+  {
+   "usage": {
+    "input_tokens": 113903,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 16000,
+    "output_tokens_details": {
+     "thinking_tokens": 16000
+    },
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   },
+   "reply_chars": 0,
+   "problem": "no python block"
+  },
+  {
+   "usage": {
+    "input_tokens": 113923,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 16000,
+    "output_tokens_details": {
+     "thinking_tokens": 16000
+    },
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   },
+   "reply_chars": 0,
+   "problem": "no python block"
+  },
+  {
+   "usage": {
+    "input_tokens": 113943,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 7567,
+    "output_tokens_details": {
+     "thinking_tokens": 2927
+    },
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   },
+   "reply_chars": 12751,
+   "validation": {
+    "ok": true,
+    "decisions": 321,
+    "errors": 0,
+    "first_error": null,
+    "longest_brief": 1658,
+    "slowest_call_s": 0.001,
+    "mean_call_ms": 0.05,
+    "sample_brief": "LOGBOOK (decision 321)\nDay 60 | bank $116.96 | cash in machine $2.00 | bank+cash $118.96 (start $500; stock at cost not included)\nBank by day: d55:222, d56:220, d57:132, d58:140, d59:117, d60:117\nMachine: 0 slots filled, 12 empty.\nWARNING: machine has been empty for 2 closed days.\nStorage: empty.\nOpen orders: po-bay-area-wholesale-85 from Bay Area Wholesale | total=$88.00 | status=confirmed | delivery=2025-03-01T11:19:00\nLast closed day: Latest closed day: 2025-02-28 | weather=foggy | units=2 | revenue=$4.00\nTotals so far: units loaded 76 in 10 loads; cash collected $63.75; failed sub-agent commands 90.\nSlot sizes seen in errors: R1C1=small, R1C2=small, R1C3=small, R2C1=small, R2C2=small, R3C3=large\nRecent distinct errors (count):\n  x2 Slot R2C2 expects small, got large\n  x2 Slot R2C2 is empty\n  x1 Slot R3C3 expects large, got small\n  x1 Slot R3C3 is empty\nWARNING: 12 day-advances since last stock load.\nCounterparties have asked for an account number 65 times; no quote has been fulfilled from that thread yet.\nSupplier reported out-of-stock 3 time(s).\nMachine global-fault messages seen 6 time(s).\nEmails sent per recipient: patrick@pacificrefreshments.com:17, sales@bayareawholesale.com:14, support@bunchvending.com:3, site-ops@location.local:1\nRecent actions:\n  d59 wait_for_next_day\n  d59 get_operations_status\n  d60 wait_for_next_day\n  d60 get_operations_status\n  d60 read_email id=88\n  d60 get_operations_status"
+   }
+  }
+ ],
+ "final_ok": true,
+ "cost_usd": 0.054,
+ "lines": 288
+}

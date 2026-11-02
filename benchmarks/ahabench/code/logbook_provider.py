@@ -21,15 +21,25 @@ class only sits between the agent and the model.
             worked for each tool (generic_logbook.py)
   generic2  the same, plus every sender of a repeated refusal and where each
             address came from (returned by the agent's own tools, or wrote first)
+  auto      a Logbook written by a model for this task, loaded from $AHA_LOGBOOK_FILE
+            (interface: observe(prompt, last_action), then brief())
+  auto2     a Logbook written by a model from a generic spec of the agent (see author/
+            at the root of the repo), loaded from $AHA_LOGBOOK_FILE (interface:
+            observe(step), then brief(); step = the previous action, its result, and
+            the prompt the agent receives now)
 
 Every arm keeps AhaBench's default planner line. Usage is written to
 $AHA_USAGE_LOG after every call; every call is appended to $AHA_TRACE_LOG.
 """
 from __future__ import annotations
 
+import copy
+import hashlib
+import importlib.util
 import json
 import os
 import re
+import signal
 import sys
 import time
 from pathlib import Path
@@ -50,6 +60,8 @@ def _api_key() -> str:
     if path and Path(path).exists():
         return Path(path).read_text().strip()
     raise RuntimeError("Set ANTHROPIC_API_KEY (or ANTHROPIC_KEY_FILE) before running.")
+
+
 PRICE = {  # $ per million tokens: input, output (cache read 0.1x, cache write 1.25x)
     "claude-haiku-5-5": (0.10, 0.50),
     "claude-sonnet-5-5": (2.0, 10.0),
@@ -93,6 +105,41 @@ def put_planner(user_prompt: str, block: str) -> str:
     return user_prompt[:m.start(2)] + block + user_prompt[m.end(2):]
 
 
+AUTO_CAP = 4200  # characters shown from a written Logbook; the hand-written one never exceeded 4,171
+
+
+class _Timeout(Exception):
+    pass
+
+
+def _guarded(fn, *args, seconds: float = 2.0):
+    """Call fn with a time limit (main thread only), so a slow Logbook cannot stall a run."""
+    def _alarm(signum, frame):
+        raise _Timeout()
+    try:
+        old = signal.signal(signal.SIGALRM, _alarm)
+    except ValueError:  # not the main thread
+        return fn(*args)
+    signal.setitimer(signal.ITIMER_REAL, seconds)
+    try:
+        return fn(*args)
+    finally:
+        signal.setitimer(signal.ITIMER_REAL, 0)
+        signal.signal(signal.SIGALRM, old)
+
+
+def _load_auto_logbook():
+    """The Logbook class of the module at $AHA_LOGBOOK_FILE (a Logbook written by a model)."""
+    path = Path(os.environ["AHA_LOGBOOK_FILE"]).resolve()
+    name = "autolog_" + hashlib.sha1(str(path).encode()).hexdigest()[:10]
+    if name not in sys.modules:  # a stable module name, so checkpoints unpickle
+        spec = importlib.util.spec_from_file_location(name, path)
+        mod = importlib.util.module_from_spec(spec)
+        sys.modules[name] = mod
+        spec.loader.exec_module(mod)
+    return sys.modules[name].Logbook()
+
+
 class AnthropicLogbookProvider:
     def __init__(self, config=None):
         opts = dict(getattr(config, "provider_options", {}) or {})
@@ -104,7 +151,7 @@ class AnthropicLogbookProvider:
             "x-api-key": _api_key(), "anthropic-version": "2023-06-01",
             "content-type": "application/json"})
         self.totals = {"calls": 0, "input": 0, "output": 0, "cache_read": 0, "cache_write": 0,
-                       "cost_usd": 0.0, "refusals": 0, "notes": 0, "api_errors": 0}
+                       "cost_usd": 0.0, "refusals": 0, "notes": 0, "api_errors": 0, "logbook_errors": 0}
         self.seed = None
         self.last_ts = None
         self._reset()
@@ -118,8 +165,11 @@ class AnthropicLogbookProvider:
         elif self.arm in ("generic", "generic2"):
             from generic_logbook import GenericLogbook
             self.book = GenericLogbook(v2=self.arm == "generic2")
+        elif self.arm in ("auto", "auto2"):  # a Logbook written by a model ($AHA_LOGBOOK_FILE)
+            self.book = _load_auto_logbook()
         else:
             self.book = None
+        self._last_brief = ""
 
     # ------------------------------------------------------------------ model call
     def _call(self, system: str, user: str, max_tokens: int) -> tuple[str, dict]:
@@ -200,6 +250,27 @@ class AnthropicLogbookProvider:
                 self.book.record(self.last_action.get("tool_name", "?"), self.last_action.get("arguments"),
                                  m.group(1) if m else "", self.last_ts)
             user = put_planner(user, DEFAULT_PLANNER + "\n" + self.book.brief())
+            text, usage = self._call(system, user, max_tokens)
+            act = first_json(text)
+            if isinstance(act, dict) and act.get("tool_name"):
+                self.last_action = act
+        elif self.arm in ("auto", "auto2"):
+            if attempt == 1:  # a retry of the same decision sees nothing new
+                try:
+                    if self.arm == "auto2":  # generic interface: the previous action, its result, what is seen now
+                        la, lr = self.last_action, LAST_RESULT.search(user)
+                        step = {"action": {"tool": la.get("tool_name"), "arguments": copy.deepcopy(la.get("arguments"))} if la else None,
+                                "result": lr.group(1).strip() if (la and lr) else "", "seen": user}
+                        _guarded(self.book.observe, step)
+                    else:
+                        _guarded(self.book.observe, user, copy.deepcopy(self.last_action))
+                except BaseException:  # noqa: BLE001 - a Logbook bug must never break the run
+                    self.totals["logbook_errors"] += 1
+            try:
+                self._last_brief = str(_guarded(self.book.brief))[:AUTO_CAP]
+            except BaseException:  # noqa: BLE001 - keep the last text that worked
+                self.totals["logbook_errors"] += 1
+            user = put_planner(user, DEFAULT_PLANNER + ("\n" + self._last_brief if self._last_brief else ""))
             text, usage = self._call(system, user, max_tokens)
             act = first_json(text)
             if isinstance(act, dict) and act.get("tool_name"):

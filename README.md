@@ -11,6 +11,7 @@ We tested it on three public agent benchmarks, with each benchmark's own metrics
 1. **It helps when important feedback leaves the agent's view before the agent needs it.** In a year-long business simulation where the agent sees only its last 8 actions, Claude Haiku 5.5 went from 0 of 15 runs still in business at day 60 to 12 of 15. Haiku with the Logbook beat Claude Sonnet 5.5 without it, at about 1/26 of the cost.
 2. **Where the agent still sees what it needs, it changes nothing.** No gain on τ²-bench (the whole conversation stays in view) or on Vending Bench (30 days, a large history window and the agent's own notes).
 3. **What the record says matters.** The same refusals, kept as a raw list of error messages, did not change the agent's behavior. Kept in the task's terms ("order refused, missing: account number", for each supplier), they did. The agent's own notes did not help: Haiku wrote down the opposite lesson and kept it.
+4. **A model can write the Logbook, if it sees the agent fail once.** From a description of the agent (its goal, instructions, tools, and what it keeps in view) and the first 60 days of a run without a Logbook, Claude Opus 5.5 wrote Logbooks that kept Haiku in business at day 60 in 15 of 15 runs on fresh seeds (no memory: 5/15, our hand-written Logbook: 14/15). Without the failed run (tested with earlier versions of the prompt), its Logbooks did worse than no memory (1/15 and 2/15). The author prompt is generic and in [author/](author), ready for another agent; it has only been tested on AhaBench.
 
 | Benchmark | One episode | What the agent keeps in view | Logbook effect |
 |---|---|---|---|
@@ -72,9 +73,11 @@ The generic versions show the refusal ("x10, from 3 different senders: we still 
 
 The code is in [logbook/](logbook): one Logbook per benchmark, because the record has to be written in the task's terms. Its README shows what each one records, how it reaches the agent, and how to write one for a new task.
 
+To have a model write it instead, use [author/](author): describe your agent in a spec (goal, instructions, tools, what it keeps in view, one example step, one past run), and Claude Opus 5.5 writes the Logbook as Python code. [`author/adapter.py`](author/adapter.py) plugs it into any agent loop, and an optional loop lets the author see a trial run and rewrite its Logbook.
+
 ## Limits
 
-- **The AhaBench Logbook is written for that task.** A generic version that knows nothing about the task did not reproduce the effect (table above). The method transfers; the adapter has to be written per task.
+- **The AhaBench Logbook is written for that task.** A generic version that knows nothing about the task did not reproduce the effect (table above). A Logbook written by a model from a description of the agent did, but the author prompt's design principles were drawn from AhaBench failures, and it was tested on AhaBench only, with runs stopped at day 60.
 - **One long-horizon benchmark.** The rule (the Logbook helps when feedback leaves the agent's view) fits all three benchmarks, but only one of them has that regime.
 - **Sonnet 5.5 ran on the paper's 5 seeds only.** Haiku ran on 15.
 - **Part of Sonnet's gain is learning to avoid a simulator bug** (a failed stock command destroys inventory, see the note in [benchmarks/ahabench](benchmarks/ahabench)).
@@ -83,12 +86,14 @@ The code is in [logbook/](logbook): one Logbook per benchmark, because the recor
 ## Repository
 
 ```text
+author/            a model writes the Logbook for your agent, from a spec of it; the adapter for any agent loop
+  examples/ahabench/  the spec of the AhaBench agent used in the tests
 logbook/           the Logbook code: what each one records, and how to write one for your task
   ahabench/        the task Logbook and the two generic versions
   tau2-bench/      the Logbook gate (retail; the airline version was not used in the results)
   vending-bench/   the Logbook layer and its first version
 benchmarks/
-  ahabench/        Aha-Vending: runners, analysis, results, full logs
+  ahabench/        Aha-Vending: runners, analysis, results, full logs, and the 24 Logbooks written by a model
   tau2-bench/      τ²-bench retail: runner, crash protocol, results, every conversation
   vending-bench/   Vending Bench: runner, results, every run
 ```

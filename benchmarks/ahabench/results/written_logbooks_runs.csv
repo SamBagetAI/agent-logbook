@@ -1,0 +1,151 @@
+test,setup,logbook,seed,last_day,end,in_business_day60,net_profit_day60,net_profit_day100,account_number_share_after_refusal_d1_60,logbook_errors,cost_usd
+task_prompt,haikuA,haikuA1,15,119,no_successful_order_for_20_days,1,-291.46,-384.72,0.238,0,0.2847
+task_prompt,haikuA,haikuA1,16,41,no_successful_order_for_20_days,0,-163.03,-163.03,0.105,0,0.0923
+task_prompt,haikuA,haikuA1,17,21,no_successful_order_for_20_days,0,-40.0,-40.0,0.0,0,0.0466
+task_prompt,haikuA,haikuA1,18,21,no_successful_order_for_20_days,0,-40.0,-40.0,0.0,0,0.0537
+task_prompt,haikuA,haikuA1,19,21,no_successful_order_for_20_days,0,-43.63,-43.63,0.0,0,0.0519
+task_prompt,haikuA,haikuA2,20,21,no_successful_order_for_20_days,0,-42.73,-42.73,0.0,0,0.0475
+task_prompt,haikuA,haikuA2,21,57,no_successful_order_for_20_days,0,-149.72,-149.72,0.097,0,0.1307
+task_prompt,haikuA,haikuA2,22,21,no_successful_order_for_20_days,0,-74.0,-74.0,0.0,0,0.0498
+task_prompt,haikuA,haikuA2,23,21,no_successful_order_for_20_days,0,-85.4,-85.4,0.0,0,0.0525
+task_prompt,haikuA,haikuA2,24,21,no_successful_order_for_20_days,0,-40.0,-40.0,0.0,0,0.0598
+task_prompt,haikuA,haikuA3,25,21,no_successful_order_for_20_days,0,-45.73,-45.73,0.0,0,0.0513
+task_prompt,haikuA,haikuA3,26,21,no_successful_order_for_20_days,0,-40.0,-40.0,0.0,0,0.0548
+task_prompt,haikuA,haikuA3,27,21,no_successful_order_for_20_days,0,-43.63,-43.63,0.0,0,0.0547
+task_prompt,haikuA,haikuA3,28,40,no_successful_order_for_20_days,0,-96.85,-96.85,0.077,0,0.094
+task_prompt,haikuA,haikuA3,29,21,no_successful_order_for_20_days,0,-40.0,-40.0,0.0,0,0.0567
+task_prompt,haikuB,haikuB1,15,34,no_successful_order_for_20_days,0,-68.86,-68.86,0.15,0,0.0738
+task_prompt,haikuB,haikuB1,16,21,no_successful_order_for_20_days,0,-40.0,-40.0,0.0,0,0.0422
+task_prompt,haikuB,haikuB1,17,69,no_successful_order_for_20_days,1,-141.7,-162.7,0.194,0,0.1616
+task_prompt,haikuB,haikuB1,18,25,no_successful_order_for_20_days,0,-74.32,-74.32,0.0,0,0.0658
+task_prompt,haikuB,haikuB1,19,51,no_successful_order_for_20_days,0,-179.52,-179.52,0.091,0,0.1267
+task_prompt,haikuB,haikuB2,20,41,no_successful_order_for_20_days,0,-184.0,-184.0,0.077,0,0.1093
+task_prompt,haikuB,haikuB2,21,29,no_successful_order_for_20_days,0,-82.12,-82.12,0.091,0,0.0624
+task_prompt,haikuB,haikuB2,22,39,no_successful_order_for_20_days,0,-160.53,-160.53,0.095,0,0.1088
+task_prompt,haikuB,haikuB2,23,36,no_successful_order_for_20_days,0,-81.72,-81.72,0.1,0,0.0917
+task_prompt,haikuB,haikuB2,24,137,no_successful_order_for_20_days,1,-69.16,-97.32,0.241,0,0.3583
+task_prompt,haikuB,haikuB3,25,21,no_successful_order_for_20_days,0,-43.0,-43.0,0.0,0,0.0621
+task_prompt,haikuB,haikuB3,26,21,no_successful_order_for_20_days,0,-80.0,-80.0,0.0,0,0.0657
+task_prompt,haikuB,haikuB3,27,25,no_successful_order_for_20_days,0,-127.4,-127.4,0.0,0,0.0715
+task_prompt,haikuB,haikuB3,28,21,no_successful_order_for_20_days,0,-40.0,-40.0,0.0,0,0.0651
+task_prompt,haikuB,haikuB3,29,21,no_successful_order_for_20_days,0,-43.4,-43.4,0.0,0,0.0675
+task_prompt,logbook,,15,160,stopped by us on day 160,1,-110.73,-26.74,0.737,0,0.4271
+task_prompt,logbook,,16,150,no_successful_order_for_20_days,1,36.5,131.4,0.923,0,0.3257
+task_prompt,logbook,,17,21,no_successful_order_for_20_days,0,-40.0,-40.0,0.0,0,0.0452
+task_prompt,logbook,,18,186,stopped by us on day 186,1,-85.05,126.45,0.409,0,0.4288
+task_prompt,logbook,,19,244,stopped by us on day 244,1,-164.63,-306.86,0.692,0,0.4069
+task_prompt,logbook,,20,182,stopped by us on day 182,1,-25.3,134.79,0.619,0,0.4287
+task_prompt,logbook,,21,167,stopped by us on day 167,1,109.24,295.68,0.875,0,0.4013
+task_prompt,logbook,,22,179,stopped by us on day 179,1,-24.88,-120.24,1.0,0,0.413
+task_prompt,logbook,,23,173,stopped by us on day 173,1,-83.59,12.52,0.409,0,0.4044
+task_prompt,logbook,,24,206,stopped by us on day 206,1,-167.63,-213.99,0.737,0,0.3791
+task_prompt,logbook,,25,179,stopped by us on day 179,1,22.08,219.8,1.0,0,0.4133
+task_prompt,logbook,,26,224,stopped by us on day 224,1,-176.75,-259.35,0.867,0,0.3919
+task_prompt,logbook,,27,185,stopped by us on day 185,1,-27.02,85.99,0.4,0,0.3917
+task_prompt,logbook,,28,190,stopped by us on day 190,1,-60.0,23.34,0.857,0,0.3602
+task_prompt,logbook,,29,150,stopped by us on day 150,1,74.97,207.07,0.917,0,0.3261
+task_prompt,none,,15,21,no_successful_order_for_20_days,0,-40.0,-40.0,0.0,0,0.0508
+task_prompt,none,,16,77,no_successful_order_for_20_days,1,-188.14,-240.14,0.19,0,0.2307
+task_prompt,none,,17,95,stopped by us on day 95,1,-162.92,,0.25,0,0.24
+task_prompt,none,,18,21,no_successful_order_for_20_days,0,-40.0,-40.0,0.0,0,0.0631
+task_prompt,none,,19,38,no_successful_order_for_20_days,0,-122.8,-122.8,0.12,0,0.0965
+task_prompt,none,,20,28,no_successful_order_for_20_days,0,-99.4,-99.4,0.111,0,0.0685
+task_prompt,none,,21,65,stopped by us on day 65,1,-297.28,,0.125,0,0.1516
+task_prompt,none,,22,23,no_successful_order_for_20_days,0,-102.88,-102.88,0.0,0,0.052
+task_prompt,none,,23,61,stopped by us on day 61,1,-279.92,,0.188,0,0.1462
+task_prompt,none,,24,57,no_successful_order_for_20_days,0,-147.24,-147.24,0.171,0,0.1352
+task_prompt,none,,25,29,no_successful_order_for_20_days,0,-108.03,-108.03,0.053,0,0.0842
+task_prompt,none,,26,61,stopped by us on day 61,1,-231.91,,0.212,0,0.1654
+task_prompt,none,,27,57,no_successful_order_for_20_days,0,-77.15,-77.15,0.129,0,0.1571
+task_prompt,none,,28,41,no_successful_order_for_20_days,0,-137.24,-137.24,0.05,0,0.086
+task_prompt,none,,29,50,no_successful_order_for_20_days,0,-132.52,-132.52,0.219,0,0.1315
+task_prompt,opusA,opusA1,15,21,no_successful_order_for_20_days,0,-42.73,-42.73,0.0,0,0.0533
+task_prompt,opusA,opusA1,16,21,no_successful_order_for_20_days,0,-85.4,-85.4,0.0,0,0.0695
+task_prompt,opusA,opusA1,17,21,no_successful_order_for_20_days,0,-40.0,-40.0,0.0,0,0.0468
+task_prompt,opusA,opusA1,18,26,no_successful_order_for_20_days,0,-86.08,-86.08,0.0,0,0.0558
+task_prompt,opusA,opusA1,19,29,no_successful_order_for_20_days,0,-69.84,-69.84,0.133,0,0.0754
+task_prompt,opusA,opusA2,20,21,no_successful_order_for_20_days,0,-40.0,-40.0,0.0,0,0.0362
+task_prompt,opusA,opusA2,21,21,no_successful_order_for_20_days,0,-40.0,-40.0,0.0,0,0.063
+task_prompt,opusA,opusA2,22,31,no_successful_order_for_20_days,0,-74.43,-74.43,0.0,0,0.0732
+task_prompt,opusA,opusA2,23,124,bankrupt_unpaid_fee_10_days,1,-265.7,-429.53,,0,0.3017
+task_prompt,opusA,opusA2,24,21,no_successful_order_for_20_days,0,-40.0,-40.0,0.0,0,0.0619
+task_prompt,opusA,opusA3,25,21,no_successful_order_for_20_days,0,-49.63,-49.63,0.0,0,0.0646
+task_prompt,opusA,opusA3,26,21,no_successful_order_for_20_days,0,-77.0,-77.0,0.0,0,0.065
+task_prompt,opusA,opusA3,27,21,no_successful_order_for_20_days,0,-40.0,-40.0,0.0,0,0.0581
+task_prompt,opusA,opusA3,28,21,no_successful_order_for_20_days,0,-40.0,-40.0,0.0,0,0.0504
+task_prompt,opusA,opusA3,29,21,no_successful_order_for_20_days,0,-38.12,-38.12,0.0,0,0.0493
+task_prompt,opusB,opusB1,15,221,stopped by us on day 221,1,97.02,267.65,0.55,0,0.6606
+task_prompt,opusB,opusB1,16,217,stopped by us on day 217,1,81.12,239.11,0.824,0,0.6658
+task_prompt,opusB,opusB1,17,225,stopped by us on day 225,1,27.55,68.85,0.692,0,0.6799
+task_prompt,opusB,opusB1,18,217,stopped by us on day 217,1,5.74,78.01,0.667,0,0.6805
+task_prompt,opusB,opusB1,19,214,stopped by us on day 214,1,87.31,214.77,0.722,0,0.6545
+task_prompt,opusB,opusB2,20,334,stopped by us on day 334,1,67.11,178.74,1.0,0,0.7021
+task_prompt,opusB,opusB2,21,270,stopped by us on day 270,1,54.34,222.67,,0,0.6748
+task_prompt,opusB,opusB2,22,312,stopped by us on day 312,1,6.88,41.42,1.0,0,0.6943
+task_prompt,opusB,opusB2,23,264,stopped by us on day 264,1,-25.46,62.71,,0,0.6518
+task_prompt,opusB,opusB2,24,289,no_successful_order_for_20_days,1,39.35,151.35,,0,0.6439
+task_prompt,opusB,opusB3,25,275,stopped by us on day 275,1,77.14,213.83,1.0,0,0.6498
+task_prompt,opusB,opusB3,26,278,stopped by us on day 278,1,68.26,74.74,1.0,0,0.6643
+task_prompt,opusB,opusB3,27,277,no_successful_order_for_20_days,1,40.88,-81.52,,0,0.5346
+task_prompt,opusB,opusB3,28,297,stopped by us on day 297,1,-59.15,262.39,,0,0.6747
+task_prompt,opusB,opusB3,29,265,stopped by us on day 265,1,133.58,306.61,1.0,0,0.6693
+generic_v1,opusGA,opusGA1,15,21,no_successful_order_for_20_days,0,-64.4,,0.0,0,0.0595
+generic_v1,opusGA,opusGA1,16,21,no_successful_order_for_20_days,0,-40.0,,0.0,0,0.0488
+generic_v1,opusGA,opusGA1,17,21,no_successful_order_for_20_days,0,-40.0,,0.0,0,0.0501
+generic_v1,opusGA,opusGA1,18,21,no_successful_order_for_20_days,0,-40.0,,0.0,0,0.0511
+generic_v1,opusGA,opusGA1,19,21,no_successful_order_for_20_days,0,-40.0,,0.0,0,0.0435
+generic_v1,opusGA,opusGA2,20,28,no_successful_order_for_20_days,0,-114.8,,0.0,0,0.0599
+generic_v1,opusGA,opusGA2,21,21,no_successful_order_for_20_days,0,-40.0,,0.0,0,0.0551
+generic_v1,opusGA,opusGA2,22,21,no_successful_order_for_20_days,0,-40.0,,0.0,0,0.0453
+generic_v1,opusGA,opusGA2,23,21,no_successful_order_for_20_days,0,-43.0,,0.0,0,0.0392
+generic_v1,opusGA,opusGA2,24,47,no_successful_order_for_20_days,0,-386.68,,0.067,0,0.132
+generic_v1,opusGA,opusGA3,25,61,stopped_after_day_60,1,-276.9,,,0,0.1132
+generic_v1,opusGA,opusGA3,26,21,no_successful_order_for_20_days,0,-40.0,,0.0,0,0.0542
+generic_v1,opusGA,opusGA3,27,59,bankrupt_unpaid_fee_10_days,0,-498.01,,1.0,0,0.1463
+generic_v1,opusGA,opusGA3,28,61,stopped_after_day_60,1,-377.84,,0.917,0,0.1281
+generic_v1,opusGA,opusGA3,29,44,no_successful_order_for_20_days,0,-376.07,,0.222,0,0.1249
+generic_v1,opusGB,opusGB1,15,28,no_successful_order_for_20_days,0,35.52,,0.083,0,0.0611
+generic_v1,opusGB,opusGB1,16,21,no_successful_order_for_20_days,0,6.1,,0.0,0,0.0655
+generic_v1,opusGB,opusGB1,17,24,no_successful_order_for_20_days,0,15.36,,0.0,0,0.0596
+generic_v1,opusGB,opusGB1,18,21,no_successful_order_for_20_days,0,-8.12,,0.0,0,0.0748
+generic_v1,opusGB,opusGB1,19,28,no_successful_order_for_20_days,0,20.4,,0.0,0,0.069
+generic_v1,opusGB,opusGB2,20,21,no_successful_order_for_20_days,0,10.6,,0.0,0,0.0498
+generic_v1,opusGB,opusGB2,21,61,stopped_after_day_60,1,184.98,,0.519,0,0.1642
+generic_v1,opusGB,opusGB2,22,21,no_successful_order_for_20_days,0,-40.0,,0.0,0,0.05
+generic_v1,opusGB,opusGB2,23,21,no_successful_order_for_20_days,0,7.6,,0.0,0,0.0638
+generic_v1,opusGB,opusGB2,24,21,no_successful_order_for_20_days,0,-40.0,,0.0,0,0.0543
+generic_v1,opusGB,opusGB3,25,61,stopped_after_day_60,1,128.3,,0.619,0,0.1671
+generic_v1,opusGB,opusGB3,26,61,stopped_after_day_60,1,47.21,,0.722,0,0.1413
+generic_v1,opusGB,opusGB3,27,61,stopped_after_day_60,1,128.44,,0.6,0,0.1263
+generic_v1,opusGB,opusGB3,28,61,stopped_after_day_60,1,79.0,,0.591,0,0.1694
+generic_v1,opusGB,opusGB3,29,61,stopped_after_day_60,1,93.61,,0.611,0,0.124
+generic_v2,opusGL,opusGL1,15,61,stopped_after_day_60,1,134.98,,,0,0.1313
+generic_v2,opusGL,opusGL1,16,61,stopped_after_day_60,1,227.56,,,0,0.1444
+generic_v2,opusGL,opusGL1,17,61,stopped_after_day_60,1,88.88,,,0,0.125
+generic_v2,opusGL,opusGL1,18,61,stopped_after_day_60,1,153.73,,,0,0.1447
+generic_v2,opusGL,opusGL1,19,61,stopped_after_day_60,1,64.81,,,0,0.1298
+generic_v2,opusGL,opusGL2,20,61,stopped_after_day_60,1,210.53,,1.0,0,0.1546
+generic_v2,opusGL,opusGL2,21,61,stopped_after_day_60,1,80.44,,1.0,0,0.1447
+generic_v2,opusGL,opusGL2,22,61,stopped_after_day_60,1,250.44,,1.0,0,0.1519
+generic_v2,opusGL,opusGL2,23,61,stopped_after_day_60,1,177.62,,1.0,0,0.1589
+generic_v2,opusGL,opusGL2,24,61,stopped_after_day_60,1,214.07,,1.0,0,0.1536
+generic_v2,opusGL,opusGL3,25,61,stopped_after_day_60,1,-12.7,,0.929,0,0.1289
+generic_v2,opusGL,opusGL3,26,61,stopped_after_day_60,1,-285.28,,1.0,0,0.1621
+generic_v2,opusGL,opusGL3,27,61,stopped_after_day_60,1,-210.04,,1.0,0,0.1128
+generic_v2,opusGL,opusGL3,28,61,stopped_after_day_60,1,-47.33,,1.0,0,0.114
+generic_v2,opusGL,opusGL3,29,61,stopped_after_day_60,1,-97.82,,1.0,0,0.115
+generic_v2,opusGP,opusGP1,15,61,stopped_after_day_60,1,56.47,,1.0,0,0.1165
+generic_v2,opusGP,opusGP1,16,61,stopped_after_day_60,1,89.3,,1.0,0,0.128
+generic_v2,opusGP,opusGP1,17,61,stopped_after_day_60,1,16.38,,1.0,0,0.1078
+generic_v2,opusGP,opusGP1,18,61,stopped_after_day_60,1,80.77,,1.0,0,0.1277
+generic_v2,opusGP,opusGP1,19,61,stopped_after_day_60,1,174.74,,1.0,0,0.1302
+generic_v2,opusGP,opusGP2,20,61,stopped_after_day_60,1,44.57,,1.0,0,0.13
+generic_v2,opusGP,opusGP2,21,61,stopped_after_day_60,1,195.41,,1.0,0,0.1509
+generic_v2,opusGP,opusGP2,22,61,stopped_after_day_60,1,9.35,,1.0,0,0.1252
+generic_v2,opusGP,opusGP2,23,61,stopped_after_day_60,1,140.7,,1.0,0,0.1542
+generic_v2,opusGP,opusGP2,24,61,stopped_after_day_60,1,169.69,,1.0,0,0.1366
+generic_v2,opusGP,opusGP3,25,61,stopped_after_day_60,1,43.36,,1.0,0,0.1666
+generic_v2,opusGP,opusGP3,26,61,stopped_after_day_60,1,-101.5,,1.0,0,0.1485
+generic_v2,opusGP,opusGP3,27,61,stopped_after_day_60,1,16.2,,1.0,0,0.1409
+generic_v2,opusGP,opusGP3,28,61,stopped_after_day_60,1,0.26,,1.0,0,0.1517
+generic_v2,opusGP,opusGP3,29,61,stopped_after_day_60,1,217.98,,1.0,0,0.1447

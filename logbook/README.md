@@ -30,10 +30,13 @@ Same three steps, different method names:
 | `GenericLogbook` | `record` | `brief` | none |
 | `RetailLogbook`, `AirlineLogbook` | `observe` | `brief` | `check` |
 | `Logbook` (Vending Bench) | `after` | `brief` | `check` |
+| `Logbook` written by a model ([author/](../author)) | `observe` | `brief` | none |
 
 ## Writing one for your task
 
-What the three benchmarks taught us:
+To have a model write it, see [author/](../author): from a spec of your agent and one past run, Claude Opus 5.5 writes the Logbook, a Python class with `observe(step)` and `brief()` (record and show, no check), and [`author/adapter.py`](../author/adapter.py) plugs it into your loop. On AhaBench, its Logbooks kept 15 of 15 runs in business at day 60, against 14 of 15 for the one written by hand.
+
+To write it yourself, here is what the three benchmarks taught us:
 
 - **It helps when feedback leaves the agent's view before the agent needs it.** If the agent still sees everything it needs (a short conversation, a long history window), expect nothing.
 - **Record outcomes, in the task's terms.** The same supplier refusal, kept as a raw error line ("x10 [read_email from 3 different senders: ...]: We can prepare this order, but we still need the following before we can proceed: account number"), did not change what Haiku did. Kept as an outcome of the agent's own goal, per supplier ("Bunch Vending Support: order refused: missing info x3 (missing: account number)"), it did.

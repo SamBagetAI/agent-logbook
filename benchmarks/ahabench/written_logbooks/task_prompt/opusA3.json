@@ -1,0 +1,40 @@
+{
+ "name": "opusA3",
+ "author": "claude-opus-5-5",
+ "cond": "A",
+ "sample": 3,
+ "rounds": [
+  {
+   "usage": {
+    "input_tokens": 3232,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 7577,
+    "output_tokens_details": {
+     "thinking_tokens": 2781
+    },
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   },
+   "reply_chars": 12506,
+   "validation": {
+    "ok": true,
+    "decisions": 2,
+    "errors": 0,
+    "first_error": null,
+    "longest_brief": 201,
+    "slowest_call_s": 0.0,
+    "mean_call_ms": 0.22,
+    "sample_brief": "LOGBOOK (run memory, day 1)\nBank+machine cash: $500.00\nMachine: 12/12 slots empty. Last stock op: never.\nStorage: empty\nFLAGS: Storage empty, slots empty, last email sent: never.\nEmails read so far: 0."
+   }
+  }
+ ],
+ "final_ok": true,
+ "cost_usd": 0.1645,
+ "lines": 287
+}

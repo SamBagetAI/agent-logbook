@@ -1,0 +1,60 @@
+{
+ "name": "haikuB1",
+ "author": "claude-haiku-5-5",
+ "cond": "B",
+ "sample": 1,
+ "rounds": [
+  {
+   "usage": {
+    "input_tokens": 113903,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 16000,
+    "output_tokens_details": {
+     "thinking_tokens": 16000
+    },
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   },
+   "reply_chars": 0,
+   "problem": "no python block"
+  },
+  {
+   "usage": {
+    "input_tokens": 113923,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 10977,
+    "output_tokens_details": {
+     "thinking_tokens": 6005
+    },
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   },
+   "reply_chars": 12562,
+   "validation": {
+    "ok": true,
+    "decisions": 321,
+    "errors": 0,
+    "first_error": null,
+    "longest_brief": 1873,
+    "slowest_call_s": 0.001,
+    "mean_call_ms": 0.03,
+    "sample_brief": "LOGBOOK day 60 | bank $116.96 | cash in machine $2.00 | bank+cash $118.96 (start $500.00; unsold stock not counted)\nMessages used so far: 1280\nMachine: 0/11 slots stocked; empty: R1C2, R1C3, R2C1, R2C2, R2C3, R3C1, R3C2, R3C3, R4C1, R4C2, R4C3\nStorage: empty\nOpen orders: 1; unread emails: 0\n  order: - po-bay-area-wholesale-85 from Bay Area Wholesale | total=$88.00 | status=confirmed | delivery=2025-03-01T11:19:00\nMarket: weather=sunny event=\"competitor_promo\" machine_fault=false\nLast daily summary: Latest closed day: 2025-02-28 | weather=foggy | units=2 | revenue=$4.00\nBank trend: d55:$222.46  d56:$220.46(-2.00)  d57:$131.96(-88.50)  d58:$139.96(+8.00)  d59:$116.96(-23.00)  d60:$116.96(+0.00)\nWARNINGS:\n- Machine has had zero stock for 7 consecutive day checks.\n- $2.00 cash is waiting in the machine; collect it.\n- Emails re-read several times with no new content: 31(x8), 15(x7), 49(x5), 75(x5).\n- No successful stock load for 12 days.\nRecurring failure messages (count):\n- x35: Command {'op': 'set_price', 'slot': 'R#C#', 'price': #.#} failed: Slot R#C# is empty\n- x17: Command {'op': 'stock', 'slot': 'R#C#', 'sku': 'coca_cola_#oz', 'qty': #} failed: Slot R#C# expects small, got large\n- x12: Command {'op': 'stock', 'slot': 'R#C#', 'sku': 'bottled_water_#_#oz', 'qty': #} failed: Slot R#C# expects small, got large\nLast failure: Command {'op': 'set_price', 'row': #, 'col': #, 'price': #.#} failed: 'slot'\nLast 8 actions: get_operations_status x3, wait_for_next_day x2, sub_agent_specs x1, run_sub_agent x1, read_email x1\nPrevious action: get_operations_status -> - No active machine or security incident is currently known."
+   }
+  }
+ ],
+ "final_ok": true,
+ "cost_usd": 0.0363,
+ "lines": 322
+}

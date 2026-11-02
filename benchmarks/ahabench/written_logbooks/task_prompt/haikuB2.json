@@ -1,0 +1,80 @@
+{
+ "name": "haikuB2",
+ "author": "claude-haiku-5-5",
+ "cond": "B",
+ "sample": 2,
+ "rounds": [
+  {
+   "usage": {
+    "input_tokens": 113903,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 16000,
+    "output_tokens_details": {
+     "thinking_tokens": 16000
+    },
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   },
+   "reply_chars": 0,
+   "problem": "no python block"
+  },
+  {
+   "usage": {
+    "input_tokens": 113923,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 16000,
+    "output_tokens_details": {
+     "thinking_tokens": 13137
+    },
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   },
+   "reply_chars": 7261,
+   "problem": "no python block"
+  },
+  {
+   "usage": {
+    "input_tokens": 116806,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 11529,
+    "output_tokens_details": {
+     "thinking_tokens": 7280
+    },
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   },
+   "reply_chars": 10525,
+   "validation": {
+    "ok": true,
+    "decisions": 321,
+    "errors": 0,
+    "first_error": null,
+    "longest_brief": 1938,
+    "slowest_call_s": 0.0,
+    "mean_call_ms": 0.07,
+    "sample_brief": "LOGBOOK (this run only)\nLEDGER: day 60 | bank $116.96 (-383.04 since start) | cash in machine $2.00\nMACHINE: 0/12 slots stocked | empty for 2 consecutive day(s)\nSTORAGE: empty\nSALES: 59 days reported, units 76, revenue $167.00 | last day 2025-02-28 units=2 rev=$4.00\nSUB-AGENT: units loaded 76 | cash collected $63.75\nTRANSACTION TOTALS (seen): card_settlement +107.25 | cash_collection +57.75 | daily_fee -118.00 | inventory_purchase -409.04 | service_cost -21.00\nOPEN ORDERS: po-bay-area-wholesale-85 from Bay Area Wholesale | total=$88.00 | status=confirmed | delivery=2025-03-01T11:19:00\nOPS: - No active machine or security incident is currently known.\nWARNINGS:\n- Command error x35: Command {'op': 'set_price', 'slot': 'R#C#', 'price': #.#} failed: Slot R#C# is empty\n- Command error x17: Command {'op': 'stock', 'slot': 'R#C#', 'sku': 'coca_cola_#oz', 'qty': #} failed: Slot R#C# expects small, got\n- Command error x12: Command {'op': 'stock', 'slot': 'R#C#', 'sku': 'bottled_water_#_#oz', 'qty': #} failed: Slot R#C# expects smal\n- Commands using row/col keys failed with KeyError 'slot'. Use {\"op\":\"stock\",\"slot\":\"R1C1\",...} format.\n- Slot size must match the machine: small slots are R1-R2, large are R3-R4.\n- set_price on an empty slot fails. Stock the slot first, then set price.\n- Emailed patrick@pacificrefreshments.com 17 times. Check for an existing reply before writing again.\n- Emailed sales@bayareawholesale.com 14 times. Check for an existing reply before writing again.\nRECENT ACTIONS:\n- d59 wait_for_next_day {}\n- d60 get_operations_status {}\n- d60 read_email {\"id\": 88}\n- d60 get_operations_status {}"
+   }
+  }
+ ],
+ "final_ok": true,
+ "cost_usd": 0.0562,
+ "lines": 286
+}

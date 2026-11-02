@@ -47,6 +47,38 @@ The generic versions do show the refusal, for example "x10 [read_email from 3 di
 
 Order of the tests: generic v1 was run to answer "is the Logbook tailored to the benchmark?"; generic v2 and the ablation were designed after looking at why v1 failed, and run on the same seeds.
 
+## Can a model write the Logbook?
+
+The task Logbook above was written by hand, by Claude, before the evaluation runs. Three tests asked whether a model can write it instead, choosing by itself what to record. The agent is Claude Haiku 5.5, on fresh seeds 15 to 29. Each written Logbook ran on 5 of them, so each row is 3 Logbooks. Runs still alive were stopped before the end of the year (after day 60 in tests 2 and 3, between day 61 and day 334 in test 1), so the table compares day 60.
+
+| Haiku 5.5, seeds 15 to 29 | In business at day 60 | Net profit at day 60, median | Account number sent after a refusal |
+|---|---|---|---|
+| No memory | 5/15 | -$133 | 12% |
+| Logbook written by hand | 14/15 | -$40 | 70% |
+| *Test 1: an author prompt written for this task* | | | |
+| Opus 5.5 writes it from the agent's prompts | 1/15 | -$43 | 1% |
+| Opus 5.5, from the prompts and one failed run | 15/15 | +$54 | 85% |
+| Haiku 5.5 writes it from the agent's prompts | 1/15 | -$44 | 3% |
+| Haiku 5.5, from the prompts and one failed run | 2/15 | -$80 | 7% |
+| *Test 2: a generic author prompt, version 1* | | | |
+| Opus 5.5, from a spec of the agent | 2/15 | -$43 | 16% |
+| Opus 5.5, from the spec and one failed run | 6/15 | +$20 | 25% |
+| *Test 3: the generic prompt with design principles, version 2* | | | |
+| **Opus 5.5, from the spec and one failed run** | **15/15** | +$56 | 100% |
+| The same Logbooks, rewritten once after a trial run | 15/15 | +$89 | 99% |
+
+- **The failed run** is the first 60 days of a run without memory on seed 200 (net worth $118.96, from $500). The author sees, for each step, the time, the action and its result.
+- **Test 1's prompt described this task** (a business, the last 8 actions, the PLANNER NOTE block). Tests 2 and 3 use the generic author in [author/](../../author): nothing in its prompt is specific to a benchmark, and everything specific comes from a spec of the agent (its goal, instructions, tools, what it keeps in view, one example step, the failed run): [`author/examples/ahabench`](../../author/examples/ahabench).
+- **From the prompts alone, every author chose wrong.** Opus turned the phishing warning of the agent's prompt into an alert ("Possible phishing (asked for sensitive info)"), which confirmed Haiku's refusal to send the account number.
+- **The right rule was not enough.** Version 1's Logbooks showed it when a supplier asked for the account number ("Reply once with items, qty, delivery address and 'Account to charge: BIZ-0001'"), and Haiku mostly kept withholding it. Version 2 adds five design principles (record outcomes, show cause and effect from this run, prefer facts to instructions, show the evidence that separates safe cases from unsafe ones, put what blocks the goal first). Its Logbooks show evidence from the current run instead, for example "emails containing 'BIZ-0001': 10 answered -> CHARGED x8 [...] emails without it: 24 answered -> asked for account number x13", and Haiku acts on it.
+- **Profit**, paired by seed: version 2 is ahead of the hand-written Logbook at day 60 on 15 of 15 seeds (mean +$125, paired t = 4.66). The rewrite after a trial on seed 201 adds nothing measurable (ahead of version 2 on 8 of 15 seeds, t = -0.34). In test 1, at day 100, Opus after a failed run is ahead of the hand-written Logbook on 11 of 15 seeds (mean +$135).
+- **No human edits.** Each draft was run on the steps its author had seen, with at most two repair rounds; every written Logbook passed. No Logbook error in any of the 123 runs that used one.
+- **These seeds are easier for no memory** than seeds 0 to 14 (5/15 against 0/15 at day 60). The hand-written Logbook replicates (14/15, against 12/15).
+- **Limits.** The design principles were written after looking at why version 1 failed, then tested on fresh seeds of the same benchmark: whether they hold elsewhere needs a second task. Version 2 was only tested with a failed run. Profit at day 60 favors runs that end early (a run that stops on day 21 has lost about $40), so profit is compared only between setups that survive.
+- **Replay.** [`code/verify_replay_written.py`](code/verify_replay_written.py) rebuilds every prompt of the 123 runs with a written Logbook (including the 3 trials) from the call logs: 29,575 of 31,012 byte for byte. The 1,437 others come from 4 Logbooks that list items in the order of a Python set, which changes from one process to the next: 1,369 of them are rebuilt byte for byte under another hash order, and the last 68 have the same text in another order.
+
+Cost: $27.88 for test 1, $9.24 for test 2, $12.28 for test 3 (runs, writing the Logbooks, trials).
+
 ## Sonnet 5.5, with and without the Logbook
 
 Same benchmark and settings, on the paper's seeds 0 to 4.
@@ -78,6 +110,7 @@ The benchmark code, its prompts and its agent loop are unchanged. Each setup is 
 - **Logbook without money and sales lines** (`--arm logbook_noout`): the same record minus the money trend, sales, price, assortment and weather lines.
 - **Generic Logbook** ([`generic_logbook.py`](../../logbook/ahabench/generic_logbook.py), `--arm generic`): knows nothing about the task. After every action it reads the tool's text result, keeps every line that matches a generic failure vocabulary (failed, invalid, insufficient, missing, still need, ...), grouped by message pattern and counted, and the last call that worked per tool. Messages count only when they reply to the agent's own messages; unsolicited ones (possibly phishing) are never repeated back.
 - **Generic Logbook v2** (`--arm generic2`): v1 plus every sender of a repeated refusal, and where each address came from (returned by the agent's own tools, or wrote first).
+- **Logbook written by a model** (`--arm auto2 --logbook-file X.py`, or `--arm auto` for test 1's interface): a Logbook from [`written_logbooks/`](written_logbooks), or one written with [author/](../../author). The provider calls it with a 2-second limit per call, shows at most 4,200 characters, and keeps the run going if it raises.
 
 ## Protocol
 
@@ -89,7 +122,7 @@ The benchmark code, its prompts and its agent loop are unchanged. Each setup is 
 
 ## Limits
 
-- **The task Logbook is written for this task.** Generic versions did not reproduce the effect (see above).
+- **The task Logbook is written for this task.** Generic versions did not reproduce the effect (see above). A model can write a task Logbook from a spec of the agent and one failed run (see "Can a model write the Logbook?"), tested on this benchmark only.
 - **The effect is mostly survival.** No memory and notes never reach day 90, so the paper's learning metric exists only for Logbook runs. A model that includes the account number on its own would gain less.
 - **Profit per day rises after day 90 for every surviving run, but part of that is the business starting up** (first orders, lost stock) and seasonal demand.
 - **6 of 15 Logbook runs still stopped early**: 3 by day 27 (the agent stopped including the account number), 1 at day 291 (out of cash), 2 at days 346 and 362 (it stopped reordering).
@@ -112,6 +145,22 @@ python $CODE/report_aha.py runs/eval
 python $CODE/plot_aha.py runs/eval results
 ```
 
+A Logbook written by a model, and the loop that writes, tries and rewrites one:
+
+```bash
+REPO=/path/to/agent-logbook
+python $CODE/aha_run_ckpt.py --arm auto2 --logbook-file $REPO/benchmarks/ahabench/written_logbooks/generic_v2/opusGP1.py \
+    --label opusGP1 --seed 15 --max-day 60 --out runs/written
+python $REPO/author/author.py $REPO/author/examples/ahabench/spec.json --past-runs --name my_logbook   # writes written/my_logbook.py
+python $CODE/aha_run_ckpt.py --arm auto2 --logbook-file written/my_logbook.py --label my_logbook --seed 201 --max-day 60 --out runs/trial
+python $CODE/trace_from_calls.py runs/trial/my_logbook_seed201 trial.jsonl      # prints how the trial ended
+python $REPO/author/trial_report.py trial.jsonl trial_report.txt
+python $REPO/author/author.py $REPO/author/examples/ahabench/spec.json --past-runs --revise-from my_logbook \
+    --trial-report trial_report.txt --trial-outcome '<the sentence printed above>' --name my_logbook_2
+python $CODE/report_written.py            # the table of "Can a model write the Logbook?", from data/written_logbooks_*.zip
+python $CODE/verify_replay_written.py     # the replay check (a few minutes)
+```
+
 `aha_run_ckpt.py` adds a checkpoint every simulated day to `aha_run.py` (rerun the command to resume). The first Haiku runs (no memory, notes, Logbook) used `aha_run.py`; the generic, ablation and Sonnet runs used `aha_run_ckpt.py`, for example: `python $CODE/aha_run_ckpt.py --arm logbook --seed 0 --model claude-sonnet-5-5 --out runs/sonnet`.
 
 ## Files
@@ -121,6 +170,10 @@ python $CODE/plot_aha.py runs/eval results
 - `code/aha_run.py`, `code/aha_run_ckpt.py`: runners (the paper's episode loop plus a daily net-worth series)
 - `code/report_aha.py`, `code/analyze_aha.py`, `code/acct_analysis.py`, `code/compare_sonnet.py`, `code/plot_aha.py`, `code/plot_sonnet.py`, `code/replay_test.py`, `code/replay_generic.py`: analysis
 - `code/verify_replay.py`: replays the published call logs through the Logbook, offline, and checks that it rebuilds every block the agent saw (37,837 of 37,837 model calls)
+- [`written_logbooks/`](written_logbooks): the 24 Logbooks written by a model, each with its writing log (`.json`: rounds, validation, tokens, cost). `task_prompt/`: test 1 (`opusA1` ... `haikuB3`; A from the prompts, B after the failed run), with the author that wrote them (`author_task_prompt.py`). `generic_v1/`: test 2 (`opusGA`: from the spec, `opusGB`: with the failed run). `generic_v2/`: test 3 (`opusGP`, and `opusGL` rewritten after a trial), with the 3 trial reports their author read
+- `code/report_written.py`: the results of the three tests; `code/verify_replay_written.py`: their replay check; `code/trace_from_calls.py`: a run's call log as the trace that [`author/trial_report.py`](../../author/trial_report.py) reads
+- `results/written_logbooks_runs.csv`: one row per run of the three tests (150 runs); `results/written_logbooks_summary.txt`: their report; `results/written_logbooks_replay.txt`: the replay check
+- `data/written_logbooks_calls.zip`: every model call of those runs, of the 3 trials and of the failed run; `data/written_logbooks_per_run.zip`: their summaries, daily net worth and token usage; `data/written_logbooks_traces.zip`: environment traces
 - `results/runs.csv`: one row per run (Haiku setups including `generic`, `generic2`, `logbook_noout`; `sonnet_none`, `sonnet_logbook`); `results/summary.txt`: full report; `results/*.png`: charts
 - `data/per_run.zip`: benchmark summaries, daily net worth and token usage per run (Sonnet runs under `sonnet/`)
 - `data/logs_calls.zip`: every model call (prompt and reply); `data/logs_traces.zip`: environment traces
