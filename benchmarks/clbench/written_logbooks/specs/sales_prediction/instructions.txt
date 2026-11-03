@@ -1,0 +1,12 @@
+=== Brief ===
+Objective: Predict annual furniture sales for a retailer that is expanding across regions. Each year you receive fresh data and must submit a 5-year forecast. Your workspace persists across years.
+Task Unit: One multi-year sales forecast task.
+Reward: Reward is your composite_score for the 5-year forecast: 1.0 is perfect, 0 is roughly the score you'd get by predicting zero everywhere, and the score can go negative if you significantly overpredict total volume.
+Completion: An instance completes when you signal done and provide structured predictions, or exhaust the step budget.
+Constraints:
+- Each message should contain exactly one bash command.
+- When done analyzing, run echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT and you will be prompted for predictions in a structured format.
+- The required (locality, furniture_name, year) entries are listed in the prompt.
+=======================
+
+Each step's prompt gives the rest of the task's rules.

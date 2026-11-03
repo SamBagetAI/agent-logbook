@@ -2,7 +2,10 @@
  "tasks": [
   "exploitable_poker",
   "blind_spectrum_monitoring",
-  "cohort_studies"
+  "cohort_studies",
+  "database_exploration",
+  "codebase_adaptation",
+  "sales_prediction"
  ],
  "summary": {
   "ace-gpt-5.4": {
@@ -20,6 +23,20 @@
     "cost_mean": 3.955291,
     "warnings": ""
    },
+   "codebase_adaptation": {
+    "n_runs": 5,
+    "n_instances": 19,
+    "reward_mean": 11.58,
+    "baseline_reward": 10.0,
+    "reference_reward": 19.0,
+    "gain_mean": 1.5799999999999994,
+    "normalized_gain_mean": 0.1755555555555555,
+    "normalized_gain_se": 0.020077012221769573,
+    "normalized_reward_mean": 0.22303664921465968,
+    "normalized_reward_se": 0.01892074450219122,
+    "cost_mean": 15.6596135,
+    "warnings": ""
+   },
    "cohort_studies": {
     "n_runs": 5,
     "n_instances": 20,
@@ -34,6 +51,20 @@
     "cost_mean": 12.797261500000001,
     "warnings": ""
    },
+   "database_exploration": {
+    "n_runs": 5,
+    "n_instances": 40,
+    "reward_mean": 7.8533333333333335,
+    "baseline_reward": 5.466666666666667,
+    "reference_reward": 40.0,
+    "gain_mean": 2.386666666666666,
+    "normalized_gain_mean": 0.0691119691119691,
+    "normalized_gain_se": 0.037381018292907166,
+    "normalized_reward_mean": 0.06731141199226306,
+    "normalized_reward_se": 0.03745332200333831,
+    "cost_mean": 8.775943999999999,
+    "warnings": ""
+   },
    "exploitable_poker": {
     "n_runs": 5,
     "n_instances": 120,
@@ -46,6 +77,20 @@
     "normalized_reward_mean": 0.009851726539954229,
     "normalized_reward_se": 0.04099538458189706,
     "cost_mean": 13.202943,
+    "warnings": ""
+   },
+   "sales_prediction": {
+    "n_runs": 5,
+    "n_instances": 12,
+    "reward_mean": 6.11566,
+    "baseline_reward": 5.202999999999999,
+    "reference_reward": 12.0,
+    "gain_mean": 0.9126600000000007,
+    "normalized_gain_mean": 0.13427394438722975,
+    "normalized_gain_se": 0.018927149563374872,
+    "normalized_reward_mean": 0.08095959517078738,
+    "normalized_reward_se": 0.020092747681799708,
+    "cost_mean": 8.363759,
     "warnings": ""
    }
   },
@@ -64,6 +109,20 @@
     "cost_mean": 10.397260560000001,
     "warnings": ""
    },
+   "codebase_adaptation": {
+    "n_runs": 5,
+    "n_instances": 19,
+    "reward_mean": 6.63,
+    "baseline_reward": 5.8999999999999995,
+    "reference_reward": 19.0,
+    "gain_mean": 0.7300000000000004,
+    "normalized_gain_mean": 0.05572519083969468,
+    "normalized_gain_se": 0.1339626691910358,
+    "normalized_reward_mean": -0.29528795811518316,
+    "normalized_reward_se": 0.18376031061807008,
+    "cost_mean": 6.7811889899999995,
+    "warnings": ""
+   },
    "cohort_studies": {
     "n_runs": 5,
     "n_instances": 20,
@@ -78,6 +137,20 @@
     "cost_mean": 7.21415448,
     "warnings": ""
    },
+   "database_exploration": {
+    "n_runs": 5,
+    "n_instances": 40,
+    "reward_mean": 22.053333333333338,
+    "baseline_reward": 8.2,
+    "reference_reward": 40.0,
+    "gain_mean": 13.853333333333339,
+    "normalized_gain_mean": 0.4356394129979037,
+    "normalized_gain_se": 0.03715722229555581,
+    "normalized_reward_mean": 0.479303675048356,
+    "normalized_reward_se": 0.034282388849091135,
+    "cost_mean": 3.33835056,
+    "warnings": ""
+   },
    "exploitable_poker": {
     "n_runs": 5,
     "n_instances": 120,
@@ -90,6 +163,20 @@
     "normalized_reward_mean": 0.20839884565628425,
     "normalized_reward_se": 0.029223527379427218,
     "cost_mean": 8.652264630000001,
+    "warnings": ""
+   },
+   "sales_prediction": {
+    "n_runs": 5,
+    "n_instances": 12,
+    "reward_mean": 9.57296,
+    "baseline_reward": 5.0358,
+    "reference_reward": 12.0,
+    "gain_mean": 4.53716,
+    "normalized_gain_mean": 0.6514976594583729,
+    "normalized_gain_se": 0.036418105931553056,
+    "normalized_reward_mean": 0.6209349180814344,
+    "normalized_reward_se": 0.03961187832141468,
+    "cost_mean": 2.21443839,
     "warnings": ""
    }
   },
@@ -108,6 +195,20 @@
     "cost_mean": 3.1478285,
     "warnings": ""
    },
+   "codebase_adaptation": {
+    "n_runs": 1,
+    "n_instances": 19,
+    "reward_mean": 7.45,
+    "baseline_reward": 8.25,
+    "reference_reward": 19.0,
+    "gain_mean": -0.7999999999999998,
+    "normalized_gain_mean": -0.07441860465116278,
+    "normalized_gain_se": 0.0,
+    "normalized_reward_mean": -0.2094240837696334,
+    "normalized_reward_se": 0.0,
+    "cost_mean": 3.7940515,
+    "warnings": ""
+   },
    "cohort_studies": {
     "n_runs": 1,
     "n_instances": 20,
@@ -122,6 +223,20 @@
     "cost_mean": 7.763108,
     "warnings": ""
    },
+   "database_exploration": {
+    "n_runs": 1,
+    "n_instances": 40,
+    "reward_mean": 9.600000000000001,
+    "baseline_reward": 3.466666666666667,
+    "reference_reward": 40.0,
+    "gain_mean": 6.133333333333335,
+    "normalized_gain_mean": 0.16788321167883216,
+    "normalized_gain_se": 0.0,
+    "normalized_reward_mean": 0.11798839458413933,
+    "normalized_reward_se": 0.0,
+    "cost_mean": 1.8486595,
+    "warnings": ""
+   },
    "exploitable_poker": {
     "n_runs": 1,
     "n_instances": 120,
@@ -134,6 +249,20 @@
     "normalized_reward_mean": -0.04836302119613892,
     "normalized_reward_se": 0.0,
     "cost_mean": 8.271512,
+    "warnings": ""
+   },
+   "sales_prediction": {
+    "n_runs": 5,
+    "n_instances": 12,
+    "reward_mean": 8.319939999999999,
+    "baseline_reward": 5.176100000000001,
+    "reference_reward": 12.0,
+    "gain_mean": 3.1438399999999995,
+    "normalized_gain_mean": 0.46071015108662206,
+    "normalized_gain_se": 0.029004553310924743,
+    "normalized_reward_mean": 0.4252331047839194,
+    "normalized_reward_se": 0.030912610514067407,
+    "cost_mean": 2.3832661,
     "warnings": ""
    }
   },
@@ -152,6 +281,20 @@
     "cost_mean": 7.576156299999999,
     "warnings": ""
    },
+   "codebase_adaptation": {
+    "n_runs": 5,
+    "n_instances": 19,
+    "reward_mean": 10.36,
+    "baseline_reward": 8.875000000000002,
+    "reference_reward": 19.0,
+    "gain_mean": 1.4849999999999979,
+    "normalized_gain_mean": 0.14666666666666647,
+    "normalized_gain_se": 0.09121978195894291,
+    "normalized_reward_mean": 0.09528795811518327,
+    "normalized_reward_se": 0.09671207249573788,
+    "cost_mean": 8.03356235,
+    "warnings": ""
+   },
    "cohort_studies": {
     "n_runs": 5,
     "n_instances": 20,
@@ -166,6 +309,20 @@
     "cost_mean": 6.967903699999999,
     "warnings": ""
    },
+   "database_exploration": {
+    "n_runs": 5,
+    "n_instances": 40,
+    "reward_mean": 15.653333333333336,
+    "baseline_reward": 6.066666666666666,
+    "reference_reward": 40.0,
+    "gain_mean": 9.58666666666667,
+    "normalized_gain_mean": 0.28251473477406686,
+    "normalized_gain_se": 0.05249073544061857,
+    "normalized_reward_mean": 0.2936170212765959,
+    "normalized_reward_se": 0.05167849968911964,
+    "cost_mean": 5.219724,
+    "warnings": ""
+   },
    "exploitable_poker": {
     "n_runs": 5,
     "n_instances": 120,
@@ -178,6 +335,20 @@
     "normalized_reward_mean": -0.016837496268285394,
     "normalized_reward_se": 0.026355465071168895,
     "cost_mean": 17.46652605,
+    "warnings": ""
+   },
+   "sales_prediction": {
+    "n_runs": 5,
+    "n_instances": 12,
+    "reward_mean": 9.0388,
+    "baseline_reward": 4.3896,
+    "reference_reward": 12.0,
+    "gain_mean": 4.6492,
+    "normalized_gain_mean": 0.6109008724902765,
+    "normalized_gain_se": 0.038315628829884145,
+    "normalized_reward_mean": 0.5375076139753541,
+    "normalized_reward_se": 0.04554285873880555,
+    "cost_mean": 4.3582252,
     "warnings": ""
    }
   },
@@ -196,6 +367,20 @@
     "cost_mean": 3.59543283,
     "warnings": ""
    },
+   "codebase_adaptation": {
+    "n_runs": 5,
+    "n_instances": 19,
+    "reward_mean": 9.754999999999999,
+    "baseline_reward": 7.050000000000001,
+    "reference_reward": 19.0,
+    "gain_mean": 2.7049999999999983,
+    "normalized_gain_mean": 0.22635983263598317,
+    "normalized_gain_se": 0.01865799175021197,
+    "normalized_reward_mean": 0.03193717277486908,
+    "normalized_reward_se": 0.02334691114293539,
+    "cost_mean": 6.92012301,
+    "warnings": ""
+   },
    "cohort_studies": {
     "n_runs": 5,
     "n_instances": 20,
@@ -210,6 +395,20 @@
     "cost_mean": 5.61744636,
     "warnings": ""
    },
+   "database_exploration": {
+    "n_runs": 5,
+    "n_instances": 40,
+    "reward_mean": 15.013333333333335,
+    "baseline_reward": 6.533333333333332,
+    "reference_reward": 40.0,
+    "gain_mean": 8.480000000000004,
+    "normalized_gain_mean": 0.25338645418326705,
+    "normalized_gain_se": 0.04264251206457261,
+    "normalized_reward_mean": 0.27504835589941984,
+    "normalized_reward_se": 0.04140530184993317,
+    "cost_mean": 1.94947071,
+    "warnings": ""
+   },
    "exploitable_poker": {
     "n_runs": 5,
     "n_instances": 120,
@@ -222,6 +421,20 @@
     "normalized_reward_mean": 0.2053139615882177,
     "normalized_reward_se": 0.019434374734373174,
     "cost_mean": 9.38512821,
+    "warnings": ""
+   },
+   "sales_prediction": {
+    "n_runs": 5,
+    "n_instances": 12,
+    "reward_mean": 10.018,
+    "baseline_reward": 5.1783,
+    "reference_reward": 12.0,
+    "gain_mean": 4.839700000000001,
+    "normalized_gain_mean": 0.7094565870677397,
+    "normalized_gain_se": 0.03157747802364015,
+    "normalized_reward_mean": 0.6904430943195841,
+    "normalized_reward_se": 0.03364394424756212,
+    "cost_mean": 2.95949592,
     "warnings": ""
    }
   },
@@ -240,6 +453,20 @@
     "cost_mean": 0.68096565,
     "warnings": ""
    },
+   "codebase_adaptation": {
+    "n_runs": 5,
+    "n_instances": 19,
+    "reward_mean": 7.419999999999999,
+    "baseline_reward": 7.749999999999999,
+    "reference_reward": 19.0,
+    "gain_mean": -0.3299999999999995,
+    "normalized_gain_mean": -0.029333333333333288,
+    "normalized_gain_se": 0.08299754570222294,
+    "normalized_reward_mean": -0.21256544502617797,
+    "normalized_reward_se": 0.09777197792146683,
+    "cost_mean": 2.75498705,
+    "warnings": ""
+   },
    "cohort_studies": {
     "n_runs": 5,
     "n_instances": 20,
@@ -254,6 +481,20 @@
     "cost_mean": 1.2471353,
     "warnings": ""
    },
+   "database_exploration": {
+    "n_runs": 5,
+    "n_instances": 40,
+    "reward_mean": 15.026666666666667,
+    "baseline_reward": 3.533333333333333,
+    "reference_reward": 40.0,
+    "gain_mean": 11.493333333333336,
+    "normalized_gain_mean": 0.31517367458866546,
+    "normalized_gain_se": 0.019524474661532697,
+    "normalized_reward_mean": 0.27543520309477765,
+    "normalized_reward_se": 0.020657422901080056,
+    "cost_mean": 0.41665848,
+    "warnings": ""
+   },
    "exploitable_poker": {
     "n_runs": 5,
     "n_instances": 120,
@@ -266,6 +507,20 @@
     "normalized_reward_mean": -0.03857100208976017,
     "normalized_reward_se": 0.016829678143187216,
     "cost_mean": 1.9132159899999999,
+    "warnings": ""
+   },
+   "sales_prediction": {
+    "n_runs": 5,
+    "n_instances": 12,
+    "reward_mean": 8.48084,
+    "baseline_reward": 5.2707,
+    "reference_reward": 12.0,
+    "gain_mean": 3.2101400000000013,
+    "normalized_gain_mean": 0.47703921656041504,
+    "normalized_gain_se": 0.031292702042626214,
+    "normalized_reward_mean": 0.4503631280553518,
+    "normalized_reward_se": 0.032888934333241394,
+    "cost_mean": 0.58893324,
     "warnings": ""
    }
   },
@@ -284,6 +539,20 @@
     "cost_mean": 3.83594968,
     "warnings": ""
    },
+   "codebase_adaptation": {
+    "n_runs": 5,
+    "n_instances": 19,
+    "reward_mean": 5.125,
+    "baseline_reward": 6.675,
+    "reference_reward": 19.0,
+    "gain_mean": -1.5499999999999996,
+    "normalized_gain_mean": -0.1257606490872211,
+    "normalized_gain_se": 0.052866905228325704,
+    "normalized_reward_mean": -0.45287958115183236,
+    "normalized_reward_se": 0.0682287546533104,
+    "cost_mean": 3.4006354,
+    "warnings": ""
+   },
    "cohort_studies": {
     "n_runs": 5,
     "n_instances": 20,
@@ -298,6 +567,20 @@
     "cost_mean": 1.83194716,
     "warnings": ""
    },
+   "database_exploration": {
+    "n_runs": 5,
+    "n_instances": 40,
+    "reward_mean": 11.56,
+    "baseline_reward": 4.7333333333333325,
+    "reference_reward": 40.0,
+    "gain_mean": 6.826666666666668,
+    "normalized_gain_mean": 0.19357277882797735,
+    "normalized_gain_se": 0.08204812114099914,
+    "normalized_reward_mean": 0.17485493230174087,
+    "normalized_reward_se": 0.08395252627386567,
+    "cost_mean": 1.32027676,
+    "warnings": ""
+   },
    "exploitable_poker": {
     "n_runs": 5,
     "n_instances": 120,
@@ -310,6 +593,20 @@
     "normalized_reward_mean": -0.056921086675291076,
     "normalized_reward_se": 0.0038489560365834847,
     "cost_mean": 3.9894627999999996,
+    "warnings": ""
+   },
+   "sales_prediction": {
+    "n_runs": 5,
+    "n_instances": 12,
+    "reward_mean": 6.467999999999999,
+    "baseline_reward": 3.9083999999999994,
+    "reference_reward": 12.0,
+    "gain_mean": 2.5595999999999997,
+    "normalized_gain_mean": 0.31632804389737507,
+    "normalized_gain_se": 0.006728088977041367,
+    "normalized_reward_mean": 0.13598950442781943,
+    "normalized_reward_se": 0.008502819867653942,
+    "cost_mean": 0.8498422,
     "warnings": ""
    }
   },
@@ -328,6 +625,20 @@
     "cost_mean": 1.9346845000000001,
     "warnings": ""
    },
+   "codebase_adaptation": {
+    "n_runs": 5,
+    "n_instances": 19,
+    "reward_mean": 10.14,
+    "baseline_reward": 9.45,
+    "reference_reward": 19.0,
+    "gain_mean": 0.6900000000000013,
+    "normalized_gain_mean": 0.07225130890052367,
+    "normalized_gain_se": 0.20509030277119764,
+    "normalized_reward_mean": 0.07225130890052367,
+    "normalized_reward_se": 0.20509030277119764,
+    "cost_mean": 3.5589615,
+    "warnings": ""
+   },
    "cohort_studies": {
     "n_runs": 5,
     "n_instances": 20,
@@ -342,6 +653,20 @@
     "cost_mean": 3.7341352999999997,
     "warnings": ""
    },
+   "database_exploration": {
+    "n_runs": 5,
+    "n_instances": 40,
+    "reward_mean": 13.880000000000004,
+    "baseline_reward": 5.533333333333332,
+    "reference_reward": 40.0,
+    "gain_mean": 8.346666666666671,
+    "normalized_gain_mean": 0.242166344294004,
+    "normalized_gain_se": 0.049768158551005595,
+    "normalized_reward_mean": 0.242166344294004,
+    "normalized_reward_se": 0.049768158551005595,
+    "cost_mean": 1.0318076999999999,
+    "warnings": ""
+   },
    "exploitable_poker": {
     "n_runs": 5,
     "n_instances": 120,
@@ -354,6 +679,20 @@
     "normalized_reward_mean": -0.03765548810826948,
     "normalized_reward_se": 0.02628563959908093,
     "cost_mean": 4.6101349,
+    "warnings": ""
+   },
+   "sales_prediction": {
+    "n_runs": 5,
+    "n_instances": 12,
+    "reward_mean": 9.23002,
+    "baseline_reward": 5.5973,
+    "reference_reward": 12.0,
+    "gain_mean": 3.6327200000000004,
+    "normalized_gain_mean": 0.5673731394567917,
+    "normalized_gain_se": 0.03959869306669032,
+    "normalized_reward_mean": 0.5673731394567917,
+    "normalized_reward_se": 0.03959869306669032,
+    "cost_mean": 3.5198270000000003,
     "warnings": ""
    }
   },
@@ -372,6 +711,20 @@
     "cost_mean": 2.985492,
     "warnings": ""
    },
+   "codebase_adaptation": {
+    "n_runs": 5,
+    "n_instances": 19,
+    "reward_mean": 8.765,
+    "baseline_reward": 7.874999999999999,
+    "reference_reward": 19.0,
+    "gain_mean": 0.8900000000000015,
+    "normalized_gain_mean": 0.08000000000000013,
+    "normalized_gain_se": 0.04088776241139557,
+    "normalized_reward_mean": -0.07172774869109934,
+    "normalized_reward_se": 0.047631032128458185,
+    "cost_mean": 4.24174809,
+    "warnings": ""
+   },
    "cohort_studies": {
     "n_runs": 5,
     "n_instances": 20,
@@ -386,6 +739,20 @@
     "cost_mean": 11.55971091,
     "warnings": ""
    },
+   "database_exploration": {
+    "n_runs": 5,
+    "n_instances": 40,
+    "reward_mean": 11.0,
+    "baseline_reward": 7.333333333333332,
+    "reference_reward": 40.0,
+    "gain_mean": 3.666666666666667,
+    "normalized_gain_mean": 0.11224489795918366,
+    "normalized_gain_se": 0.02685825938997892,
+    "normalized_reward_mean": 0.1586073500967118,
+    "normalized_reward_se": 0.02545560367715604,
+    "cost_mean": 2.24002683,
+    "warnings": ""
+   },
    "exploitable_poker": {
     "n_runs": 5,
     "n_instances": 120,
@@ -398,6 +765,20 @@
     "normalized_reward_mean": -0.018091352373370475,
     "normalized_reward_se": 0.029785496072784363,
     "cost_mean": 6.74607549,
+    "warnings": ""
+   },
+   "sales_prediction": {
+    "n_runs": 5,
+    "n_instances": 12,
+    "reward_mean": 10.07268,
+    "baseline_reward": 4.2825,
+    "reference_reward": 12.0,
+    "gain_mean": 5.79018,
+    "normalized_gain_mean": 0.7502662779397473,
+    "normalized_gain_se": 0.012322221908448767,
+    "normalized_reward_mean": 0.6989832414450154,
+    "normalized_reward_se": 0.014852600868142088,
+    "cost_mean": 3.75295689,
     "warnings": ""
    }
   },
@@ -416,6 +797,20 @@
     "cost_mean": 2.7960348,
     "warnings": ""
    },
+   "codebase_adaptation": {
+    "n_runs": 5,
+    "n_instances": 19,
+    "reward_mean": 7.109999999999999,
+    "baseline_reward": 8.425,
+    "reference_reward": 19.0,
+    "gain_mean": -1.3150000000000008,
+    "normalized_gain_mean": -0.1243498817966904,
+    "normalized_gain_se": 0.05994015126574441,
+    "normalized_reward_mean": -0.24502617801047114,
+    "normalized_reward_se": 0.0663735182864133,
+    "cost_mean": 3.50625184,
+    "warnings": ""
+   },
    "cohort_studies": {
     "n_runs": 5,
     "n_instances": 20,
@@ -430,6 +825,20 @@
     "cost_mean": 1.5313784,
     "warnings": ""
    },
+   "database_exploration": {
+    "n_runs": 5,
+    "n_instances": 40,
+    "reward_mean": 8.52,
+    "baseline_reward": 4.2,
+    "reference_reward": 40.0,
+    "gain_mean": 4.32,
+    "normalized_gain_mean": 0.12067039106145253,
+    "normalized_gain_se": 0.01818290577092611,
+    "normalized_reward_mean": 0.08665377176015478,
+    "normalized_reward_se": 0.01888630638101996,
+    "cost_mean": 2.632269,
+    "warnings": ""
+   },
    "exploitable_poker": {
     "n_runs": 5,
     "n_instances": 120,
@@ -442,6 +851,20 @@
     "normalized_reward_mean": -0.07970942382326598,
     "normalized_reward_se": 0.006651344378724655,
     "cost_mean": 1.3261488,
+    "warnings": ""
+   },
+   "sales_prediction": {
+    "n_runs": 5,
+    "n_instances": 12,
+    "reward_mean": 8.10796,
+    "baseline_reward": 3.1562,
+    "reference_reward": 12.0,
+    "gain_mean": 4.95176,
+    "normalized_gain_mean": 0.5599131595015717,
+    "normalized_gain_se": 0.03954413769274379,
+    "normalized_reward_mean": 0.3921251971824387,
+    "normalized_reward_se": 0.054620776379822204,
+    "cost_mean": 1.5254393199999998,
     "warnings": ""
    }
   },
@@ -460,6 +883,20 @@
     "cost_mean": 1.0235845,
     "warnings": ""
    },
+   "codebase_adaptation": {
+    "n_runs": 5,
+    "n_instances": 19,
+    "reward_mean": 8.860000000000001,
+    "baseline_reward": 8.249999999999998,
+    "reference_reward": 19.0,
+    "gain_mean": 0.6100000000000028,
+    "normalized_gain_mean": 0.05674418604651188,
+    "normalized_gain_se": 0.0637506296430162,
+    "normalized_reward_mean": -0.06178010471204169,
+    "normalized_reward_se": 0.07176117996465176,
+    "cost_mean": 3.4942101,
+    "warnings": ""
+   },
    "cohort_studies": {
     "n_runs": 5,
     "n_instances": 20,
@@ -474,6 +911,20 @@
     "cost_mean": 4.4385547,
     "warnings": ""
    },
+   "database_exploration": {
+    "n_runs": 5,
+    "n_instances": 40,
+    "reward_mean": 12.373333333333333,
+    "baseline_reward": 5.999999999999999,
+    "reference_reward": 40.0,
+    "gain_mean": 6.373333333333335,
+    "normalized_gain_mean": 0.1874509803921569,
+    "normalized_gain_se": 0.03406125607938582,
+    "normalized_reward_mean": 0.19845261121856866,
+    "normalized_reward_se": 0.03360007853092217,
+    "cost_mean": 1.4501504,
+    "warnings": ""
+   },
    "exploitable_poker": {
     "n_runs": 5,
     "n_instances": 120,
@@ -486,6 +937,20 @@
     "normalized_reward_mean": -0.0520051746442432,
     "normalized_reward_se": 0.015131957446038291,
     "cost_mean": 1.5183047,
+    "warnings": ""
+   },
+   "sales_prediction": {
+    "n_runs": 5,
+    "n_instances": 12,
+    "reward_mean": 8.4855,
+    "baseline_reward": 4.482699999999999,
+    "reference_reward": 12.0,
+    "gain_mean": 4.002800000000002,
+    "normalized_gain_mean": 0.5324784164527159,
+    "normalized_gain_se": 0.04217421125253981,
+    "normalized_reward_mean": 0.4510909460071534,
+    "normalized_reward_se": 0.04951601640694044,
+    "cost_mean": 2.3523074,
     "warnings": ""
    }
   },
@@ -504,6 +969,20 @@
     "cost_mean": 1.3890744,
     "warnings": ""
    },
+   "codebase_adaptation": {
+    "n_runs": 5,
+    "n_instances": 19,
+    "reward_mean": 11.105,
+    "baseline_reward": 8.125,
+    "reference_reward": 19.0,
+    "gain_mean": 2.979999999999999,
+    "normalized_gain_mean": 0.2740229885057471,
+    "normalized_gain_se": 0.10117658987377429,
+    "normalized_reward_mean": 0.1732984293193717,
+    "normalized_reward_se": 0.11521417956830317,
+    "cost_mean": 2.6241722,
+    "warnings": ""
+   },
    "cohort_studies": {
     "n_runs": 5,
     "n_instances": 20,
@@ -518,6 +997,20 @@
     "cost_mean": 5.9987073,
     "warnings": ""
    },
+   "database_exploration": {
+    "n_runs": 5,
+    "n_instances": 40,
+    "reward_mean": 17.240000000000002,
+    "baseline_reward": 4.333333333333333,
+    "reference_reward": 40.0,
+    "gain_mean": 12.906666666666672,
+    "normalized_gain_mean": 0.3618691588785048,
+    "normalized_gain_se": 0.03645866144327445,
+    "normalized_reward_mean": 0.33965183752417805,
+    "normalized_reward_se": 0.03772801522659927,
+    "cost_mean": 1.9689827000000002,
+    "warnings": ""
+   },
    "exploitable_poker": {
     "n_runs": 5,
     "n_instances": 120,
@@ -530,6 +1023,20 @@
     "normalized_reward_mean": -0.059886555876206594,
     "normalized_reward_se": 0.04134519309165746,
     "cost_mean": 3.5733655,
+    "warnings": ""
+   },
+   "sales_prediction": {
+    "n_runs": 5,
+    "n_instances": 12,
+    "reward_mean": 7.8148,
+    "baseline_reward": 4.750499999999999,
+    "reference_reward": 12.0,
+    "gain_mean": 3.0643000000000016,
+    "normalized_gain_mean": 0.42269122008414384,
+    "normalized_gain_se": 0.027270782772065665,
+    "normalized_reward_mean": 0.34633826354506697,
+    "normalized_reward_se": 0.03087752662253269,
+    "cost_mean": 2.7885073,
     "warnings": ""
    }
   },
@@ -592,6 +1099,20 @@
     "cost_mean": 3.58003194,
     "warnings": ""
    },
+   "codebase_adaptation": {
+    "n_runs": 5,
+    "n_instances": 19,
+    "reward_mean": 12.625,
+    "baseline_reward": 9.575,
+    "reference_reward": 19.0,
+    "gain_mean": 3.050000000000001,
+    "normalized_gain_mean": 0.323607427055703,
+    "normalized_gain_se": 0.09126750117242173,
+    "normalized_reward_mean": 0.3324607329842933,
+    "normalized_reward_se": 0.09007290037173558,
+    "cost_mean": 6.512663460000001,
+    "warnings": ""
+   },
    "cohort_studies": {
     "n_runs": 5,
     "n_instances": 20,
@@ -606,6 +1127,20 @@
     "cost_mean": 5.14578597,
     "warnings": ""
    },
+   "database_exploration": {
+    "n_runs": 5,
+    "n_instances": 40,
+    "reward_mean": 15.533333333333335,
+    "baseline_reward": 4.733333333333333,
+    "reference_reward": 40.0,
+    "gain_mean": 10.8,
+    "normalized_gain_mean": 0.3062381852551985,
+    "normalized_gain_se": 0.05037017994130142,
+    "normalized_reward_mean": 0.29013539651837533,
+    "normalized_reward_se": 0.05153931371169914,
+    "cost_mean": 2.40424521,
+    "warnings": ""
+   },
    "exploitable_poker": {
     "n_runs": 5,
     "n_instances": 120,
@@ -618,6 +1153,20 @@
     "normalized_reward_mean": 0.06631505622449997,
     "normalized_reward_se": 0.039114870940399074,
     "cost_mean": 17.93455428,
+    "warnings": ""
+   },
+   "sales_prediction": {
+    "n_runs": 5,
+    "n_instances": 12,
+    "reward_mean": 10.2173,
+    "baseline_reward": 5.079599999999999,
+    "reference_reward": 12.0,
+    "gain_mean": 5.137700000000001,
+    "normalized_gain_mean": 0.7423992832784232,
+    "normalized_gain_se": 0.029801480159630786,
+    "normalized_reward_mean": 0.721570587408437,
+    "normalized_reward_se": 0.03221112394719551,
+    "cost_mean": 3.12507189,
     "warnings": ""
    }
   }
@@ -671,6 +1220,53 @@
      "cost_usd": 4.12834035
     }
    ],
+   "codebase_adaptation": [
+    {
+     "run_index": 0,
+     "reward": 9.25,
+     "baseline_reward": 7.050000000000001,
+     "gain": 2.1999999999999993,
+     "normalized_gain": 0.1841004184100418,
+     "normalized_reward": -0.020942408376963276,
+     "cost_usd": 4.295421
+    },
+    {
+     "run_index": 1,
+     "reward": 10.425,
+     "baseline_reward": 7.050000000000001,
+     "gain": 3.375,
+     "normalized_gain": 0.28242677824267787,
+     "normalized_reward": 0.10209424083769647,
+     "cost_usd": 7.04175165
+    },
+    {
+     "run_index": 2,
+     "reward": 9.699999999999998,
+     "baseline_reward": 7.050000000000001,
+     "gain": 2.649999999999997,
+     "normalized_gain": 0.22175732217573196,
+     "normalized_reward": 0.026178010471204,
+     "cost_usd": 6.88130145
+    },
+    {
+     "run_index": 3,
+     "reward": 9.325,
+     "baseline_reward": 7.050000000000001,
+     "gain": 2.2749999999999986,
+     "normalized_gain": 0.1903765690376568,
+     "normalized_reward": -0.013089005235602092,
+     "cost_usd": 7.5331347
+    },
+    {
+     "run_index": 4,
+     "reward": 10.074999999999998,
+     "baseline_reward": 7.050000000000001,
+     "gain": 3.024999999999997,
+     "normalized_gain": 0.2531380753138073,
+     "normalized_reward": 0.06544502617801028,
+     "cost_usd": 8.84900625
+    }
+   ],
    "cohort_studies": [
     {
      "run_index": 0,
@@ -718,6 +1314,53 @@
      "cost_usd": 4.7401437
     }
    ],
+   "database_exploration": [
+    {
+     "run_index": 0,
+     "reward": 14.666666666666668,
+     "baseline_reward": 6.533333333333332,
+     "gain": 8.133333333333336,
+     "normalized_gain": 0.24302788844621523,
+     "normalized_reward": 0.26499032882011614,
+     "cost_usd": 2.1787596
+    },
+    {
+     "run_index": 1,
+     "reward": 16.800000000000004,
+     "baseline_reward": 6.533333333333332,
+     "gain": 10.266666666666673,
+     "normalized_gain": 0.30677290836653404,
+     "normalized_reward": 0.3268858800773696,
+     "cost_usd": 1.46627775
+    },
+    {
+     "run_index": 2,
+     "reward": 17.333333333333336,
+     "baseline_reward": 6.533333333333332,
+     "gain": 10.800000000000004,
+     "normalized_gain": 0.32270916334661365,
+     "normalized_reward": 0.3423597678916829,
+     "cost_usd": 2.20983525
+    },
+    {
+     "run_index": 3,
+     "reward": 9.600000000000001,
+     "baseline_reward": 6.533333333333332,
+     "gain": 3.066666666666669,
+     "normalized_gain": 0.09163346613545824,
+     "normalized_reward": 0.11798839458413933,
+     "cost_usd": 2.22188085
+    },
+    {
+     "run_index": 4,
+     "reward": 16.66666666666667,
+     "baseline_reward": 6.533333333333332,
+     "gain": 10.13333333333334,
+     "normalized_gain": 0.3027888446215141,
+     "normalized_reward": 0.32301740812379126,
+     "cost_usd": 1.6706001
+    }
+   ],
    "exploitable_poker": [
     {
      "run_index": 0,
@@ -763,6 +1406,53 @@
      "normalized_gain": 0.09174981747383797,
      "normalized_reward": 0.257239526321027,
      "cost_usd": 9.33971595
+    }
+   ],
+   "sales_prediction": [
+    {
+     "run_index": 0,
+     "reward": 10.023900000000001,
+     "baseline_reward": 5.1783,
+     "gain": 4.845600000000001,
+     "normalized_gain": 0.7103214741193545,
+     "normalized_reward": 0.6913645805675732,
+     "cost_usd": 3.47168925
+    },
+    {
+     "run_index": 1,
+     "reward": 9.465,
+     "baseline_reward": 5.1783,
+     "gain": 4.2867,
+     "normalized_gain": 0.6283917498570737,
+     "normalized_reward": 0.6040732815843316,
+     "cost_usd": 2.81698875
+    },
+    {
+     "run_index": 2,
+     "reward": 9.779799999999998,
+     "baseline_reward": 5.1783,
+     "gain": 4.601499999999998,
+     "normalized_gain": 0.6745386047466171,
+     "normalized_reward": 0.6532400393583954,
+     "cost_usd": 2.8448082
+    },
+    {
+     "run_index": 3,
+     "reward": 10.052100000000001,
+     "baseline_reward": 5.1783,
+     "gain": 4.873800000000001,
+     "normalized_gain": 0.7144553410440214,
+     "normalized_reward": 0.6957689724647417,
+     "cost_usd": 2.8396476
+    },
+    {
+     "run_index": 4,
+     "reward": 10.769200000000001,
+     "baseline_reward": 5.1783,
+     "gain": 5.590900000000001,
+     "normalized_gain": 0.8195757655716319,
+     "normalized_reward": 0.8077685976228781,
+     "cost_usd": 2.8243458
     }
    ]
   },
@@ -957,6 +1647,53 @@
      "cost_usd": 3.3408114
     }
    ],
+   "codebase_adaptation": [
+    {
+     "run_index": 0,
+     "reward": 9.75,
+     "baseline_reward": 9.575,
+     "gain": 0.1750000000000007,
+     "normalized_gain": 0.018567639257294502,
+     "normalized_reward": 0.0314136125654451,
+     "cost_usd": 6.2153415
+    },
+    {
+     "run_index": 1,
+     "reward": 13.750000000000004,
+     "baseline_reward": 9.575,
+     "gain": 4.175000000000004,
+     "normalized_gain": 0.4429708222811675,
+     "normalized_reward": 0.45026178010471246,
+     "cost_usd": 6.29247045
+    },
+    {
+     "run_index": 2,
+     "reward": 11.575000000000001,
+     "baseline_reward": 9.575,
+     "gain": 2.0000000000000018,
+     "normalized_gain": 0.21220159151193652,
+     "normalized_reward": 0.22251308900523578,
+     "cost_usd": 7.7290197
+    },
+    {
+     "run_index": 3,
+     "reward": 14.374999999999998,
+     "baseline_reward": 9.575,
+     "gain": 4.799999999999999,
+     "normalized_gain": 0.5092838196286471,
+     "normalized_reward": 0.5157068062827224,
+     "cost_usd": 6.27195975
+    },
+    {
+     "run_index": 4,
+     "reward": 13.674999999999999,
+     "baseline_reward": 9.575,
+     "gain": 4.1,
+     "normalized_gain": 0.43501326259946943,
+     "normalized_reward": 0.4424083769633507,
+     "cost_usd": 6.0545259
+    }
+   ],
    "cohort_studies": [
     {
      "run_index": 0,
@@ -1004,6 +1741,53 @@
      "cost_usd": 4.71789645
     }
    ],
+   "database_exploration": [
+    {
+     "run_index": 0,
+     "reward": 18.666666666666668,
+     "baseline_reward": 4.733333333333333,
+     "gain": 13.933333333333334,
+     "normalized_gain": 0.3950850661625709,
+     "normalized_reward": 0.3810444874274662,
+     "cost_usd": 2.6455323
+    },
+    {
+     "run_index": 1,
+     "reward": 13.533333333333335,
+     "baseline_reward": 4.733333333333333,
+     "gain": 8.8,
+     "normalized_gain": 0.24952741020793953,
+     "normalized_reward": 0.2321083172147003,
+     "cost_usd": 2.5188903
+    },
+    {
+     "run_index": 2,
+     "reward": 13.066666666666668,
+     "baseline_reward": 4.733333333333333,
+     "gain": 8.333333333333336,
+     "normalized_gain": 0.2362948960302458,
+     "normalized_reward": 0.21856866537717606,
+     "cost_usd": 2.51212965
+    },
+    {
+     "run_index": 3,
+     "reward": 11.600000000000001,
+     "baseline_reward": 4.733333333333333,
+     "gain": 6.866666666666668,
+     "normalized_gain": 0.19470699432892255,
+     "normalized_reward": 0.17601547388781438,
+     "cost_usd": 2.11795845
+    },
+    {
+     "run_index": 4,
+     "reward": 20.8,
+     "baseline_reward": 4.733333333333333,
+     "gain": 16.066666666666666,
+     "normalized_gain": 0.4555765595463138,
+     "normalized_reward": 0.4429400386847196,
+     "cost_usd": 2.22671535
+    }
+   ],
    "exploitable_poker": [
     {
      "run_index": 0,
@@ -1049,6 +1833,53 @@
      "normalized_gain": 0.025913928736696012,
      "normalized_reward": 0.1621056821574286,
      "cost_usd": 13.752813
+    }
+   ],
+   "sales_prediction": [
+    {
+     "run_index": 0,
+     "reward": 10.520199999999999,
+     "baseline_reward": 5.079599999999999,
+     "gain": 5.4406,
+     "normalized_gain": 0.786168429570545,
+     "normalized_reward": 0.7688787542755399,
+     "cost_usd": 3.1402059
+    },
+    {
+     "run_index": 1,
+     "reward": 9.6658,
+     "baseline_reward": 5.079599999999999,
+     "gain": 4.586200000000002,
+     "normalized_gain": 0.6627073579561876,
+     "normalized_reward": 0.635435050837928,
+     "cost_usd": 2.9541456
+    },
+    {
+     "run_index": 2,
+     "reward": 10.0955,
+     "baseline_reward": 5.079599999999999,
+     "gain": 5.0159,
+     "normalized_gain": 0.724799144558118,
+     "normalized_reward": 0.7025473628313055,
+     "cost_usd": 3.2990937
+    },
+    {
+     "run_index": 3,
+     "reward": 9.971599999999999,
+     "baseline_reward": 5.079599999999999,
+     "gain": 4.8919999999999995,
+     "normalized_gain": 0.7068955551702212,
+     "normalized_reward": 0.6831961516235336,
+     "cost_usd": 2.8563777
+    },
+    {
+     "run_index": 4,
+     "reward": 10.8334,
+     "baseline_reward": 5.079599999999999,
+     "gain": 5.7538,
+     "normalized_gain": 0.831425929137044,
+     "normalized_reward": 0.8177956174738781,
+     "cost_usd": 3.37553655
     }
    ]
   }
@@ -1193,6 +2024,86 @@
    "gain_3": -0.05555123700367685,
    "reward_3": -0.10554434537567751,
    "cost_3": 9.65735964
+  }
+ ],
+ "board_6_tasks": [
+  {
+   "run": "logbook-icl-claude-sonnet-4-6",
+   "reward_6": 0.2742180806274693,
+   "gain_6": 0.27807714588774574,
+   "cost_6": 38.70235275
+  },
+  {
+   "run": "icl-claude-sonnet-4.6",
+   "reward_6": 0.19600591051333416,
+   "gain_6": 0.24060979882794195,
+   "cost_6": 30.42709704
+  },
+  {
+   "run": "icl-gpt-5.4",
+   "reward_6": 0.18895515363960524,
+   "gain_6": 0.18895515363960524,
+   "cost_6": 18.3895509
+  },
+  {
+   "run": "claude-code-sonnet-4.6",
+   "reward_6": 0.18545865684774374,
+   "gain_6": 0.24139789249772292,
+   "cost_6": 38.59765761
+  },
+  {
+   "run": "icl-claude-opus-4.7",
+   "reward_6": 0.18322017777744506,
+   "gain_6": 0.19452438366996386,
+   "cost_6": 49.6220976
+  },
+  {
+   "run": "mem0-gpt-5.4",
+   "reward_6": 0.14805636301725528,
+   "gain_6": 0.22365665503820675,
+   "cost_6": 18.3428094
+  },
+  {
+   "run": "icl-notepad-claude-sonnet-4-6",
+   "reward_6": 0.1322557436033324,
+   "gain_6": 0.18218788070695088,
+   "cost_6": 31.52601021
+  },
+  {
+   "run": "icl-notepad-gpt-5.4",
+   "reward_6": 0.10363936285962905,
+   "gain_6": 0.1555486561953821,
+   "cost_6": 14.2771118
+  },
+  {
+   "run": "icl-gemini-3-flash",
+   "reward_6": 0.0921890310368717,
+   "gain_6": 0.1550411133420326,
+   "cost_6": 7.60189571
+  },
+  {
+   "run": "ace-gpt-5.4",
+   "reward_6": 0.06585601505931092,
+   "gain_6": 0.07651625236603248,
+   "cost_6": 62.754812
+  },
+  {
+   "run": "codex-gpt-5.4",
+   "reward_6": 0.05747892196532342,
+   "gain_6": 0.1197827273690142,
+   "cost_6": 27.208425599999998
+  },
+  {
+   "run": "icl-notepad-gemini-3.1-pro-preview",
+   "reward_6": 0.0033230714189708154,
+   "gain_6": 0.08098286939291274,
+   "cost_6": 13.31752216
+  },
+  {
+   "run": "icl-gemini-3.1-pro-preview",
+   "reward_6": -0.07644469675821743,
+   "gain_6": 0.03624774377118346,
+   "cost_6": 15.228114
   }
  ],
  "warnings": {

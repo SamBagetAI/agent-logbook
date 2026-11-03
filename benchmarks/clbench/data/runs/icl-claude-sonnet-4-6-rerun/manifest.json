@@ -1,0 +1,125 @@
+{
+  "kind": "run_all_manifest",
+  "run_name": "icl-claude-sonnet-4-6-rerun",
+  "run_slug": "icl-claude-sonnet-4-6-rerun",
+  "run_group_id": "2026-11-02T16-49-07.239927Z_run-all",
+  "system": "icl",
+  "system_args": [
+    "--system.model",
+    "claude-sonnet-4-6"
+  ],
+  "started_at": "2026-11-02T16:49:07.239993+00:00",
+  "finished_at": "2026-11-02T18:09:14.164231+00:00",
+  "status": "completed",
+  "poll_interval_ms": 2000,
+  "manifest_path": "final_results/runs/icl-claude-sonnet-4-6-rerun/manifest.json",
+  "final_results_dir": "final_results/runs/icl-claude-sonnet-4-6-rerun",
+  "logs_dir": "final_results/runs/icl-claude-sonnet-4-6-rerun/logs",
+  "current_batch_id": "2026-11-02T17-12-03.008044Z_run-all",
+  "tasks": [
+    {
+      "task": "blind_spectrum_monitoring",
+      "schedule": "default",
+      "status": "ok",
+      "started_at": "2026-11-02T16:49:07.248388+00:00",
+      "finished_at": "2026-11-02T17:04:41.424986+00:00",
+      "exit_code": 0,
+      "duration_seconds": 934.17,
+      "log_path": "final_results/runs/icl-claude-sonnet-4-6-rerun/logs/blind_spectrum_monitoring.log",
+      "live_manifest_path": "results/blind_spectrum_monitoring/live/2026-11-02T16-49-07.239927Z_run-all/manifest.json",
+      "summary_path": "final_results/runs/icl-claude-sonnet-4-6-rerun/tasks/blind_spectrum_monitoring.json.gz",
+      "final_artifact_path": "final_results/runs/icl-claude-sonnet-4-6-rerun/tasks/blind_spectrum_monitoring.json.gz",
+      "batch_id": "2026-11-02T16-49-07.239927Z_run-all",
+      "headline": {
+        "cumulative_gain": 18.63032,
+        "total_reward": 38.39002,
+        "mean_latency_seconds": 8.527705,
+        "total_cost_usd": 3.470409
+      },
+      "raw_summary_path": "final_results/runs/icl-claude-sonnet-4-6-rerun/tasks/blind_spectrum_monitoring.json.gz"
+    },
+    {
+      "task": "exploitable_poker",
+      "schedule": "default",
+      "status": "ok",
+      "started_at": "2026-11-02T17:12:03.018582+00:00",
+      "finished_at": "2026-11-02T18:09:13.785517+00:00",
+      "exit_code": 0,
+      "duration_seconds": 3430.77,
+      "log_path": "final_results/runs/icl-claude-sonnet-4-6-rerun/logs/exploitable_poker.log",
+      "live_manifest_path": "results/exploitable_poker/live/2026-11-02T17-12-03.008044Z_run-all/manifest.json",
+      "summary_path": "final_results/runs/icl-claude-sonnet-4-6-rerun/tasks/exploitable_poker.json.gz",
+      "final_artifact_path": "final_results/runs/icl-claude-sonnet-4-6-rerun/tasks/exploitable_poker.json.gz",
+      "batch_id": "2026-11-02T17-12-03.008044Z_run-all",
+      "headline": {
+        "cumulative_gain": -91.4,
+        "total_reward": 238.3,
+        "mean_latency_seconds": 22.607876,
+        "total_cost_usd": 9.666208
+      },
+      "raw_summary_path": "results/exploitable_poker/viewer_artifact_2026-11-02T17-12-03.008044Z_run-all_20261102_200912.json.gz"
+    },
+    {
+      "task": "cohort_studies",
+      "schedule": "default",
+      "status": "ok",
+      "started_at": "2026-11-02T17:12:03.018854+00:00",
+      "finished_at": "2026-11-02T17:59:02.645263+00:00",
+      "exit_code": 0,
+      "duration_seconds": 2819.62,
+      "log_path": "final_results/runs/icl-claude-sonnet-4-6-rerun/logs/cohort_studies.log",
+      "live_manifest_path": "results/cohort_studies/live/2026-11-02T17-12-03.008044Z_run-all/manifest.json",
+      "summary_path": "final_results/runs/icl-claude-sonnet-4-6-rerun/tasks/cohort_studies.json.gz",
+      "final_artifact_path": "final_results/runs/icl-claude-sonnet-4-6-rerun/tasks/cohort_studies.json.gz",
+      "batch_id": "2026-11-02T17-12-03.008044Z_run-all",
+      "headline": {
+        "cumulative_gain": 0.345939,
+        "total_reward": -0.574647,
+        "mean_latency_seconds": 76.952517,
+        "total_cost_usd": 5.9917218
+      },
+      "raw_summary_path": "results/cohort_studies/viewer_artifact_2026-11-02T17-12-03.008044Z_run-all_20261102_195901.json.gz"
+    }
+  ],
+  "task_artifacts": null,
+  "task_artifacts_path": "final_results/runs/icl-claude-sonnet-4-6-rerun/task_artifacts.json.gz",
+  "batches": [
+    {
+      "batch_id": "2026-11-02T16-49-07.239927Z_run-all",
+      "run_group_id": "2026-11-02T16-49-07.239927Z_run-all",
+      "mode": "initial",
+      "tasks_run": [
+        "exploitable_poker",
+        "blind_spectrum_monitoring",
+        "cohort_studies"
+      ],
+      "tasks_passed": [
+        "blind_spectrum_monitoring"
+      ],
+      "tasks_failed": [
+        "exploitable_poker",
+        "cohort_studies"
+      ],
+      "tasks_skipped": [],
+      "started_at": "2026-11-02T16:49:07.239993+00:00",
+      "finished_at": "2026-11-02T17:04:41.551140+00:00"
+    },
+    {
+      "batch_id": "2026-11-02T17-12-03.008044Z_run-all",
+      "run_group_id": "2026-11-02T17-12-03.008044Z_run-all",
+      "mode": "missing_only",
+      "tasks_run": [
+        "exploitable_poker",
+        "cohort_studies"
+      ],
+      "tasks_passed": [
+        "exploitable_poker",
+        "cohort_studies"
+      ],
+      "tasks_failed": [],
+      "tasks_skipped": [],
+      "started_at": "2026-11-02T17:12:03.008102+00:00",
+      "finished_at": "2026-11-02T18:09:14.164231+00:00"
+    }
+  ]
+}

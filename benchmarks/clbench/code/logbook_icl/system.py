@@ -6,7 +6,7 @@ turn it reads the system's previous answer, the feedback on it and the new promp
 kept for the whole rollout, and returns a short text. That text is added in front of the current
 prompt for that API call only: the ICL history stays exactly what the ICL baseline keeps.
 
-One Logbook per task, chosen from the instance id. reset() starts a fresh Logbook, so the
+One Logbook per task, chosen from the instance id (or, when it has no task prefix, the response schema). reset() starts a fresh Logbook, so the
 stateless baseline gets a fresh one for every instance.
 """
 
@@ -24,6 +24,19 @@ from .adapter import LogbookAdapter
 
 # instance id prefix -> task name (the Logbook file is <logbook_dir>/<task name>.py)
 _PREFIX_TO_TASK = {"poker": "exploitable_poker"}
+# tasks whose instance ids carry no task prefix ("17", "jazzband__tablib-534"), told apart by their response schema
+_SCHEMA_TO_TASK = {"DatabaseAction": "database_exploration", "BashCommandResponse": "codebase_adaptation"}
+
+
+def task_of(query: Query) -> str:
+    """The task a query belongs to: from its instance id prefix, else from its response schema."""
+    iid = str(query.instance_id or "")
+    prefix = iid.split(":", 1)[0]
+    if prefix in _PREFIX_TO_TASK:
+        return _PREFIX_TO_TASK[prefix]
+    if ":" in iid:
+        return prefix
+    return _SCHEMA_TO_TASK.get(query.response_schema.__name__, prefix)
 _HEADER = "[Logbook: kept by code since the start of this run, from your prompts, answers and feedback]\n"
 _FOOTER = "\n[End of Logbook]\n\n"
 
@@ -87,8 +100,7 @@ class LogbookICLSystem(ICLSystem):
 
     def _ensure_book(self, query: Query) -> LogbookAdapter:
         if self._book is None:
-            prefix = str(query.instance_id or "").split(":", 1)[0]
-            task = _PREFIX_TO_TASK.get(prefix, prefix)
+            task = task_of(query)
             path = self.logbook_dir / f"{task}.py"
             if not path.is_file():
                 raise FileNotFoundError(f"No written Logbook for task {task!r}: expected {path}")

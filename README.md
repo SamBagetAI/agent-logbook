@@ -13,8 +13,7 @@ Four public benchmarks, each scored with its own metrics.
 | Benchmark | What the agent sees | Effect of the Logbook |
 |---|---|---|
 | [AhaBench](benchmarks/ahabench): a year running a vending business | its last 8 actions | runs still in business at day 60: 0/15 → **12/15** |
-| [Continual Learning Bench](benchmarks/clbench): radio spectrum monitoring | the whole run | learning gain: 26.5% → **46.6%**, same cost |
-| Continual Learning Bench: poker, cohort studies | the whole run | none |
+| [Continual Learning Bench](benchmarks/clbench): 6 tasks, from poker to code fixes | the whole run | leaderboard score: 19.6% → **27.4%**, 1st of the 12 published systems (Claude Sonnet 4.6) |
 | [τ²-bench](benchmarks/tau2-bench): customer service conversations | the whole conversation | none |
 | [Vending Bench](benchmarks/vending-bench): 30 days of a vending business | its last 8 to 9 days, plus its own notes | none |
 
@@ -22,12 +21,12 @@ Four public benchmarks, each scored with its own metrics.
 
 ![Mean net profit by day on AhaBench, seeds 0 to 4: Haiku 5.5 and Sonnet 5.5 without memory stay below zero; with the Logbook, Haiku ends near +$630 and Sonnet near +$1,580.](benchmarks/ahabench/results/sonnet_vs_haiku.png)
 
-![Learning gain per task on Continual Learning Bench, Claude Sonnet 4.6, 5 runs per system: on Blind Spectrum Monitoring every Logbook run is above every run without it (mean 46.6% vs 26.5%); on poker and cohort studies the runs overlap, and one Logbook run on cohort studies collapses to -55%.](benchmarks/clbench/results/gain_by_task.png)
+![Continual Learning Bench, all 6 tasks, mean normalized reward: ICL with a Logbook, Claude Sonnet 4.6, 27.4%; then the 12 published systems, led by ICL with Claude Sonnet 4.6 at 19.6%, ICL with GPT-5.4 at 18.9% and Claude Code with Sonnet 4.6 at 18.5%.](benchmarks/clbench/results/board.png)
 
 - **It helps when the feedback an agent needs has left its view, or is spread over many steps.** Where the agent already sees what it needs, it changes nothing.
 - **A small model with a Logbook can beat a bigger one without.** On AhaBench, Claude Haiku 5.5 with the Logbook beat Claude Sonnet 5.5 without it on 4 of 5 seeds, at about 1/26 of the cost.
 - **What the record says matters.** A raw list of error messages did not change the agent's behavior. The same facts in the task's terms ("order refused, missing: account number") did.
-- **A model can write it.** From a description of the agent and one failed run, Claude Opus 5.5 wrote Logbooks that kept Haiku in business at day 60 in 15/15 runs (no memory: 5/15).
+- **A model can write it.** From a description of the agent and one failed run, Claude Opus 5.5 wrote Logbooks that kept Haiku in business at day 60 in 15/15 runs (no memory: 5/15). From the task descriptions alone, it wrote the six Logbooks used on Continual Learning Bench.
 
 ## How it works
 
@@ -55,8 +54,9 @@ The Logbooks written by hand for each benchmark are in [logbook/](logbook).
 
 ## Limits
 
-- **It does not help everywhere.** No effect on τ²-bench, on Vending Bench, or on 2 of the 3 Continual Learning Bench tasks.
-- **The author prompt was refined on AhaBench.** There, on fresh seeds, its Logbooks kept 15/15 runs in business. Unchanged, on Continual Learning Bench, they helped on 1 task of 3.
+- **It does not help everywhere.** No effect on τ²-bench or Vending Bench. On Continual Learning Bench, most of the gain comes from 2 of the 6 tasks (radio spectrum, code fixes), and poker got worse.
+- **The author prompt was refined on AhaBench.** There, on fresh seeds, its Logbooks kept 15/15 runs in business. Unchanged, on Continual Learning Bench, they took the leaderboard score from 19.6% to 27.4%.
+- **On Continual Learning Bench, the comparison is with runs published on other days.** A same-day rerun of the baseline, on 3 of the 6 tasks, confirmed the gain on radio spectrum only.
 - **Few runs**: 5 to 15 per setup. Each benchmark folder gives its protocol, numbers, limits and the commands to reproduce.
 
 ## Repository

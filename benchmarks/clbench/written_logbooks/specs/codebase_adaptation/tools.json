@@ -1,0 +1,27 @@
+[
+ {
+  "name": "BashCommandResponse",
+  "description": "The agent's answer at a step whose prompt asks for this schema.",
+  "parameters": {
+   "description": "Structured response for codebase adaptation task.",
+   "properties": {
+    "thought": {
+     "description": "Your reasoning and analysis. Explain why you want to perform this action.",
+     "title": "Thought",
+     "type": "string"
+    },
+    "command": {
+     "description": "The bash command to execute. ONLY the raw command, no markdown fences or explanation.",
+     "title": "Command",
+     "type": "string"
+    }
+   },
+   "required": [
+    "thought",
+    "command"
+   ],
+   "title": "BashCommandResponse",
+   "type": "object"
+  }
+ }
+]

@@ -30,3 +30,6 @@ Logbook: errors and text length, every call of every rollout and of the stateles
   exploitable_poker          calls  1863 | errors 0 | text 1,851 characters on average, 2,447 at most
   blind_spectrum_monitoring  calls   540 | errors 0 | text 1,786 characters on average, 2,346 at most
   cohort_studies             calls   701 | errors 0 | text 2,219 characters on average, 3,995 at most
+  database_exploration       calls  1226 | errors 0 | text 1,503 characters on average, 3,145 at most
+  codebase_adaptation        calls  1315 | errors 0 | text 1,863 characters on average, 3,037 at most
+  sales_prediction           calls   375 | errors 0 | text 1,667 characters on average, 3,111 at most

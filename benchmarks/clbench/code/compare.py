@@ -1,4 +1,4 @@
-"""Leaderboard metrics for ICL and ICL + Logbook, computed with CL-Bench's own analysis code.
+"""Leaderboard metrics for ICL + Logbook (6 tasks) and our ICL rerun (3 tasks), with CL-Bench's own analysis code.
 
   CLBENCH_REPO=/path/to/continual-learning-bench python compare.py
 
@@ -27,7 +27,8 @@ def r_max_from_sources():
 
 
 A.load_task_r_max_values = r_max_from_sources
-TASKS = ["exploitable_poker", "blind_spectrum_monitoring", "cohort_studies"]
+TASKS = ["exploitable_poker", "blind_spectrum_monitoring", "cohort_studies"]  # the three with our ICL rerun
+ALL_TASKS = TASKS + ["database_exploration", "codebase_adaptation", "sales_prediction"]
 OURS = ["icl-claude-sonnet-4-6-rerun", "logbook-icl-claude-sonnet-4-6"]
 RUNS = sorted(A.DEFAULT_RUN_NAMES) + OURS
 
@@ -43,13 +44,13 @@ summ, points, warns = {}, {}, {}
 for run in RUNS:
     p = A.build_analysis_payload(results_dir=results, runs=[run, "icl-gpt-5.4"])
     for row in p["task_summary"]:
-        if row["run_name"] == run and row["task"] in TASKS:
+        if row["run_name"] == run and row["task"] in ALL_TASKS:
             summ.setdefault(run, {})[row["task"]] = {k: row[k] for k in (
                 "n_runs", "n_instances", "reward_mean", "baseline_reward", "reference_reward", "gain_mean",
                 "normalized_gain_mean", "normalized_gain_se", "normalized_reward_mean", "normalized_reward_se",
                 "cost_mean", "warnings")}
     for pt in p["run_points"]:
-        if pt["run_name"] == run and pt["task"] in TASKS and run in OURS + ["icl-claude-sonnet-4.6"]:
+        if pt["run_name"] == run and pt["task"] in ALL_TASKS and run in OURS + ["icl-claude-sonnet-4.6"]:
             points.setdefault(run, {}).setdefault(pt["task"], []).append(
                 {k: pt[k] for k in ("run_index", "reward", "baseline_reward", "gain", "normalized_gain",
                                     "normalized_reward", "cost_usd")})
@@ -84,11 +85,22 @@ for run, by_task in summ.items():
         board.append({"run": run, "gain_3": sum(g) / 3, "reward_3": sum(r) / 3, "cost_3": sum(c)})
 board.sort(key=lambda r: -r["gain_3"])
 
-out = {"tasks": TASKS, "summary": summ, "points": points, "tests": tests, "board_3_tasks": board, "warnings": warns}
+# the leaderboard: runs with all 6 tasks, ranked by mean normalized reward, as on the benchmark's site
+board6 = []
+for run, by_task in summ.items():
+    if all(t in by_task for t in ALL_TASKS):
+        board6.append({"run": run,
+                       "reward_6": sum(by_task[t]["normalized_reward_mean"] for t in ALL_TASKS) / 6,
+                       "gain_6": sum(by_task[t]["normalized_gain_mean"] for t in ALL_TASKS) / 6,
+                       "cost_6": sum(by_task[t]["cost_mean"] or 0 for t in ALL_TASKS)})
+board6.sort(key=lambda r: -r["reward_6"])
+
+out = {"tasks": ALL_TASKS, "summary": summ, "points": points, "tests": tests, "board_3_tasks": board,
+       "board_6_tasks": board6, "warnings": warns}
 (HERE.parent / "results").mkdir(exist_ok=True)
 (HERE.parent / "results" / "compare.json").write_text(json.dumps(out, indent=1, default=str))
 
-for t in TASKS:
+for t in ALL_TASKS:
     print(f"\n{t}")
     for run in OURS + ["icl-claude-sonnet-4.6", "icl-notepad-claude-sonnet-4-6"]:
         s = summ.get(run, {}).get(t)
@@ -102,6 +114,9 @@ for t in TASKS:
 print("\nThree-task board (mean over poker, BSM, cohort), sorted by normalized gain:")
 for i, r in enumerate(board, 1):
     print(f"  {i:2d}. {r['run']:36s} gain {100*r['gain_3']:6.1f}% | reward {100*r['reward_3']:6.1f}% | cost ${r['cost_3']:.2f}")
+print("\nSix-task leaderboard (runs with all 6 tasks), ranked by mean normalized reward:")
+for i, r in enumerate(board6, 1):
+    print(f"  {i:2d}. {r['run']:36s} reward {100*r['reward_6']:6.1f}% | gain {100*r['gain_6']:6.1f}% | cost ${r['cost_6']:.2f}")
 for run in OURS:
     if warns.get(run):
         print("warnings", run, warns[run])

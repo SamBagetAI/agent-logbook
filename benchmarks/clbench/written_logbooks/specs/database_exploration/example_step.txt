@@ -1,0 +1,61 @@
+One instance on a seed the evaluation does not use, answered by a fixed placeholder policy (its answers say nothing about good play). Shown so you can see the format of prompts and feedback.
+
+--- PROMPT (instance 0) ---
+Question 1/1
+
+Among musical instrument brands with at least 20 products (using the attributes data), which brand has the highest average review rating? Report the brand name.
+
+You have access to a SQLite database that contains three separate product datasets covering different categories: office products, electronics, and musical instruments. Each dataset has its own set of tables. You will need to explore the schema to determine which tables belong to which product category.
+
+You may run up to 15 exploratory SQL queries to examine the schema and data before submitting your final answer. Note: query results are capped at 50 rows — if a query would return more, only the first 50 rows are shown. Use aggregates, LIMIT, or filters when you need to inspect larger tables.
+
+Actions:
+  QUERY  — run a SQL statement (SELECT, .tables, PRAGMA, etc.)
+  ANSWER — submit your final answer as the exact value (e.g. '50000', '3.14', 'Acme Corp'). Do NOT describe how to get the answer; provide the actual result.
+
+Queries used so far this question: 0/15
+
+--- ANSWER (DatabaseAction) ---
+{"action":"QUERY","content":"SELECT name FROM sqlite_master WHERE type='table'"}
+
+--- FEEDBACK ---
+Query result (1/15 queries used, 14 remaining):
+
+name           
+---------------
+items_g1       
+fdbk_g1        
+sqlite_sequence
+taxn_g1        
+attrs_g1       
+items_g2       
+fdbk_g2        
+taxn_g2        
+items_g3       
+fdbk_g3        
+attrs_g3       
+fdbk_stats_g1  
+
+--- PROMPT (instance 0) ---
+Question 1/1
+
+Among musical instrument brands with at least 20 products (using the attributes data), which brand has the highest average review rating? Report the brand name.
+
+You have access to a SQLite database that contains three separate product datasets covering different categories: office products, electronics, and musical instruments. Each dataset has its own set of tables. You will need to explore the schema to determine which tables belong to which product category.
+
+You may run up to 15 exploratory SQL queries to examine the schema and data before submitting your final answer. Note: query results are capped at 50 rows — if a query would return more, only the first 50 rows are shown. Use aggregates, LIMIT, or filters when you need to inspect larger tables.
+
+Actions:
+  QUERY  — run a SQL statement (SELECT, .tables, PRAGMA, etc.)
+  ANSWER — submit your final answer as the exact value (e.g. '50000', '3.14', 'Acme Corp'). Do NOT describe how to get the answer; provide the actual result.
+
+Queries used so far this question: 1/15
+
+--- ANSWER (DatabaseAction) ---
+{"action":"ANSWER","content":"0"}
+
+--- FEEDBACK ---
+Question 1: INCORRECT.
+Your answer: 0
+Correct answer: WORLDS BEST CABLES
+Exploratory queries used: 1

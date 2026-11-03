@@ -4,3 +4,6 @@ __pycache__/
 runs/
 *.key
 .env
+
+# the Continual Learning Bench run artifacts are part of the published results
+!benchmarks/clbench/data/runs/

@@ -61,7 +61,8 @@ for run, label in NAMES.items():
                    f" ({(outs[k].get('metadata') or {}).get('study_name')}) {vals[k]:+.3f} | actions per study {steps}")
 
 out.append("\nLogbook: errors and text length, every call of every rollout and of the stateless baseline")
-for task in ("exploitable_poker", "blind_spectrum_monitoring", "cohort_studies"):
+for task in ("exploitable_poker", "blind_spectrum_monitoring", "cohort_studies", "database_exploration",
+             "codebase_adaptation", "sales_prediction"):
     a = load("logbook-icl-claude-sonnet-4-6", task)
     traces = [it["trace"] for it in a["run_traces"]] + [a["baseline_trace"]]
     errs, chars = [], []

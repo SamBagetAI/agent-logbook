@@ -1,0 +1,96 @@
+[
+ {
+  "name": "BashCommandResponse",
+  "description": "The agent's answer at a step whose prompt asks for this schema.",
+  "parameters": {
+   "description": "Structured response for sales prediction task.",
+   "properties": {
+    "thought": {
+     "description": "Your reasoning and analysis. Explain why you want to perform this action.",
+     "title": "Thought",
+     "type": "string"
+    },
+    "command": {
+     "description": "The bash command to execute. ONLY the raw command, no markdown fences or explanation.",
+     "title": "Command",
+     "type": "string"
+    }
+   },
+   "required": [
+    "thought",
+    "command"
+   ],
+   "title": "BashCommandResponse",
+   "type": "object"
+  }
+ },
+ {
+  "name": "PredictionResponse",
+  "description": "The agent's answer at a step whose prompt asks for this schema.",
+  "parameters": {
+   "$defs": {
+    "PredictionEntry": {
+     "properties": {
+      "locality": {
+       "enum": [
+        "Chicago",
+        "New York",
+        "San Francisco"
+       ],
+       "title": "Locality",
+       "type": "string"
+      },
+      "furniture_name": {
+       "enum": [
+        "Back Bay Accent Chair",
+        "Back Bay Bookcase",
+        "Back Bay Brass End Table",
+        "Back Bay Desk Chair",
+        "Back Bay King Bed Frame"
+       ],
+       "title": "Furniture Name",
+       "type": "string"
+      },
+      "year": {
+       "enum": [
+        2027,
+        2028,
+        2029,
+        2030,
+        2031
+       ],
+       "title": "Year",
+       "type": "integer"
+      },
+      "items_sold": {
+       "title": "Items Sold",
+       "type": "number"
+      }
+     },
+     "required": [
+      "locality",
+      "furniture_name",
+      "year",
+      "items_sold"
+     ],
+     "title": "PredictionEntry",
+     "type": "object"
+    }
+   },
+   "properties": {
+    "predictions": {
+     "items": {
+      "$ref": "#/$defs/PredictionEntry"
+     },
+     "title": "Predictions",
+     "type": "array"
+    }
+   },
+   "required": [
+    "predictions"
+   ],
+   "title": "PredictionResponse",
+   "type": "object"
+  }
+ }
+]

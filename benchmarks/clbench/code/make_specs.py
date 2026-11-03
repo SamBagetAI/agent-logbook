@@ -1,16 +1,20 @@
 """Build the author's spec for each CL-Bench task: brief, response schemas, view, and one example
-instance answered by a fixed placeholder policy (poker and spectrum: seed 7, which the evaluation does not use;
-cohort studies: the first instance of the frozen dataset, of which the author sees the columns only).
+instance answered by a fixed placeholder policy. Poker and spectrum: seed 7, which the evaluation does not use.
+Database exploration: question 21, which the evaluation does not use. Cohort studies, codebase adaptation and sales
+prediction ship fixed data, so their example is the first evaluation instance, answered by the placeholder policy.
 
   CLBENCH_REPO=/path/to/continual-learning-bench python make_specs.py      # writes ../written_logbooks/specs/
 """
 import json
 import os
+import re
 import sys
+import tempfile
 from pathlib import Path
 
 REPO = Path(os.environ.get("CLBENCH_REPO", "continual-learning-bench")).resolve()
 sys.path.insert(0, str(REPO))
+os.chdir(REPO)  # some tasks open their data by relative path
 from src.interface import Response, format_task_agent_brief  # noqa: E402
 from src.registry import get_task_class  # noqa: E402
 
@@ -39,6 +43,21 @@ def placeholder(task, q):
     if name.startswith("CohortSubmission"):
         fields = q.response_schema.model_fields
         return q.response_schema.model_validate({k: 0.5 for k in fields})
+    if name == "DatabaseAction":
+        seen = getattr(task, "_placeholder_steps", 0)
+        task._placeholder_steps = seen + 1
+        if seen == 0:
+            return q.response_schema(action="QUERY", content="SELECT name FROM sqlite_master WHERE type='table'")
+        return q.response_schema(action="ANSWER", content="0")
+    if name == "BashCommandResponse":
+        seen = getattr(task, "_placeholder_steps", 0)
+        task._placeholder_steps = seen + 1
+        cmd = "ls" if seen == 0 else "echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT"
+        return q.response_schema(thought="placeholder", command=cmd)
+    if name == "PredictionResponse":
+        rows = re.findall(r"^- (.+?) / (.+?) / (\d{4})$", q.prompt, re.M)
+        return q.response_schema.model_validate({"predictions": [
+            {"locality": a, "furniture_name": b, "year": int(y), "items_sold": 0} for a, b, y in rows]})
     raise ValueError(name)
 
 
@@ -60,6 +79,8 @@ def build(task_name, ctor):
         if res.observation.instance_complete or res.done:
             break
         q = res.next_query
+    if hasattr(task, "_cleanup_container"):  # the Docker tasks
+        task._cleanup_container()
     d = OUT / task_name
     d.mkdir(parents=True, exist_ok=True)
     (d / "instructions.txt").write_text(format_task_agent_brief(brief) + "\n\nEach step's prompt gives the rest of the task's rules.\n")
@@ -77,3 +98,11 @@ def build(task_name, ctor):
 build("exploitable_poker", {"variant": "calling_station", "seed": 7, "num_instances": 1})
 build("blind_spectrum_monitoring", {"seed": 7, "num_instances": 1})
 build("cohort_studies", {"seed": 7, "num_instances": 1})
+
+# database exploration: question 21 of the pre-migration file, which the default schedule does not draw
+questions = json.loads((REPO / "data" / "database_exploration" / "questions.json").read_text())
+tmp = Path(tempfile.mkdtemp()) / "questions.json"
+tmp.write_text(json.dumps([q for q in questions if q["question_id"] == 21]))
+build("database_exploration", {"questions_path": str(tmp), "num_questions": 1, "seed": 7})
+build("codebase_adaptation", {"num_instances": 1})
+build("sales_prediction", {"schedule": "default", "num_instances": 1})

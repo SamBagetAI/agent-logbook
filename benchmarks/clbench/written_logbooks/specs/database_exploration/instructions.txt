@@ -1,0 +1,8 @@
+=== Brief ===
+Objective: Answer questions about an unknown database using as few exploratory SQL queries as possible.
+Task Unit: One natural-language question about the database.
+Reward: Per question, regret counts only exploratory QUERY steps (your final ANSWER is not counted). So regret = max(0, actions - 1) where actions = queries + 1. Wrong answers use the full query budget as regret. Reward is 1 - regret / query_budget, so larger is better.
+Completion: An instance completes when you submit an answer or exhaust the query budget.
+=======================
+
+Each step's prompt gives the rest of the task's rules.

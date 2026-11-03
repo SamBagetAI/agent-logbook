@@ -1,0 +1,27 @@
+[
+ {
+  "name": "DatabaseAction",
+  "description": "The agent's answer at a step whose prompt asks for this schema.",
+  "parameters": {
+   "description": "Structured response for each interaction step.",
+   "properties": {
+    "action": {
+     "description": "QUERY to execute an exploratory SQL statement and see results, or ANSWER to submit your final answer to the question.",
+     "title": "Action",
+     "type": "string"
+    },
+    "content": {
+     "description": "If action is QUERY: a SQL statement to execute against the database. If action is ANSWER: the exact value that answers the question \u2014 a raw number (e.g. '50000', '3.14') or short text (e.g. 'Acme Corp'). Do NOT describe how to get the answer; provide the actual value.",
+     "title": "Content",
+     "type": "string"
+    }
+   },
+   "required": [
+    "action",
+    "content"
+   ],
+   "title": "DatabaseAction",
+   "type": "object"
+  }
+ }
+]

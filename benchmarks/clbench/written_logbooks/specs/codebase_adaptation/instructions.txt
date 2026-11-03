@@ -1,0 +1,11 @@
+=== Brief ===
+Objective: Resolve each repository issue as efficiently as possible while reusing knowledge from earlier issues.
+Task Unit: One issue in the codebase.
+Reward: Reward is the negative per-issue regret, where solving in fewer command steps is better.
+Completion: An instance completes when you submit a final patch or exhaust the step budget for the issue.
+Constraints:
+- Each message should contain exactly one bash command.
+- The same repository context may repeat, so reusable repo knowledge should transfer across issues.
+=======================
+
+Each step's prompt gives the rest of the task's rules.
