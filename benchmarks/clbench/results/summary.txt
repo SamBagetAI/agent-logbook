@@ -1,0 +1,37 @@
+
+exploitable_poker
+  icl-claude-sonnet-4-6-rerun        gain  -11.3% ± 3.3 | reward   10.4% ± 2.6 | cost/rollout $ 9.67 | n 5
+  logbook-icl-claude-sonnet-4-6      gain   -8.5% ± 4.5 | reward    6.6% ± 3.9 | cost/rollout $17.93 | n 5
+  icl-claude-sonnet-4.6              gain    2.8% ± 2.4 | reward   20.5% ± 1.9 | cost/rollout $ 9.39 | n 5
+  icl-notepad-claude-sonnet-4-6      gain  -24.5% ± 3.6 | reward   -1.8% ± 3.0 | cost/rollout $ 6.75 | n 5
+  permutation p (Logbook > ICL rerun, one-sided): 0.2897; every Logbook rollout above every ICL rollout: False
+
+blind_spectrum_monitoring
+  icl-claude-sonnet-4-6-rerun        gain   26.5% ± 2.3 | reward   26.5% ± 2.3 | cost/rollout $ 3.47 | n 5
+  logbook-icl-claude-sonnet-4-6      gain   46.6% ± 1.2 | reward   46.6% ± 1.2 | cost/rollout $ 3.58 | n 5
+  icl-claude-sonnet-4.6              gain   24.0% ± 1.8 | reward   24.0% ± 1.8 | cost/rollout $ 3.60 | n 5
+  icl-notepad-claude-sonnet-4-6      gain   23.1% ± 3.4 | reward   23.1% ± 3.4 | cost/rollout $ 2.99 | n 5
+  permutation p (Logbook > ICL rerun, one-sided): 0.0040; every Logbook rollout above every ICL rollout: True
+
+cohort_studies
+  icl-claude-sonnet-4-6-rerun        gain    8.3% ± 5.2 | reward  -14.3% ± 6.5 | cost/rollout $ 5.99 | n 5
+  logbook-icl-claude-sonnet-4-6      gain   -8.4% ±11.8 | reward  -23.1% ±13.4 | cost/rollout $ 5.15 | n 5
+  icl-claude-sonnet-4.6              gain   -1.3% ± 5.0 | reward  -26.6% ± 6.3 | cost/rollout $ 5.62 | n 5
+  icl-notepad-claude-sonnet-4-6      gain   16.5% ± 7.4 | reward  -20.5% ±10.7 | cost/rollout $11.56 | n 5
+  permutation p (Logbook > ICL rerun, one-sided): 0.8849; every Logbook rollout above every ICL rollout: False
+
+Three-task board (mean over poker, BSM, cohort), sorted by normalized gain:
+   1. claude-code-sonnet-4.6               gain   10.2% | reward   10.3% | cost $26.26
+   2. logbook-icl-claude-sonnet-4-6        gain    9.9% | reward   10.0% | cost $26.66
+   3. mem0-gpt-5.4                         gain    9.4% | reward    1.0% | cost $10.96
+   4. icl-claude-sonnet-4.6                gain    8.5% | reward    6.0% | cost $18.60
+   5. icl-gpt-5.4                          gain    8.4% | reward    8.4% | cost $10.28
+   6. icl-claude-sonnet-4-6-rerun          gain    7.8% | reward    7.6% | cost $19.13
+   7. icl-gemini-3-flash                   gain    5.6% | reward    1.3% | cost $3.84
+   8. codex-gpt-5.4                        gain    5.5% | reward    0.4% | cost $19.18
+   9. icl-notepad-gpt-5.4                  gain    5.2% | reward    1.1% | cost $6.98
+  10. icl-notepad-claude-sonnet-4-6        gain    5.0% | reward    0.3% | cost $21.29
+  11. icl-claude-opus-4.7                  gain    4.2% | reward    5.8% | cost $32.01
+  12. ace-gpt-5.4                          gain    2.7% | reward    0.8% | cost $29.96
+  13. icl-notepad-gemini-3.1-pro-preview   gain   -2.3% | reward   -7.1% | cost $5.65
+  14. icl-gemini-3.1-pro-preview           gain   -5.6% | reward  -10.6% | cost $9.66

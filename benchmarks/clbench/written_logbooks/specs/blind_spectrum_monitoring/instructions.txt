@@ -1,0 +1,11 @@
+=== Brief ===
+Objective: Maximize scan-by-scan long-run spectrum availability accuracy by reporting persistent transmitter occupancy across scans.
+Task Unit: One transmitter-occupancy report.
+Reward: Reward is the per-scan IoU between the true long-run available spectrum and the availability implied by complementing your reported transmitters.
+Completion: An instance completes after you submit one transmitter-occupancy report for the current scan.
+Constraints:
+- Use the structured transmitter report schema.
+- Transfer knowledge of persistent transmitters and stable gaps across scans.
+=======================
+
+Each step's prompt gives the rest of the task's rules.

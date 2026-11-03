@@ -1,0 +1,32 @@
+Blind Spectrum Monitoring: bandwidth errors per scan (MHz), first vs second half of each rollout
+  ICL            occupied spectrum declared free:  21.8 ->   9.7 | free spectrum missed:  12.1 ->  14.0 | reward per scan: 0.405 -> 0.448 | stateless baseline: 102.9 declared free,  3.3 missed
+  ICL + Logbook  occupied spectrum declared free:  33.9 ->   6.2 | free spectrum missed:   6.6 ->   4.5 | reward per scan: 0.437 -> 0.729 | stateless baseline: 103.1 declared free,  3.3 missed
+
+Exploitable Poker: per rollout
+  ICL            rollout 0: 260 calls, 66,722 output tokens, answer length 825 characters, cache hits 99% of input, cost $7.49
+  ICL            rollout 1: 286 calls, 110,572 output tokens, answer length 1,167 characters, cache hits 99% of input, cost $11.40
+  ICL            rollout 2: 301 calls, 127,472 output tokens, answer length 1,257 characters, cache hits 99% of input, cost $13.20
+  ICL            rollout 3: 249 calls, 74,481 output tokens, answer length 936 characters, cache hits 98% of input, cost $7.55
+  ICL            rollout 4: 278 calls, 74,521 output tokens, answer length 861 characters, cache hits 99% of input, cost $8.68
+  ICL + Logbook  rollout 0: 313 calls, 149,865 output tokens, answer length 1,437 characters, cache hits 98% of input, cost $15.44
+  ICL + Logbook  rollout 1: 325 calls, 203,066 output tokens, answer length 1,830 characters, cache hits 98% of input, cost $19.07
+  ICL + Logbook  rollout 2: 313 calls, 295,674 output tokens, answer length 2,593 characters, cache hits 98% of input, cost $24.12
+  ICL + Logbook  rollout 3: 310 calls, 184,443 output tokens, answer length 1,744 characters, cache hits 98% of input, cost $17.29
+  ICL + Logbook  rollout 4: 286 calls, 145,788 output tokens, answer length 1,503 characters, cache hits 98% of input, cost $13.75
+
+Cohort Studies: signed information gain per rollout (sum over the 20 studies) and the worst study
+  ICL            rollout 0: -1.363 | worst study 16/20 (FORGE) -0.204 | actions per study [15, 3, 2, 2, 6, 2, 2, 2, 4, 2, 1, 1, 4, 1, 1, 1, 3, 1, 1, 1]
+  ICL            rollout 1: -0.103 | worst study 16/20 (FORGE) -0.090 | actions per study [14, 3, 2, 2, 5, 1, 1, 1, 4, 1, 1, 1, 3, 1, 1, 1, 2, 1, 1, 1]
+  ICL            rollout 2: -0.400 | worst study 16/20 (FORGE) -0.165 | actions per study [10, 2, 1, 1, 6, 1, 1, 1, 4, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1]
+  ICL            rollout 3: -0.327 | worst study 19/20 (CADENCE) -0.081 | actions per study [15, 3, 2, 2, 8, 1, 1, 1, 5, 1, 1, 1, 3, 1, 1, 1, 3, 1, 1, 1]
+  ICL            rollout 4: -0.680 | worst study 13/20 (FORGE) -0.096 | actions per study [11, 6, 4, 3, 7, 5, 3, 2, 7, 2, 1, 1, 4, 2, 2, 2, 5, 2, 1, 1]
+  ICL + Logbook  rollout 0: -0.384 | worst study 17/20 (CADENCE) -0.068 | actions per study [10, 3, 2, 2, 7, 2, 2, 2, 4, 2, 2, 1, 3, 1, 1, 1, 4, 1, 1, 1]
+  ICL + Logbook  rollout 1: -0.367 | worst study 16/20 (FORGE) -0.180 | actions per study [10, 3, 1, 1, 5, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1]
+  ICL + Logbook  rollout 2: -0.328 | worst study 20/20 (CADENCE) -0.093 | actions per study [10, 4, 2, 2, 5, 2, 2, 2, 4, 2, 2, 2, 3, 1, 1, 1, 3, 2, 2, 2]
+  ICL + Logbook  rollout 3: -2.646 | worst study 11/20 (MOSAIC) -0.628 | actions per study [11, 2, 1, 1, 5, 1, 1, 2, 7, 1, 1, 1, 3, 1, 1, 1, 2, 1, 1, 1]
+  ICL + Logbook  rollout 4: -0.623 | worst study 17/20 (CADENCE) -0.107 | actions per study [13, 3, 1, 1, 4, 1, 1, 1, 3, 1, 1, 1, 4, 1, 1, 1, 3, 1, 1, 1]
+
+Logbook: errors and text length, every call of every rollout and of the stateless baseline
+  exploitable_poker          calls  1863 | errors 0 | text 1,851 characters on average, 2,447 at most
+  blind_spectrum_monitoring  calls   540 | errors 0 | text 1,786 characters on average, 2,346 at most
+  cohort_studies             calls   701 | errors 0 | text 2,219 characters on average, 3,995 at most

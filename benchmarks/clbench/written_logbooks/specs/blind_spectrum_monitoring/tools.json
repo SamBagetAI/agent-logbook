@@ -1,0 +1,55 @@
+[
+ {
+  "name": "ScanReport",
+  "description": "The agent's answer at a step whose prompt asks for this schema.",
+  "parameters": {
+   "$defs": {
+    "Transmitter": {
+     "description": "Transmitter features occupying the spectrum interval the agent believes is unavailable over the long run.",
+     "properties": {
+      "center_freq": {
+       "title": "Center Freq",
+       "type": "number"
+      },
+      "bandwidth": {
+       "title": "Bandwidth",
+       "type": "number"
+      },
+      "currently_active": {
+       "title": "Currently Active",
+       "type": "boolean"
+      },
+      "estimated_power": {
+       "title": "Estimated Power",
+       "type": "number"
+      }
+     },
+     "required": [
+      "center_freq",
+      "bandwidth",
+      "currently_active",
+      "estimated_power"
+     ],
+     "title": "Transmitter",
+     "type": "object"
+    }
+   },
+   "description": "Structured report of transmitters and long-run regions occupied by transmitters in the band.",
+   "properties": {
+    "transmitters": {
+     "description": "All transmitter regions believed to persist in the band. Use an empty list only when there is no credible transmitter evidence.",
+     "items": {
+      "$ref": "#/$defs/Transmitter"
+     },
+     "title": "Transmitters",
+     "type": "array"
+    }
+   },
+   "required": [
+    "transmitters"
+   ],
+   "title": "ScanReport",
+   "type": "object"
+  }
+ }
+]

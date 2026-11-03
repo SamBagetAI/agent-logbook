@@ -1,0 +1,919 @@
+[
+ {
+  "name": "ToolCallResponse",
+  "description": "The agent's answer at a step whose prompt asks for this schema.",
+  "parameters": {
+   "$defs": {
+    "EstimateSurvivalByGroup": {
+     "description": "Explore per-group survival and cohort composition in the current study.",
+     "properties": {
+      "tool": {
+       "const": "estimate_survival_by_group",
+       "default": "estimate_survival_by_group",
+       "title": "Tool",
+       "type": "string"
+      },
+      "group_expression": {
+       "description": "Executable SQL CASE expression that assigns each patient to a named group. Must be valid in: SELECT (expr) AS grp FROM patients. Example: CASE WHEN age >= 65 AND prb1_ratio > 30 THEN 'high_risk' WHEN age < 50 THEN 'low_risk' ELSE 'medium' END",
+       "title": "Group Expression",
+       "type": "string"
+      }
+     },
+     "required": [
+      "group_expression"
+     ],
+     "title": "EstimateSurvivalByGroup",
+     "type": "object"
+    },
+    "GetDataSummary": {
+     "description": "Retrieve per-column univariate statistics.",
+     "properties": {
+      "tool": {
+       "const": "get_data_summary",
+       "default": "get_data_summary",
+       "title": "Tool",
+       "type": "string"
+      }
+     },
+     "title": "GetDataSummary",
+     "type": "object"
+    },
+    "GetDatabaseMetadata": {
+     "description": "Retrieve column descriptions and study metadata.",
+     "properties": {
+      "tool": {
+       "const": "get_database_metadata",
+       "default": "get_database_metadata",
+       "title": "Tool",
+       "type": "string"
+      }
+     },
+     "title": "GetDatabaseMetadata",
+     "type": "object"
+    },
+    "PredictCohortSurvival": {
+     "description": "Evaluate a group expression against observable cohorts with KL goodness-of-fit.",
+     "properties": {
+      "tool": {
+       "const": "predict_cohort_survival",
+       "default": "predict_cohort_survival",
+       "title": "Tool",
+       "type": "string"
+      },
+      "group_expression": {
+       "description": "Executable SQL CASE expression that assigns each patient to a named group. Must be valid in: SELECT (expr) AS grp FROM patients. Example: CASE WHEN age >= 65 AND prb1_ratio > 30 THEN 'high_risk' WHEN age < 50 THEN 'low_risk' ELSE 'medium' END",
+       "title": "Group Expression",
+       "type": "string"
+      }
+     },
+     "required": [
+      "group_expression"
+     ],
+     "title": "PredictCohortSurvival",
+     "type": "object"
+    },
+    "SQLQuery": {
+     "description": "Execute a read-only SQL query against the study database.",
+     "properties": {
+      "tool": {
+       "const": "query_sql",
+       "default": "query_sql",
+       "title": "Tool",
+       "type": "string"
+      },
+      "sql": {
+       "description": "Read-only SQL query (SELECT only)",
+       "title": "Sql",
+       "type": "string"
+      }
+     },
+     "required": [
+      "sql"
+     ],
+     "title": "SQLQuery",
+     "type": "object"
+    },
+    "SubmitCohortReport": {
+     "description": "Signal readiness to submit final cohort estimates (ends this instance).\n\nCall with no arguments.  The task will then prompt you for estimates\nin a structured format.",
+     "properties": {
+      "tool": {
+       "const": "submit_cohort_report",
+       "default": "submit_cohort_report",
+       "title": "Tool",
+       "type": "string"
+      }
+     },
+     "title": "SubmitCohortReport",
+     "type": "object"
+    }
+   },
+   "description": "Top-level response schema for every agent turn.\n\nThe system generates structured output matching this model.\n``thought`` captures chain-of-thought reasoning;\n``tool_call`` is the dispatched action.",
+   "properties": {
+    "thought": {
+     "description": "Think step-by-step: what have you learned so far, what do you still need, and why are you choosing this action?",
+     "title": "Thought",
+     "type": "string"
+    },
+    "tool_call": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/GetDatabaseMetadata"
+      },
+      {
+       "$ref": "#/$defs/GetDataSummary"
+      },
+      {
+       "$ref": "#/$defs/SQLQuery"
+      },
+      {
+       "$ref": "#/$defs/EstimateSurvivalByGroup"
+      },
+      {
+       "$ref": "#/$defs/PredictCohortSurvival"
+      },
+      {
+       "$ref": "#/$defs/SubmitCohortReport"
+      }
+     ],
+     "description": "The tool to invoke this turn. Set the `tool` field to one of: get_database_metadata, get_data_summary, query_sql, estimate_survival_by_group, predict_cohort_survival, submit_cohort_report. Provide any required arguments alongside `tool`.",
+     "title": "Tool Call"
+    }
+   },
+   "required": [
+    "thought",
+    "tool_call"
+   ],
+   "title": "ToolCallResponse",
+   "type": "object"
+  }
+ },
+ {
+  "name": "CohortSubmission",
+  "description": "The agent's answer at a step whose prompt asks for this schema.",
+  "parameters": {
+   "description": "Survival estimates for 36 population cohorts.\nEach field is {cohort_id}__s{horizon} where horizon is 12, 24, or 36 months.\n\nCohort definitions:\n  voc_3_6: 3 <= voc_mg_l < 6\n  acron_lt2: acron_use_avg < 2\n  family_history_yes: family_history = yes\n  hhbp_gte8: hhbp_serum_level >= 8\n  avoc_high_prb1_lt25: ambient_voc_ppb >= 15 AND prb1_ratio < 25\n  avoc_high_education_gte16: ambient_voc_ppb >= 15 AND years_of_education >= 16\n  avoc_gte15_gg1: ambient_voc_ppb >= 15 AND genotype_group = GG-1\n  family_history_gg3: family_history = yes AND genotype_group = GG-3\n  family_history_prb1_gte28: family_history = yes AND prb1_ratio >= 28\n  education_gte16_cognitive_lt050: years_of_education >= 16 AND cognitive_score (low: MMSE < 23 | MoCA < 20 | AD8 > 4)\n  education_gte16_gg3: years_of_education >= 16 AND genotype_group = GG-3\n  education_lt13_gg1: years_of_education < 13 AND genotype_group = GG-1\n  acron_lt2_prb1_24_28: acron_use_avg < 2 AND 24 <= prb1_ratio < 28\n  prb1_gte28_acron_gte4: prb1_ratio >= 28 AND acron_use_avg >= 4\n  voc_3_6_prb1_lt25: 3 <= voc_mg_l < 6 AND prb1_ratio < 25\n  gg3_voc_lt3: genotype_group = GG-3 AND voc_mg_l < 3\n  age_gte55_acron_gte4: age >= 55 AND acron_use_avg >= 4\n  cognitive_lt050_age_lt55: cognitive_score (low: MMSE < 23 | MoCA < 20 | AD8 > 4) AND age < 55\n  hhbp_gte8_prb1_lt25: hhbp_serum_level >= 8 AND prb1_ratio < 25\n  age_40_60_voc_gte5: 40 <= age < 60 AND voc_mg_l >= 5\n  avoc_high_family_history_prb1_gte28: ambient_voc_ppb >= 15 AND family_history = yes AND prb1_ratio >= 28\n  education_high_voc_high_acron_low: years_of_education >= 16 AND voc_mg_l >= 5 AND acron_use_avg < 2\n  family_history_gg3_voc_gte5: family_history = yes AND genotype_group = GG-3 AND voc_mg_l >= 5\n  avoc_high_cognitive_low_family_history: ambient_voc_ppb >= 15 AND cognitive_score (low: MMSE < 23 | MoCA < 20 | AD8 > 4) AND family_history = yes\n  education_low_prb1_gte28_gg3: years_of_education < 13 AND prb1_ratio >= 28 AND genotype_group = GG-3\n  acron_high_hhbp_high_prb1_lt25: acron_use_avg >= 4 AND hhbp_serum_level >= 8 AND prb1_ratio < 25\n  family_history_education_gte16_prb1_lt25: family_history = yes AND years_of_education >= 16 AND prb1_ratio < 25\n  avoc_low_voc_high_age_40_60: ambient_voc_ppb < 10 AND voc_mg_l >= 5 AND 40 <= age < 60\n  age_gte60_gg3_education_gte16: age >= 60 AND genotype_group = GG-3 AND years_of_education >= 16\n  prb1_lt25_voc_gte5_acron_lt2: prb1_ratio < 25 AND voc_mg_l >= 5 AND acron_use_avg < 2\n  gg1_family_history_cognitive_lt050: genotype_group = GG-1 AND family_history = yes AND cognitive_score (low: MMSE < 23 | MoCA < 20 | AD8 > 4)\n  prb1_gte30_acron_gte4_voc_lt3: prb1_ratio >= 30 AND acron_use_avg >= 4 AND voc_mg_l < 3\n  avoc_gte15_gg1_age_gte55: ambient_voc_ppb >= 15 AND genotype_group = GG-1 AND age >= 55\n  cognitive_gte075_age_gte60_gg3: cognitive_score (high: MMSE >= 26 | MoCA >= 23 | AD8 <= 2) AND age >= 60 AND genotype_group = GG-3\n  cognitive_lt050_prb1_gte28_acron_lt2: cognitive_score (low: MMSE < 23 | MoCA < 20 | AD8 > 4) AND prb1_ratio >= 28 AND acron_use_avg < 2\n  gg3_education_gte16_voc_3_6: genotype_group = GG-3 AND years_of_education >= 16 AND 3 <= voc_mg_l < 6",
+   "properties": {
+    "voc_3_6__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Voc 3 6  S12",
+     "type": "number"
+    },
+    "voc_3_6__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Voc 3 6  S24",
+     "type": "number"
+    },
+    "voc_3_6__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Voc 3 6  S36",
+     "type": "number"
+    },
+    "acron_lt2__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Acron Lt2  S12",
+     "type": "number"
+    },
+    "acron_lt2__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Acron Lt2  S24",
+     "type": "number"
+    },
+    "acron_lt2__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Acron Lt2  S36",
+     "type": "number"
+    },
+    "family_history_yes__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Family History Yes  S12",
+     "type": "number"
+    },
+    "family_history_yes__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Family History Yes  S24",
+     "type": "number"
+    },
+    "family_history_yes__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Family History Yes  S36",
+     "type": "number"
+    },
+    "hhbp_gte8__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Hhbp Gte8  S12",
+     "type": "number"
+    },
+    "hhbp_gte8__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Hhbp Gte8  S24",
+     "type": "number"
+    },
+    "hhbp_gte8__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Hhbp Gte8  S36",
+     "type": "number"
+    },
+    "avoc_high_prb1_lt25__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Avoc High Prb1 Lt25  S12",
+     "type": "number"
+    },
+    "avoc_high_prb1_lt25__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Avoc High Prb1 Lt25  S24",
+     "type": "number"
+    },
+    "avoc_high_prb1_lt25__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Avoc High Prb1 Lt25  S36",
+     "type": "number"
+    },
+    "avoc_high_education_gte16__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Avoc High Education Gte16  S12",
+     "type": "number"
+    },
+    "avoc_high_education_gte16__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Avoc High Education Gte16  S24",
+     "type": "number"
+    },
+    "avoc_high_education_gte16__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Avoc High Education Gte16  S36",
+     "type": "number"
+    },
+    "avoc_gte15_gg1__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Avoc Gte15 Gg1  S12",
+     "type": "number"
+    },
+    "avoc_gte15_gg1__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Avoc Gte15 Gg1  S24",
+     "type": "number"
+    },
+    "avoc_gte15_gg1__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Avoc Gte15 Gg1  S36",
+     "type": "number"
+    },
+    "family_history_gg3__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Family History Gg3  S12",
+     "type": "number"
+    },
+    "family_history_gg3__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Family History Gg3  S24",
+     "type": "number"
+    },
+    "family_history_gg3__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Family History Gg3  S36",
+     "type": "number"
+    },
+    "family_history_prb1_gte28__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Family History Prb1 Gte28  S12",
+     "type": "number"
+    },
+    "family_history_prb1_gte28__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Family History Prb1 Gte28  S24",
+     "type": "number"
+    },
+    "family_history_prb1_gte28__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Family History Prb1 Gte28  S36",
+     "type": "number"
+    },
+    "education_gte16_cognitive_lt050__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Education Gte16 Cognitive Lt050  S12",
+     "type": "number"
+    },
+    "education_gte16_cognitive_lt050__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Education Gte16 Cognitive Lt050  S24",
+     "type": "number"
+    },
+    "education_gte16_cognitive_lt050__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Education Gte16 Cognitive Lt050  S36",
+     "type": "number"
+    },
+    "education_gte16_gg3__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Education Gte16 Gg3  S12",
+     "type": "number"
+    },
+    "education_gte16_gg3__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Education Gte16 Gg3  S24",
+     "type": "number"
+    },
+    "education_gte16_gg3__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Education Gte16 Gg3  S36",
+     "type": "number"
+    },
+    "education_lt13_gg1__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Education Lt13 Gg1  S12",
+     "type": "number"
+    },
+    "education_lt13_gg1__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Education Lt13 Gg1  S24",
+     "type": "number"
+    },
+    "education_lt13_gg1__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Education Lt13 Gg1  S36",
+     "type": "number"
+    },
+    "acron_lt2_prb1_24_28__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Acron Lt2 Prb1 24 28  S12",
+     "type": "number"
+    },
+    "acron_lt2_prb1_24_28__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Acron Lt2 Prb1 24 28  S24",
+     "type": "number"
+    },
+    "acron_lt2_prb1_24_28__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Acron Lt2 Prb1 24 28  S36",
+     "type": "number"
+    },
+    "prb1_gte28_acron_gte4__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Prb1 Gte28 Acron Gte4  S12",
+     "type": "number"
+    },
+    "prb1_gte28_acron_gte4__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Prb1 Gte28 Acron Gte4  S24",
+     "type": "number"
+    },
+    "prb1_gte28_acron_gte4__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Prb1 Gte28 Acron Gte4  S36",
+     "type": "number"
+    },
+    "voc_3_6_prb1_lt25__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Voc 3 6 Prb1 Lt25  S12",
+     "type": "number"
+    },
+    "voc_3_6_prb1_lt25__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Voc 3 6 Prb1 Lt25  S24",
+     "type": "number"
+    },
+    "voc_3_6_prb1_lt25__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Voc 3 6 Prb1 Lt25  S36",
+     "type": "number"
+    },
+    "gg3_voc_lt3__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Gg3 Voc Lt3  S12",
+     "type": "number"
+    },
+    "gg3_voc_lt3__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Gg3 Voc Lt3  S24",
+     "type": "number"
+    },
+    "gg3_voc_lt3__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Gg3 Voc Lt3  S36",
+     "type": "number"
+    },
+    "age_gte55_acron_gte4__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Age Gte55 Acron Gte4  S12",
+     "type": "number"
+    },
+    "age_gte55_acron_gte4__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Age Gte55 Acron Gte4  S24",
+     "type": "number"
+    },
+    "age_gte55_acron_gte4__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Age Gte55 Acron Gte4  S36",
+     "type": "number"
+    },
+    "cognitive_lt050_age_lt55__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Cognitive Lt050 Age Lt55  S12",
+     "type": "number"
+    },
+    "cognitive_lt050_age_lt55__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Cognitive Lt050 Age Lt55  S24",
+     "type": "number"
+    },
+    "cognitive_lt050_age_lt55__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Cognitive Lt050 Age Lt55  S36",
+     "type": "number"
+    },
+    "hhbp_gte8_prb1_lt25__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Hhbp Gte8 Prb1 Lt25  S12",
+     "type": "number"
+    },
+    "hhbp_gte8_prb1_lt25__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Hhbp Gte8 Prb1 Lt25  S24",
+     "type": "number"
+    },
+    "hhbp_gte8_prb1_lt25__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Hhbp Gte8 Prb1 Lt25  S36",
+     "type": "number"
+    },
+    "age_40_60_voc_gte5__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Age 40 60 Voc Gte5  S12",
+     "type": "number"
+    },
+    "age_40_60_voc_gte5__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Age 40 60 Voc Gte5  S24",
+     "type": "number"
+    },
+    "age_40_60_voc_gte5__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Age 40 60 Voc Gte5  S36",
+     "type": "number"
+    },
+    "avoc_high_family_history_prb1_gte28__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Avoc High Family History Prb1 Gte28  S12",
+     "type": "number"
+    },
+    "avoc_high_family_history_prb1_gte28__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Avoc High Family History Prb1 Gte28  S24",
+     "type": "number"
+    },
+    "avoc_high_family_history_prb1_gte28__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Avoc High Family History Prb1 Gte28  S36",
+     "type": "number"
+    },
+    "education_high_voc_high_acron_low__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Education High Voc High Acron Low  S12",
+     "type": "number"
+    },
+    "education_high_voc_high_acron_low__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Education High Voc High Acron Low  S24",
+     "type": "number"
+    },
+    "education_high_voc_high_acron_low__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Education High Voc High Acron Low  S36",
+     "type": "number"
+    },
+    "family_history_gg3_voc_gte5__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Family History Gg3 Voc Gte5  S12",
+     "type": "number"
+    },
+    "family_history_gg3_voc_gte5__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Family History Gg3 Voc Gte5  S24",
+     "type": "number"
+    },
+    "family_history_gg3_voc_gte5__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Family History Gg3 Voc Gte5  S36",
+     "type": "number"
+    },
+    "avoc_high_cognitive_low_family_history__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Avoc High Cognitive Low Family History  S12",
+     "type": "number"
+    },
+    "avoc_high_cognitive_low_family_history__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Avoc High Cognitive Low Family History  S24",
+     "type": "number"
+    },
+    "avoc_high_cognitive_low_family_history__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Avoc High Cognitive Low Family History  S36",
+     "type": "number"
+    },
+    "education_low_prb1_gte28_gg3__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Education Low Prb1 Gte28 Gg3  S12",
+     "type": "number"
+    },
+    "education_low_prb1_gte28_gg3__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Education Low Prb1 Gte28 Gg3  S24",
+     "type": "number"
+    },
+    "education_low_prb1_gte28_gg3__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Education Low Prb1 Gte28 Gg3  S36",
+     "type": "number"
+    },
+    "acron_high_hhbp_high_prb1_lt25__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Acron High Hhbp High Prb1 Lt25  S12",
+     "type": "number"
+    },
+    "acron_high_hhbp_high_prb1_lt25__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Acron High Hhbp High Prb1 Lt25  S24",
+     "type": "number"
+    },
+    "acron_high_hhbp_high_prb1_lt25__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Acron High Hhbp High Prb1 Lt25  S36",
+     "type": "number"
+    },
+    "family_history_education_gte16_prb1_lt25__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Family History Education Gte16 Prb1 Lt25  S12",
+     "type": "number"
+    },
+    "family_history_education_gte16_prb1_lt25__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Family History Education Gte16 Prb1 Lt25  S24",
+     "type": "number"
+    },
+    "family_history_education_gte16_prb1_lt25__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Family History Education Gte16 Prb1 Lt25  S36",
+     "type": "number"
+    },
+    "avoc_low_voc_high_age_40_60__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Avoc Low Voc High Age 40 60  S12",
+     "type": "number"
+    },
+    "avoc_low_voc_high_age_40_60__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Avoc Low Voc High Age 40 60  S24",
+     "type": "number"
+    },
+    "avoc_low_voc_high_age_40_60__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Avoc Low Voc High Age 40 60  S36",
+     "type": "number"
+    },
+    "age_gte60_gg3_education_gte16__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Age Gte60 Gg3 Education Gte16  S12",
+     "type": "number"
+    },
+    "age_gte60_gg3_education_gte16__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Age Gte60 Gg3 Education Gte16  S24",
+     "type": "number"
+    },
+    "age_gte60_gg3_education_gte16__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Age Gte60 Gg3 Education Gte16  S36",
+     "type": "number"
+    },
+    "prb1_lt25_voc_gte5_acron_lt2__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Prb1 Lt25 Voc Gte5 Acron Lt2  S12",
+     "type": "number"
+    },
+    "prb1_lt25_voc_gte5_acron_lt2__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Prb1 Lt25 Voc Gte5 Acron Lt2  S24",
+     "type": "number"
+    },
+    "prb1_lt25_voc_gte5_acron_lt2__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Prb1 Lt25 Voc Gte5 Acron Lt2  S36",
+     "type": "number"
+    },
+    "gg1_family_history_cognitive_lt050__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Gg1 Family History Cognitive Lt050  S12",
+     "type": "number"
+    },
+    "gg1_family_history_cognitive_lt050__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Gg1 Family History Cognitive Lt050  S24",
+     "type": "number"
+    },
+    "gg1_family_history_cognitive_lt050__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Gg1 Family History Cognitive Lt050  S36",
+     "type": "number"
+    },
+    "prb1_gte30_acron_gte4_voc_lt3__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Prb1 Gte30 Acron Gte4 Voc Lt3  S12",
+     "type": "number"
+    },
+    "prb1_gte30_acron_gte4_voc_lt3__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Prb1 Gte30 Acron Gte4 Voc Lt3  S24",
+     "type": "number"
+    },
+    "prb1_gte30_acron_gte4_voc_lt3__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Prb1 Gte30 Acron Gte4 Voc Lt3  S36",
+     "type": "number"
+    },
+    "avoc_gte15_gg1_age_gte55__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Avoc Gte15 Gg1 Age Gte55  S12",
+     "type": "number"
+    },
+    "avoc_gte15_gg1_age_gte55__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Avoc Gte15 Gg1 Age Gte55  S24",
+     "type": "number"
+    },
+    "avoc_gte15_gg1_age_gte55__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Avoc Gte15 Gg1 Age Gte55  S36",
+     "type": "number"
+    },
+    "cognitive_gte075_age_gte60_gg3__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Cognitive Gte075 Age Gte60 Gg3  S12",
+     "type": "number"
+    },
+    "cognitive_gte075_age_gte60_gg3__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Cognitive Gte075 Age Gte60 Gg3  S24",
+     "type": "number"
+    },
+    "cognitive_gte075_age_gte60_gg3__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Cognitive Gte075 Age Gte60 Gg3  S36",
+     "type": "number"
+    },
+    "cognitive_lt050_prb1_gte28_acron_lt2__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Cognitive Lt050 Prb1 Gte28 Acron Lt2  S12",
+     "type": "number"
+    },
+    "cognitive_lt050_prb1_gte28_acron_lt2__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Cognitive Lt050 Prb1 Gte28 Acron Lt2  S24",
+     "type": "number"
+    },
+    "cognitive_lt050_prb1_gte28_acron_lt2__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Cognitive Lt050 Prb1 Gte28 Acron Lt2  S36",
+     "type": "number"
+    },
+    "gg3_education_gte16_voc_3_6__s12": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Gg3 Education Gte16 Voc 3 6  S12",
+     "type": "number"
+    },
+    "gg3_education_gte16_voc_3_6__s24": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Gg3 Education Gte16 Voc 3 6  S24",
+     "type": "number"
+    },
+    "gg3_education_gte16_voc_3_6__s36": {
+     "maximum": 1,
+     "minimum": 0,
+     "title": "Gg3 Education Gte16 Voc 3 6  S36",
+     "type": "number"
+    }
+   },
+   "required": [
+    "voc_3_6__s12",
+    "voc_3_6__s24",
+    "voc_3_6__s36",
+    "acron_lt2__s12",
+    "acron_lt2__s24",
+    "acron_lt2__s36",
+    "family_history_yes__s12",
+    "family_history_yes__s24",
+    "family_history_yes__s36",
+    "hhbp_gte8__s12",
+    "hhbp_gte8__s24",
+    "hhbp_gte8__s36",
+    "avoc_high_prb1_lt25__s12",
+    "avoc_high_prb1_lt25__s24",
+    "avoc_high_prb1_lt25__s36",
+    "avoc_high_education_gte16__s12",
+    "avoc_high_education_gte16__s24",
+    "avoc_high_education_gte16__s36",
+    "avoc_gte15_gg1__s12",
+    "avoc_gte15_gg1__s24",
+    "avoc_gte15_gg1__s36",
+    "family_history_gg3__s12",
+    "family_history_gg3__s24",
+    "family_history_gg3__s36",
+    "family_history_prb1_gte28__s12",
+    "family_history_prb1_gte28__s24",
+    "family_history_prb1_gte28__s36",
+    "education_gte16_cognitive_lt050__s12",
+    "education_gte16_cognitive_lt050__s24",
+    "education_gte16_cognitive_lt050__s36",
+    "education_gte16_gg3__s12",
+    "education_gte16_gg3__s24",
+    "education_gte16_gg3__s36",
+    "education_lt13_gg1__s12",
+    "education_lt13_gg1__s24",
+    "education_lt13_gg1__s36",
+    "acron_lt2_prb1_24_28__s12",
+    "acron_lt2_prb1_24_28__s24",
+    "acron_lt2_prb1_24_28__s36",
+    "prb1_gte28_acron_gte4__s12",
+    "prb1_gte28_acron_gte4__s24",
+    "prb1_gte28_acron_gte4__s36",
+    "voc_3_6_prb1_lt25__s12",
+    "voc_3_6_prb1_lt25__s24",
+    "voc_3_6_prb1_lt25__s36",
+    "gg3_voc_lt3__s12",
+    "gg3_voc_lt3__s24",
+    "gg3_voc_lt3__s36",
+    "age_gte55_acron_gte4__s12",
+    "age_gte55_acron_gte4__s24",
+    "age_gte55_acron_gte4__s36",
+    "cognitive_lt050_age_lt55__s12",
+    "cognitive_lt050_age_lt55__s24",
+    "cognitive_lt050_age_lt55__s36",
+    "hhbp_gte8_prb1_lt25__s12",
+    "hhbp_gte8_prb1_lt25__s24",
+    "hhbp_gte8_prb1_lt25__s36",
+    "age_40_60_voc_gte5__s12",
+    "age_40_60_voc_gte5__s24",
+    "age_40_60_voc_gte5__s36",
+    "avoc_high_family_history_prb1_gte28__s12",
+    "avoc_high_family_history_prb1_gte28__s24",
+    "avoc_high_family_history_prb1_gte28__s36",
+    "education_high_voc_high_acron_low__s12",
+    "education_high_voc_high_acron_low__s24",
+    "education_high_voc_high_acron_low__s36",
+    "family_history_gg3_voc_gte5__s12",
+    "family_history_gg3_voc_gte5__s24",
+    "family_history_gg3_voc_gte5__s36",
+    "avoc_high_cognitive_low_family_history__s12",
+    "avoc_high_cognitive_low_family_history__s24",
+    "avoc_high_cognitive_low_family_history__s36",
+    "education_low_prb1_gte28_gg3__s12",
+    "education_low_prb1_gte28_gg3__s24",
+    "education_low_prb1_gte28_gg3__s36",
+    "acron_high_hhbp_high_prb1_lt25__s12",
+    "acron_high_hhbp_high_prb1_lt25__s24",
+    "acron_high_hhbp_high_prb1_lt25__s36",
+    "family_history_education_gte16_prb1_lt25__s12",
+    "family_history_education_gte16_prb1_lt25__s24",
+    "family_history_education_gte16_prb1_lt25__s36",
+    "avoc_low_voc_high_age_40_60__s12",
+    "avoc_low_voc_high_age_40_60__s24",
+    "avoc_low_voc_high_age_40_60__s36",
+    "age_gte60_gg3_education_gte16__s12",
+    "age_gte60_gg3_education_gte16__s24",
+    "age_gte60_gg3_education_gte16__s36",
+    "prb1_lt25_voc_gte5_acron_lt2__s12",
+    "prb1_lt25_voc_gte5_acron_lt2__s24",
+    "prb1_lt25_voc_gte5_acron_lt2__s36",
+    "gg1_family_history_cognitive_lt050__s12",
+    "gg1_family_history_cognitive_lt050__s24",
+    "gg1_family_history_cognitive_lt050__s36",
+    "prb1_gte30_acron_gte4_voc_lt3__s12",
+    "prb1_gte30_acron_gte4_voc_lt3__s24",
+    "prb1_gte30_acron_gte4_voc_lt3__s36",
+    "avoc_gte15_gg1_age_gte55__s12",
+    "avoc_gte15_gg1_age_gte55__s24",
+    "avoc_gte15_gg1_age_gte55__s36",
+    "cognitive_gte075_age_gte60_gg3__s12",
+    "cognitive_gte075_age_gte60_gg3__s24",
+    "cognitive_gte075_age_gte60_gg3__s36",
+    "cognitive_lt050_prb1_gte28_acron_lt2__s12",
+    "cognitive_lt050_prb1_gte28_acron_lt2__s24",
+    "cognitive_lt050_prb1_gte28_acron_lt2__s36",
+    "gg3_education_gte16_voc_3_6__s12",
+    "gg3_education_gte16_voc_3_6__s24",
+    "gg3_education_gte16_voc_3_6__s36"
+   ],
+   "title": "CohortSubmission",
+   "type": "object"
+  }
+ }
+]

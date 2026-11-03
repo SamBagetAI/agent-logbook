@@ -1,0 +1,13 @@
+=== Brief ===
+Objective: You are an epidemiologist analysing sequential clinical studies. Each study measured different variables with different coding. Estimate survival at 12, 24, and 36 months for 36 population cohorts by synthesising evidence across studies.
+Task Unit: One clinical study database.
+Reward: Information gain (in bits): how much closer your per-cohort survival estimates are to ground truth than a flat baseline that predicts the study-wide mean for every cohort. 0 = matches the flat study-wide baseline; positive = bits of survival information saved per cohort; higher is better.
+Completion: An instance completes when you submit a cohort report or exhaust the action budget.
+Constraints:
+- Each turn: call exactly one tool.
+- SQL queries are read-only (SELECT only).
+- Action budget: 20 per study.
+- submit_cohort_report is terminal — it ends the current study.
+=======================
+
+Each step's prompt gives the rest of the task's rules.

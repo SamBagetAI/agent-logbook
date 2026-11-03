@@ -1,0 +1,1214 @@
+{
+ "tasks": [
+  "exploitable_poker",
+  "blind_spectrum_monitoring",
+  "cohort_studies"
+ ],
+ "summary": {
+  "ace-gpt-5.4": {
+   "blind_spectrum_monitoring": {
+    "n_runs": 5,
+    "n_instances": 90,
+    "reward_mean": 19.777959999999997,
+    "baseline_reward": 19.761000000000003,
+    "reference_reward": 90.0,
+    "gain_mean": 0.01695999999999458,
+    "normalized_gain_mean": 0.00024146129643068067,
+    "normalized_gain_se": 0.00013518923754195445,
+    "normalized_reward_mean": 0.00024146129643068067,
+    "normalized_reward_se": 0.00013518923754195445,
+    "cost_mean": 3.955291,
+    "warnings": ""
+   },
+   "cohort_studies": {
+    "n_runs": 5,
+    "n_instances": 20,
+    "reward_mean": -0.05181319999999997,
+    "baseline_reward": -0.33183699999999994,
+    "reference_reward": 3.24404,
+    "gain_mean": 0.2800238,
+    "normalized_gain_mean": 0.07830912528590887,
+    "normalized_gain_se": 0.020750942664713924,
+    "normalized_reward_mean": 0.013735246141770496,
+    "normalized_reward_se": 0.02220475858122047,
+    "cost_mean": 12.797261500000001,
+    "warnings": ""
+   },
+   "exploitable_poker": {
+    "n_runs": 5,
+    "n_instances": 120,
+    "reward_mean": 143.5,
+    "baseline_reward": 141.9,
+    "reference_reward": 1138.5,
+    "gain_mean": 1.5999999999999943,
+    "normalized_gain_mean": 0.001605458559100937,
+    "normalized_gain_se": 0.04133680711052414,
+    "normalized_reward_mean": 0.009851726539954229,
+    "normalized_reward_se": 0.04099538458189706,
+    "cost_mean": 13.202943,
+    "warnings": ""
+   }
+  },
+  "claude-code-sonnet-4.6": {
+   "blind_spectrum_monitoring": {
+    "n_runs": 5,
+    "n_instances": 90,
+    "reward_mean": 44.28216000000001,
+    "baseline_reward": 19.7601,
+    "reference_reward": 90.0,
+    "gain_mean": 24.52206000000001,
+    "normalized_gain_mean": 0.34911866332383745,
+    "normalized_gain_se": 0.020628021011291693,
+    "normalized_reward_mean": 0.3491103233246488,
+    "normalized_reward_se": 0.020628285326257878,
+    "cost_mean": 10.397260560000001,
+    "warnings": ""
+   },
+   "cohort_studies": {
+    "n_runs": 5,
+    "n_instances": 20,
+    "reward_mean": -0.932175,
+    "baseline_reward": -0.51115,
+    "reference_reward": 3.24404,
+    "gain_mean": -0.4210249999999999,
+    "normalized_gain_mean": -0.11211816179740572,
+    "normalized_gain_se": 0.07943038573641639,
+    "normalized_reward_mean": -0.24970786290907795,
+    "normalized_reward_se": 0.08925740179287144,
+    "cost_mean": 7.21415448,
+    "warnings": ""
+   },
+   "exploitable_poker": {
+    "n_runs": 5,
+    "n_instances": 120,
+    "reward_mean": 343.02,
+    "baseline_reward": 284.5,
+    "reference_reward": 1138.5,
+    "gain_mean": 58.52,
+    "normalized_gain_mean": 0.06852459016393443,
+    "normalized_gain_se": 0.034387263072115246,
+    "normalized_reward_mean": 0.20839884565628425,
+    "normalized_reward_se": 0.029223527379427218,
+    "cost_mean": 8.652264630000001,
+    "warnings": ""
+   }
+  },
+  "codex-gpt-5.4": {
+   "blind_spectrum_monitoring": {
+    "n_runs": 1,
+    "n_instances": 90,
+    "reward_mean": 32.82769999999999,
+    "baseline_reward": 19.7601,
+    "reference_reward": 90.0,
+    "gain_mean": 13.067599999999992,
+    "normalized_gain_mean": 0.1860424060968195,
+    "normalized_gain_se": 0.0,
+    "normalized_reward_mean": 0.18603197653725123,
+    "normalized_reward_se": 0.0,
+    "cost_mean": 3.1478285,
+    "warnings": ""
+   },
+   "cohort_studies": {
+    "n_runs": 1,
+    "n_instances": 20,
+    "reward_mean": -0.5207550000000001,
+    "baseline_reward": -0.37383900000000003,
+    "reference_reward": 3.24404,
+    "gain_mean": -0.14691600000000005,
+    "normalized_gain_mean": -0.04060832327449316,
+    "normalized_gain_se": 0.0,
+    "normalized_reward_mean": -0.12659283914759714,
+    "normalized_reward_se": 0.0,
+    "cost_mean": 7.763108,
+    "warnings": ""
+   },
+   "exploitable_poker": {
+    "n_runs": 1,
+    "n_instances": 120,
+    "reward_mean": 85.0,
+    "baseline_reward": 64.5,
+    "reference_reward": 1138.5,
+    "gain_mean": 20.5,
+    "normalized_gain_mean": 0.019087523277467412,
+    "normalized_gain_se": 0.0,
+    "normalized_reward_mean": -0.04836302119613892,
+    "normalized_reward_se": 0.0,
+    "cost_mean": 8.271512,
+    "warnings": ""
+   }
+  },
+  "icl-claude-opus-4.7": {
+   "blind_spectrum_monitoring": {
+    "n_runs": 5,
+    "n_instances": 90,
+    "reward_mean": 33.57226,
+    "baseline_reward": 19.7597,
+    "reference_reward": 90.0,
+    "gain_mean": 13.812560000000001,
+    "normalized_gain_mean": 0.1966472238871417,
+    "normalized_gain_se": 0.04387414348137684,
+    "normalized_reward_mean": 0.19663235524423747,
+    "normalized_reward_se": 0.04387495551438594,
+    "cost_mean": 7.576156299999999,
+    "warnings": ""
+   },
+   "cohort_studies": {
+    "n_runs": 5,
+    "n_instances": 20,
+    "reward_mean": -0.12072560000000002,
+    "baseline_reward": -0.029842000000000035,
+    "reference_reward": 3.24404,
+    "gain_mean": -0.09088359999999997,
+    "normalized_gain_mean": -0.027760194167046937,
+    "normalized_gain_se": 0.028261039345020434,
+    "normalized_reward_mean": -0.006886385678414911,
+    "normalized_reward_se": 0.027687057664930414,
+    "cost_mean": 6.967903699999999,
+    "warnings": ""
+   },
+   "exploitable_poker": {
+    "n_runs": 5,
+    "n_instances": 120,
+    "reward_mean": 116.67999999999999,
+    "baseline_reward": 157.70000000000002,
+    "reference_reward": 1138.5,
+    "gain_mean": -41.02000000000002,
+    "normalized_gain_mean": -0.041823001631321396,
+    "normalized_gain_se": 0.027003065711681914,
+    "normalized_reward_mean": -0.016837496268285394,
+    "normalized_reward_se": 0.026355465071168895,
+    "cost_mean": 17.46652605,
+    "warnings": ""
+   }
+  },
+  "icl-claude-sonnet-4.6": {
+   "blind_spectrum_monitoring": {
+    "n_runs": 5,
+    "n_instances": 90,
+    "reward_mean": 36.58424,
+    "baseline_reward": 19.7597,
+    "reference_reward": 90.0,
+    "gain_mean": 16.82454,
+    "normalized_gain_mean": 0.23952830497591834,
+    "normalized_gain_se": 0.017969076731835825,
+    "normalized_reward_mean": 0.23951422998618993,
+    "normalized_reward_se": 0.01796940930775165,
+    "cost_mean": 3.59543283,
+    "warnings": ""
+   },
+   "cohort_studies": {
+    "n_runs": 5,
+    "n_instances": 20,
+    "reward_mean": -0.987359,
+    "baseline_reward": -0.9317069999999998,
+    "reference_reward": 3.24404,
+    "gain_mean": -0.055652000000000076,
+    "normalized_gain_mean": -0.013327435785740874,
+    "normalized_gain_se": 0.050223943584408993,
+    "normalized_reward_mean": -0.26622135148827575,
+    "normalized_reward_se": 0.06275822352841909,
+    "cost_mean": 5.61744636,
+    "warnings": ""
+   },
+   "exploitable_poker": {
+    "n_runs": 5,
+    "n_instances": 120,
+    "reward_mean": 339.91999999999996,
+    "baseline_reward": 316.7,
+    "reference_reward": 1138.5,
+    "gain_mean": 23.21999999999999,
+    "normalized_gain_mean": 0.028255049890484295,
+    "normalized_gain_se": 0.023764423424886355,
+    "normalized_reward_mean": 0.2053139615882177,
+    "normalized_reward_se": 0.019434374734373174,
+    "cost_mean": 9.38512821,
+    "warnings": ""
+   }
+  },
+  "icl-gemini-3-flash": {
+   "blind_spectrum_monitoring": {
+    "n_runs": 5,
+    "n_instances": 90,
+    "reward_mean": 33.038859999999985,
+    "baseline_reward": 19.7597,
+    "reference_reward": 90.0,
+    "gain_mean": 13.279159999999987,
+    "normalized_gain_mean": 0.18905329276782684,
+    "normalized_gain_se": 0.012518443929425853,
+    "normalized_reward_mean": 0.189038283574652,
+    "normalized_reward_se": 0.01251867562374252,
+    "cost_mean": 0.68096565,
+    "warnings": ""
+   },
+   "cohort_studies": {
+    "n_runs": 5,
+    "n_instances": 20,
+    "reward_mean": -0.46719720000000003,
+    "baseline_reward": -0.819,
+    "reference_reward": 3.24404,
+    "gain_mean": 0.3518027999999999,
+    "normalized_gain_mean": 0.08658610301646055,
+    "normalized_gain_se": 0.01920821083934705,
+    "normalized_reward_mean": -0.11056598138761306,
+    "normalized_reward_se": 0.023354128497438516,
+    "cost_mean": 1.2471353,
+    "warnings": ""
+   },
+   "exploitable_poker": {
+    "n_runs": 5,
+    "n_instances": 120,
+    "reward_mean": 94.84,
+    "baseline_reward": 196.8,
+    "reference_reward": 1138.5,
+    "gain_mean": -101.96000000000001,
+    "normalized_gain_mean": -0.10827227354783901,
+    "normalized_gain_se": 0.01795916275468709,
+    "normalized_reward_mean": -0.03857100208976017,
+    "normalized_reward_se": 0.016829678143187216,
+    "cost_mean": 1.9132159899999999,
+    "warnings": ""
+   }
+  },
+  "icl-gemini-3.1-pro-preview": {
+   "blind_spectrum_monitoring": {
+    "n_runs": 5,
+    "n_instances": 90,
+    "reward_mean": 33.03251999999999,
+    "baseline_reward": 19.7597,
+    "reference_reward": 90.0,
+    "gain_mean": 13.27281999999999,
+    "normalized_gain_mean": 0.1889630311943427,
+    "normalized_gain_se": 0.016172633975213596,
+    "normalized_reward_mean": 0.1889480203305854,
+    "normalized_reward_se": 0.01617293330214262,
+    "cost_mean": 3.83594968,
+    "warnings": ""
+   },
+   "cohort_studies": {
+    "n_runs": 5,
+    "n_instances": 20,
+    "reward_mean": -1.5970238,
+    "baseline_reward": -0.24964199999999984,
+    "reference_reward": 3.24404,
+    "gain_mean": -1.3473818000000002,
+    "normalized_gain_mean": -0.3856624043058299,
+    "normalized_gain_se": 0.4369622570820472,
+    "normalized_reward_mean": -0.44865996978232686,
+    "normalized_reward_se": 0.45682824919942344,
+    "cost_mean": 1.83194716,
+    "warnings": ""
+   },
+   "exploitable_poker": {
+    "n_runs": 5,
+    "n_instances": 120,
+    "reward_mean": 76.4,
+    "baseline_reward": 43.5,
+    "reference_reward": 1138.5,
+    "gain_mean": 32.9,
+    "normalized_gain_mean": 0.030045662100456623,
+    "normalized_gain_se": 0.0035322519827970253,
+    "normalized_reward_mean": -0.056921086675291076,
+    "normalized_reward_se": 0.0038489560365834847,
+    "cost_mean": 3.9894627999999996,
+    "warnings": ""
+   }
+  },
+  "icl-gpt-5.4": {
+   "blind_spectrum_monitoring": {
+    "n_runs": 5,
+    "n_instances": 90,
+    "reward_mean": 46.197979999999994,
+    "baseline_reward": 19.761000000000003,
+    "reference_reward": 90.0,
+    "gain_mean": 26.436979999999995,
+    "normalized_gain_mean": 0.3763860533321942,
+    "normalized_gain_se": 0.014253549219623025,
+    "normalized_reward_mean": 0.3763860533321942,
+    "normalized_reward_se": 0.014253549219623025,
+    "cost_mean": 1.9346845000000001,
+    "warnings": ""
+   },
+   "cohort_studies": {
+    "n_runs": 5,
+    "n_instances": 20,
+    "reward_mean": -0.3877452,
+    "baseline_reward": -0.09771299999999994,
+    "reference_reward": 3.24404,
+    "gain_mean": -0.2900322000000001,
+    "normalized_gain_mean": -0.08679043603761262,
+    "normalized_gain_se": 0.043870446367217784,
+    "normalized_reward_mean": -0.08679043603761262,
+    "normalized_reward_se": 0.043870446367217784,
+    "cost_mean": 3.7341352999999997,
+    "warnings": ""
+   },
+   "exploitable_poker": {
+    "n_runs": 5,
+    "n_instances": 120,
+    "reward_mean": 95.76,
+    "baseline_reward": 133.6,
+    "reference_reward": 1138.5,
+    "gain_mean": -37.839999999999996,
+    "normalized_gain_mean": -0.03765548810826948,
+    "normalized_gain_se": 0.02628563959908093,
+    "normalized_reward_mean": -0.03765548810826948,
+    "normalized_reward_se": 0.02628563959908093,
+    "cost_mean": 4.6101349,
+    "warnings": ""
+   }
+  },
+  "icl-notepad-claude-sonnet-4-6": {
+   "blind_spectrum_monitoring": {
+    "n_runs": 5,
+    "n_instances": 90,
+    "reward_mean": 35.99298,
+    "baseline_reward": 19.7597,
+    "reference_reward": 90.0,
+    "gain_mean": 16.23328,
+    "normalized_gain_mean": 0.23111063022225134,
+    "normalized_gain_se": 0.03436353039446195,
+    "normalized_reward_mean": 0.23109639943621058,
+    "normalized_reward_se": 0.034364166402797956,
+    "cost_mean": 2.985492,
+    "warnings": ""
+   },
+   "cohort_studies": {
+    "n_runs": 5,
+    "n_instances": 20,
+    "reward_mean": -0.7838866,
+    "baseline_reward": -1.5791650000000004,
+    "reference_reward": 3.24404,
+    "gain_mean": 0.7952784000000004,
+    "normalized_gain_mean": 0.16488587982472241,
+    "normalized_gain_se": 0.0741895166385681,
+    "normalized_reward_mean": -0.20533342829347356,
+    "normalized_reward_se": 0.1070789036768202,
+    "cost_mean": 11.55971091,
+    "warnings": ""
+   },
+   "exploitable_poker": {
+    "n_runs": 5,
+    "n_instances": 120,
+    "reward_mean": 115.42,
+    "baseline_reward": 317.0,
+    "reference_reward": 1138.5,
+    "gain_mean": -201.57999999999998,
+    "normalized_gain_mean": -0.2453804017041996,
+    "normalized_gain_se": 0.03643511260321486,
+    "normalized_reward_mean": -0.018091352373370475,
+    "normalized_reward_se": 0.029785496072784363,
+    "cost_mean": 6.74607549,
+    "warnings": ""
+   }
+  },
+  "icl-notepad-gemini-3.1-pro-preview": {
+   "blind_spectrum_monitoring": {
+    "n_runs": 5,
+    "n_instances": 90,
+    "reward_mean": 29.12167999999999,
+    "baseline_reward": 19.7597,
+    "reference_reward": 90.0,
+    "gain_mean": 9.361979999999996,
+    "normalized_gain_mean": 0.13328502298538009,
+    "normalized_gain_se": 0.04286722040170844,
+    "normalized_reward_mean": 0.13326898161989764,
+    "normalized_reward_se": 0.04286801379834738,
+    "cost_mean": 2.7960348,
+    "warnings": ""
+   },
+   "cohort_studies": {
+    "n_runs": 5,
+    "n_instances": 20,
+    "reward_mean": -0.9912105999999999,
+    "baseline_reward": -0.23018800000000006,
+    "reference_reward": 3.24404,
+    "gain_mean": -0.7610225999999999,
+    "normalized_gain_mean": -0.21904797267191442,
+    "normalized_gain_se": 0.12819894940837923,
+    "normalized_reward_mean": -0.2673739202149291,
+    "normalized_reward_se": 0.13328105925398273,
+    "cost_mean": 1.5313784,
+    "warnings": ""
+   },
+   "exploitable_poker": {
+    "n_runs": 5,
+    "n_instances": 120,
+    "reward_mean": 53.5,
+    "baseline_reward": 36.5,
+    "reference_reward": 1138.5,
+    "gain_mean": 17.0,
+    "normalized_gain_mean": 0.015426497277676952,
+    "normalized_gain_se": 0.006065277646261711,
+    "normalized_reward_mean": -0.07970942382326598,
+    "normalized_reward_se": 0.006651344378724655,
+    "cost_mean": 1.3261488,
+    "warnings": ""
+   }
+  },
+  "icl-notepad-gpt-5.4": {
+   "blind_spectrum_monitoring": {
+    "n_runs": 5,
+    "n_instances": 90,
+    "reward_mean": 31.91484000000002,
+    "baseline_reward": 19.761400000000002,
+    "reference_reward": 90.0,
+    "gain_mean": 12.153440000000018,
+    "normalized_gain_mean": 0.1730307836431822,
+    "normalized_gain_se": 0.030207711667312755,
+    "normalized_reward_mean": 0.17303549310212296,
+    "normalized_reward_se": 0.030207539639170736,
+    "cost_mean": 1.0235845,
+    "warnings": ""
+   },
+   "cohort_studies": {
+    "n_runs": 5,
+    "n_instances": 20,
+    "reward_mean": -0.3883038,
+    "baseline_reward": -0.32885299999999995,
+    "reference_reward": 3.24404,
+    "gain_mean": -0.05945080000000005,
+    "normalized_gain_mean": -0.01663940117994019,
+    "normalized_gain_se": 0.01839350028514281,
+    "normalized_reward_mean": -0.08695759381378579,
+    "normalized_reward_se": 0.019665728859758563,
+    "cost_mean": 4.4385547,
+    "warnings": ""
+   },
+   "exploitable_poker": {
+    "n_runs": 5,
+    "n_instances": 120,
+    "reward_mean": 81.34,
+    "baseline_reward": 81.1,
+    "reference_reward": 1138.5,
+    "gain_mean": 0.24000000000000626,
+    "normalized_gain_mean": 0.00022697181766598,
+    "normalized_gain_se": 0.014380654470894531,
+    "normalized_reward_mean": -0.0520051746442432,
+    "normalized_reward_se": 0.015131957446038291,
+    "cost_mean": 1.5183047,
+    "warnings": ""
+   }
+  },
+  "mem0-gpt-5.4": {
+   "blind_spectrum_monitoring": {
+    "n_runs": 5,
+    "n_instances": 90,
+    "reward_mean": 33.79351999999999,
+    "baseline_reward": 19.7601,
+    "reference_reward": 90.0,
+    "gain_mean": 14.033419999999984,
+    "normalized_gain_mean": 0.1997927104110339,
+    "normalized_gain_se": 0.04251405185902124,
+    "normalized_reward_mean": 0.19978245703953618,
+    "normalized_reward_se": 0.04251459660832965,
+    "cost_mean": 1.3890744,
+    "warnings": ""
+   },
+   "cohort_studies": {
+    "n_runs": 5,
+    "n_instances": 20,
+    "reward_mean": -0.46813380000000004,
+    "baseline_reward": -0.8795190000000002,
+    "reference_reward": 3.24404,
+    "gain_mean": 0.4113852000000001,
+    "normalized_gain_mean": 0.09976459655360823,
+    "normalized_gain_se": 0.059235809982024004,
+    "normalized_reward_mean": -0.11084625344841467,
+    "normalized_reward_se": 0.07309407887826089,
+    "cost_mean": 5.9987073,
+    "warnings": ""
+   },
+   "exploitable_poker": {
+    "n_runs": 5,
+    "n_instances": 120,
+    "reward_mean": 73.41999999999999,
+    "baseline_reward": 90.4,
+    "reference_reward": 1138.5,
+    "gain_mean": -16.98000000000001,
+    "normalized_gain_mean": -0.01620074420379736,
+    "normalized_gain_se": 0.03964105003130101,
+    "normalized_reward_mean": -0.059886555876206594,
+    "normalized_reward_se": 0.04134519309165746,
+    "cost_mean": 3.5733655,
+    "warnings": ""
+   }
+  },
+  "icl-claude-sonnet-4-6-rerun": {
+   "blind_spectrum_monitoring": {
+    "n_runs": 5,
+    "n_instances": 90,
+    "reward_mean": 38.39002,
+    "baseline_reward": 19.7597,
+    "reference_reward": 90.0,
+    "gain_mean": 18.63032,
+    "normalized_gain_mean": 0.2652369081567134,
+    "normalized_gain_se": 0.02283445322436473,
+    "normalized_reward_mean": 0.26522330898788415,
+    "normalized_reward_se": 0.02283487584981771,
+    "cost_mean": 3.47040876,
+    "warnings": ""
+   },
+   "cohort_studies": {
+    "n_runs": 5,
+    "n_instances": 20,
+    "reward_mean": -0.5746488000000001,
+    "baseline_reward": -0.9205909999999999,
+    "reference_reward": 3.24404,
+    "gain_mean": 0.34594219999999987,
+    "normalized_gain_mean": 0.08306671107236148,
+    "normalized_gain_se": 0.05223278147630553,
+    "normalized_reward_mean": -0.14272024293836205,
+    "normalized_reward_se": 0.06509465569491456,
+    "cost_mean": 5.99172207,
+    "warnings": ""
+   },
+   "exploitable_poker": {
+    "n_runs": 5,
+    "n_instances": 120,
+    "reward_mean": 238.30000000000004,
+    "baseline_reward": 329.7,
+    "reference_reward": 1138.5,
+    "gain_mean": -91.39999999999995,
+    "normalized_gain_mean": -0.1130069238377843,
+    "normalized_gain_se": 0.032840993908284294,
+    "normalized_reward_mean": 0.1041894715892129,
+    "normalized_reward_se": 0.026432277712230407,
+    "cost_mean": 9.66620805,
+    "warnings": ""
+   }
+  },
+  "logbook-icl-claude-sonnet-4-6": {
+   "blind_spectrum_monitoring": {
+    "n_runs": 5,
+    "n_instances": 90,
+    "reward_mean": 52.478480000000005,
+    "baseline_reward": 19.7418,
+    "reference_reward": 90.0,
+    "gain_mean": 32.73668,
+    "normalized_gain_mean": 0.46594817402096833,
+    "normalized_gain_se": 0.011997332665957854,
+    "normalized_reward_mean": 0.46580218966670933,
+    "normalized_reward_se": 0.012000612165768296,
+    "cost_mean": 3.58003194,
+    "warnings": ""
+   },
+   "cohort_studies": {
+    "n_runs": 5,
+    "n_instances": 20,
+    "reward_mean": -0.869576,
+    "baseline_reward": -0.549816,
+    "reference_reward": 3.24404,
+    "gain_mean": -0.31976000000000004,
+    "normalized_gain_mean": -0.0842836417618381,
+    "normalized_gain_se": 0.11784363246542413,
+    "normalized_reward_mean": -0.2309754790374992,
+    "normalized_reward_se": 0.13378660005414647,
+    "cost_mean": 5.14578597,
+    "warnings": ""
+   },
+   "exploitable_poker": {
+    "n_runs": 5,
+    "n_instances": 120,
+    "reward_mean": 200.24,
+    "baseline_reward": 274.09999999999997,
+    "reference_reward": 1138.5,
+    "gain_mean": -73.85999999999994,
+    "normalized_gain_mean": -0.0854465525219805,
+    "normalized_gain_se": 0.04547262124942969,
+    "normalized_reward_mean": 0.06631505622449997,
+    "normalized_reward_se": 0.039114870940399074,
+    "cost_mean": 17.93455428,
+    "warnings": ""
+   }
+  }
+ },
+ "points": {
+  "icl-claude-sonnet-4.6": {
+   "blind_spectrum_monitoring": [
+    {
+     "run_index": 0,
+     "reward": 37.5052,
+     "baseline_reward": 19.7597,
+     "gain": 17.745500000000003,
+     "normalized_gain": 0.25263986628758706,
+     "normalized_reward": 0.2526260339697319,
+     "cost_usd": 3.7048572
+    },
+    {
+     "run_index": 1,
+     "reward": 36.330099999999995,
+     "baseline_reward": 19.7597,
+     "gain": 16.570399999999996,
+     "normalized_gain": 0.23591015414228006,
+     "normalized_reward": 0.23589601218696152,
+     "cost_usd": 3.39641535
+    },
+    {
+     "run_index": 2,
+     "reward": 37.13590000000001,
+     "baseline_reward": 19.7597,
+     "gain": 17.376200000000008,
+     "normalized_gain": 0.24738220081634058,
+     "normalized_reward": 0.24736827118837118,
+     "cost_usd": 3.1266597
+    },
+    {
+     "run_index": 3,
+     "reward": 32.108399999999996,
+     "baseline_reward": 19.7597,
+     "gain": 12.348699999999997,
+     "normalized_gain": 0.1758064814643445,
+     "normalized_reward": 0.17579122709605763,
+     "cost_usd": 3.62089155
+    },
+    {
+     "run_index": 4,
+     "reward": 39.84159999999999,
+     "baseline_reward": 19.7597,
+     "gain": 20.081899999999994,
+     "normalized_gain": 0.2859028221690396,
+     "normalized_reward": 0.28588960548982745,
+     "cost_usd": 4.12834035
+    }
+   ],
+   "cohort_studies": [
+    {
+     "run_index": 0,
+     "reward": -1.3358029999999999,
+     "baseline_reward": -0.9317069999999998,
+     "gain": -0.404096,
+     "normalized_gain": -0.0967721463968004,
+     "normalized_reward": -0.37049117633768863,
+     "cost_usd": 5.69614695
+    },
+    {
+     "run_index": 1,
+     "reward": -0.867443,
+     "baseline_reward": -0.9317069999999998,
+     "gain": 0.06426399999999988,
+     "normalized_gain": 0.015389821270302029,
+     "normalized_reward": -0.23033719128852434,
+     "cost_usd": 5.3679132
+    },
+    {
+     "run_index": 2,
+     "reward": -0.886075,
+     "baseline_reward": -0.9317069999999998,
+     "gain": 0.045631999999999895,
+     "normalized_gain": 0.010927865122096694,
+     "normalized_reward": -0.2359127080906339,
+     "cost_usd": 7.0853052
+    },
+    {
+     "run_index": 3,
+     "reward": -1.526034,
+     "baseline_reward": -0.9317069999999998,
+     "gain": -0.594327,
+     "normalized_gain": -0.14232830676762748,
+     "normalized_reward": -0.4274166881873077,
+     "cost_usd": 5.19772275
+    },
+    {
+     "run_index": 4,
+     "reward": -0.32144,
+     "baseline_reward": -0.9317069999999998,
+     "gain": 0.6102669999999999,
+     "normalized_gain": 0.1461455878433248,
+     "normalized_reward": -0.06694899353722435,
+     "cost_usd": 4.7401437
+    }
+   ],
+   "exploitable_poker": [
+    {
+     "run_index": 0,
+     "reward": 379.0,
+     "baseline_reward": 316.7,
+     "gain": 62.30000000000001,
+     "normalized_gain": 0.07580919931856901,
+     "normalized_reward": 0.24420340332371382,
+     "cost_usd": 8.7725622
+    },
+    {
+     "run_index": 1,
+     "reward": 314.5,
+     "baseline_reward": 316.7,
+     "gain": -2.1999999999999886,
+     "normalized_gain": -0.0026770503772207215,
+     "normalized_reward": 0.18001791223007266,
+     "cost_usd": 8.90220705
+    },
+    {
+     "run_index": 2,
+     "reward": 323.79999999999995,
+     "baseline_reward": 316.7,
+     "gain": 7.099999999999966,
+     "normalized_gain": 0.008639571671939603,
+     "normalized_reward": 0.18927256443427204,
+     "cost_usd": 10.97648895
+    },
+    {
+     "run_index": 3,
+     "reward": 290.19999999999993,
+     "baseline_reward": 316.7,
+     "gain": -26.500000000000057,
+     "normalized_gain": -0.03224628863470438,
+     "normalized_reward": 0.15583640163200313,
+     "cost_usd": 8.9346669
+    },
+    {
+     "run_index": 4,
+     "reward": 392.1,
+     "baseline_reward": 316.7,
+     "gain": 75.40000000000003,
+     "normalized_gain": 0.09174981747383797,
+     "normalized_reward": 0.257239526321027,
+     "cost_usd": 9.33971595
+    }
+   ]
+  },
+  "icl-claude-sonnet-4-6-rerun": {
+   "blind_spectrum_monitoring": [
+    {
+     "run_index": 0,
+     "reward": 38.691,
+     "baseline_reward": 19.7597,
+     "gain": 18.931300000000004,
+     "normalized_gain": 0.26952191263420006,
+     "normalized_reward": 0.2695083927732456,
+     "cost_usd": 3.5194749
+    },
+    {
+     "run_index": 1,
+     "reward": 33.994499999999995,
+     "baseline_reward": 19.7597,
+     "gain": 14.234799999999996,
+     "normalized_gain": 0.20265858773382225,
+     "normalized_reward": 0.20264383035065978,
+     "cost_usd": 3.37100055
+    },
+    {
+     "run_index": 2,
+     "reward": 38.07959999999999,
+     "baseline_reward": 19.7597,
+     "gain": 18.319899999999993,
+     "normalized_gain": 0.26081750789788755,
+     "normalized_reward": 0.2608038269337546,
+     "cost_usd": 3.63962565
+    },
+    {
+     "run_index": 3,
+     "reward": 37.2578,
+     "baseline_reward": 19.7597,
+     "gain": 17.498100000000004,
+     "normalized_gain": 0.24911767176393043,
+     "normalized_reward": 0.24910377425646718,
+     "cost_usd": 3.1787967
+    },
+    {
+     "run_index": 4,
+     "reward": 43.9272,
+     "baseline_reward": 19.7597,
+     "gain": 24.1675,
+     "normalized_gain": 0.34406886075372684,
+     "normalized_reward": 0.3440567206252936,
+     "cost_usd": 3.643146
+    }
+   ],
+   "cohort_studies": [
+    {
+     "run_index": 0,
+     "reward": -1.3628990000000003,
+     "baseline_reward": -0.9205909999999999,
+     "gain": -0.44230800000000037,
+     "normalized_gain": -0.10620580790951235,
+     "normalized_reward": -0.3785994955342302,
+     "cost_usd": 6.94566615
+    },
+    {
+     "run_index": 1,
+     "reward": -0.102969,
+     "baseline_reward": -0.9205909999999999,
+     "gain": 0.817622,
+     "normalized_gain": 0.1963251966380695,
+     "normalized_reward": -0.0015728271957861837,
+     "cost_usd": 5.6867214
+    },
+    {
+     "run_index": 2,
+     "reward": -0.400489,
+     "baseline_reward": -0.9205909999999999,
+     "gain": 0.520102,
+     "normalized_gain": 0.12488549405697646,
+     "normalized_reward": -0.0906039434991156,
+     "cost_usd": 5.1631794
+    },
+    {
+     "run_index": 3,
+     "reward": -0.327239,
+     "baseline_reward": -0.9205909999999999,
+     "gain": 0.5933519999999999,
+     "normalized_gain": 0.14247408714001308,
+     "normalized_reward": -0.06868431030061171,
+     "cost_usd": 5.96155395
+    },
+    {
+     "run_index": 4,
+     "reward": -0.679648,
+     "baseline_reward": -0.9205909999999999,
+     "gain": 0.2409429999999999,
+     "normalized_gain": 0.057854585436260715,
+     "normalized_reward": -0.17414063816206649,
+     "cost_usd": 6.20148945
+    }
+   ],
+   "exploitable_poker": [
+    {
+     "run_index": 0,
+     "reward": 229.70000000000005,
+     "baseline_reward": 329.7,
+     "gain": -99.99999999999994,
+     "normalized_gain": -0.1236399604352126,
+     "normalized_reward": 0.09563140611006075,
+     "cost_usd": 7.49290455
+    },
+    {
+     "run_index": 1,
+     "reward": 293.50000000000006,
+     "baseline_reward": 329.7,
+     "gain": -36.19999999999993,
+     "normalized_gain": -0.0447576656775469,
+     "normalized_reward": 0.15912031047865466,
+     "cost_usd": 11.40289365
+    },
+    {
+     "run_index": 2,
+     "reward": 163.80000000000004,
+     "baseline_reward": 329.7,
+     "gain": -165.89999999999995,
+     "normalized_gain": -0.20511869436201774,
+     "normalized_reward": 0.030052741566325054,
+     "cost_usd": 13.2021693
+    },
+    {
+     "run_index": 3,
+     "reward": 202.00000000000003,
+     "baseline_reward": 329.7,
+     "gain": -127.69999999999996,
+     "normalized_gain": -0.15788822947576653,
+     "normalized_reward": 0.06806647427604741,
+     "cost_usd": 7.5530493
+    },
+    {
+     "run_index": 4,
+     "reward": 302.50000000000006,
+     "baseline_reward": 329.7,
+     "gain": -27.199999999999932,
+     "normalized_gain": -0.03363006923837776,
+     "normalized_reward": 0.16807642551497667,
+     "cost_usd": 8.68002345
+    }
+   ]
+  },
+  "logbook-icl-claude-sonnet-4-6": {
+   "blind_spectrum_monitoring": [
+    {
+     "run_index": 0,
+     "reward": 53.981699999999975,
+     "baseline_reward": 19.7418,
+     "gain": 34.23989999999998,
+     "normalized_gain": 0.4873438260587373,
+     "normalized_reward": 0.4872036902575488,
+     "cost_usd": 3.6266667
+    },
+    {
+     "run_index": 1,
+     "reward": 52.350699999999996,
+     "baseline_reward": 19.7418,
+     "gain": 32.60889999999999,
+     "normalized_gain": 0.4641294539285093,
+     "normalized_reward": 0.463982972422728,
+     "cost_usd": 3.65164875
+    },
+    {
+     "run_index": 2,
+     "reward": 49.683000000000014,
+     "baseline_reward": 19.7418,
+     "gain": 29.941200000000013,
+     "normalized_gain": 0.42615950878331654,
+     "normalized_reward": 0.4260026481014822,
+     "cost_usd": 3.72713145
+    },
+    {
+     "run_index": 3,
+     "reward": 51.94130000000002,
+     "baseline_reward": 19.7418,
+     "gain": 32.199500000000015,
+     "normalized_gain": 0.4583023760927552,
+     "normalized_reward": 0.45815430174119814,
+     "cost_usd": 3.5539014
+    },
+    {
+     "run_index": 4,
+     "reward": 54.4357,
+     "baseline_reward": 19.7418,
+     "gain": 34.6939,
+     "normalized_gain": 0.4938057052415234,
+     "normalized_reward": 0.49366733581058947,
+     "cost_usd": 3.3408114
+    }
+   ],
+   "cohort_studies": [
+    {
+     "run_index": 0,
+     "reward": -0.3837069999999999,
+     "baseline_reward": -0.549816,
+     "gain": 0.16610900000000006,
+     "normalized_gain": 0.04378368604396162,
+     "normalized_reward": -0.08558202835457916,
+     "cost_usd": 5.2665939
+    },
+    {
+     "run_index": 1,
+     "reward": -0.3670359999999999,
+     "baseline_reward": -0.549816,
+     "gain": 0.18278000000000005,
+     "normalized_gain": 0.048177896050878063,
+     "normalized_reward": -0.08059332930949714,
+     "cost_usd": 4.9516908
+    },
+    {
+     "run_index": 2,
+     "reward": -0.327877,
+     "baseline_reward": -0.549816,
+     "gain": 0.221939,
+     "normalized_gain": 0.058499584591507954,
+     "normalized_reward": -0.06887522806143963,
+     "cost_usd": 5.7894678
+    },
+    {
+     "run_index": 3,
+     "reward": -2.645811,
+     "baseline_reward": -0.549816,
+     "gain": -2.0959950000000003,
+     "normalized_gain": -0.5524708897754687,
+     "normalized_reward": -0.7625033926804287,
+     "cost_usd": 5.0032809
+    },
+    {
+     "run_index": 4,
+     "reward": -0.6234489999999999,
+     "baseline_reward": -0.549816,
+     "gain": -0.07363299999999995,
+     "normalized_gain": -0.01940848572006949,
+     "normalized_reward": -0.15732341678155148,
+     "cost_usd": 4.71789645
+    }
+   ],
+   "exploitable_poker": [
+    {
+     "run_index": 0,
+     "reward": 295.1,
+     "baseline_reward": 274.09999999999997,
+     "gain": 21.000000000000057,
+     "normalized_gain": 0.02429430819065254,
+     "normalized_reward": 0.16071250870733408,
+     "cost_usd": 15.4417503
+    },
+    {
+     "run_index": 1,
+     "reward": 120.40000000000002,
+     "baseline_reward": 274.09999999999997,
+     "gain": -153.69999999999993,
+     "normalized_gain": -0.17781119851920396,
+     "normalized_reward": -0.013135635386605607,
+     "cost_usd": 19.0650552
+    },
+    {
+     "run_index": 2,
+     "reward": 150.5,
+     "baseline_reward": 274.09999999999997,
+     "gain": -123.59999999999997,
+     "normalized_gain": -0.1429893567792688,
+     "normalized_reward": 0.016817593790426914,
+     "cost_usd": 24.12412395
+    },
+    {
+     "run_index": 3,
+     "reward": 138.70000000000002,
+     "baseline_reward": 274.09999999999997,
+     "gain": -135.39999999999995,
+     "normalized_gain": -0.15664044423877826,
+     "normalized_reward": 0.005075131853915835,
+     "cost_usd": 17.28902895
+    },
+    {
+     "run_index": 4,
+     "reward": 296.5,
+     "baseline_reward": 274.09999999999997,
+     "gain": 22.400000000000034,
+     "normalized_gain": 0.025913928736696012,
+     "normalized_reward": 0.1621056821574286,
+     "cost_usd": 13.752813
+    }
+   ]
+  }
+ },
+ "tests": {
+  "exploitable_poker": {
+   "logbook": [
+    0.02429430819065254,
+    -0.17781119851920396,
+    -0.1429893567792688,
+    -0.15664044423877826,
+    0.025913928736696012
+   ],
+   "icl": [
+    -0.1236399604352126,
+    -0.0447576656775469,
+    -0.20511869436201774,
+    -0.15788822947576653,
+    -0.03363006923837776
+   ],
+   "p_one_sided": 0.2896825396825397,
+   "logbook_min_above_icl_max": false
+  },
+  "blind_spectrum_monitoring": {
+   "logbook": [
+    0.4873438260587373,
+    0.4641294539285093,
+    0.42615950878331654,
+    0.4583023760927552,
+    0.4938057052415234
+   ],
+   "icl": [
+    0.26952191263420006,
+    0.20265858773382225,
+    0.26081750789788755,
+    0.24911767176393043,
+    0.34406886075372684
+   ],
+   "p_one_sided": 0.003968253968253968,
+   "logbook_min_above_icl_max": true
+  },
+  "cohort_studies": {
+   "logbook": [
+    0.04378368604396162,
+    0.048177896050878063,
+    0.058499584591507954,
+    -0.5524708897754687,
+    -0.01940848572006949
+   ],
+   "icl": [
+    -0.10620580790951235,
+    0.1963251966380695,
+    0.12488549405697646,
+    0.14247408714001308,
+    0.057854585436260715
+   ],
+   "p_one_sided": 0.8849206349206349,
+   "logbook_min_above_icl_max": false
+  }
+ },
+ "board_3_tasks": [
+  {
+   "run": "claude-code-sonnet-4.6",
+   "gain_3": 0.10184169723012206,
+   "reward_3": 0.10260043535728502,
+   "cost_3": 26.263679670000002
+  },
+  {
+   "run": "logbook-icl-claude-sonnet-4-6",
+   "gain_3": 0.09873932657904992,
+   "reward_3": 0.1003805889512367,
+   "cost_3": 26.66037219
+  },
+  {
+   "run": "mem0-gpt-5.4",
+   "gain_3": 0.09445218758694825,
+   "reward_3": 0.009683215904971636,
+   "cost_3": 10.961147200000001
+  },
+  {
+   "run": "icl-claude-sonnet-4.6",
+   "gain_3": 0.08481863969355392,
+   "reward_3": 0.059535613362043965,
+   "cost_3": 18.5980074
+  },
+  {
+   "run": "icl-gpt-5.4",
+   "gain_3": 0.08398004306210405,
+   "reward_3": 0.08398004306210405,
+   "cost_3": 10.2789547
+  },
+  {
+   "run": "icl-claude-sonnet-4-6-rerun",
+   "gain_3": 0.07843223179709687,
+   "reward_3": 0.07556417921291167,
+   "cost_3": 19.12833888
+  },
+  {
+   "run": "icl-gemini-3-flash",
+   "gain_3": 0.0557890407454828,
+   "reward_3": 0.013300433365759588,
+   "cost_3": 3.84131694
+  },
+  {
+   "run": "codex-gpt-5.4",
+   "gain_3": 0.054840535366597915,
+   "reward_3": 0.003692038731171724,
+   "cost_3": 19.1824485
+  },
+  {
+   "run": "icl-notepad-gpt-5.4",
+   "gain_3": 0.05220611809363599,
+   "reward_3": 0.011357574881364657,
+   "cost_3": 6.9804439
+  },
+  {
+   "run": "icl-notepad-claude-sonnet-4-6",
+   "gain_3": 0.05020536944759138,
+   "reward_3": 0.0025572062564555124,
+   "cost_3": 21.2912784
+  },
+  {
+   "run": "icl-claude-opus-4.7",
+   "gain_3": 0.04235467602959112,
+   "reward_3": 0.05763615776584572,
+   "cost_3": 32.01058605
+  },
+  {
+   "run": "ace-gpt-5.4",
+   "gain_3": 0.0267186817138135,
+   "reward_3": 0.007942811326051803,
+   "cost_3": 29.9554955
+  },
+  {
+   "run": "icl-notepad-gemini-3.1-pro-preview",
+   "gain_3": -0.023445484136285794,
+   "reward_3": -0.07127145413943249,
+   "cost_3": 5.653562
+  },
+  {
+   "run": "icl-gemini-3.1-pro-preview",
+   "gain_3": -0.05555123700367685,
+   "reward_3": -0.10554434537567751,
+   "cost_3": 9.65735964
+  }
+ ],
+ "warnings": {
+  "ace-gpt-5.4": {},
+  "claude-code-sonnet-4.6": {},
+  "codex-gpt-5.4": {},
+  "icl-claude-opus-4.7": {},
+  "icl-claude-sonnet-4.6": {},
+  "icl-gemini-3-flash": {},
+  "icl-gemini-3.1-pro-preview": {},
+  "icl-gpt-5.4": {},
+  "icl-notepad-claude-sonnet-4-6": {},
+  "icl-notepad-gemini-3.1-pro-preview": {},
+  "icl-notepad-gpt-5.4": {},
+  "mem0-gpt-5.4": {},
+  "icl-claude-sonnet-4-6-rerun": {},
+  "logbook-icl-claude-sonnet-4-6": {}
+ }
+}

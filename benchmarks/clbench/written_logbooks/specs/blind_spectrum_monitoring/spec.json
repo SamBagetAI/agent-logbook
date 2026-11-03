@@ -1,0 +1,7 @@
+{
+ "goal": "Maximize scan-by-scan long-run spectrum availability accuracy by reporting persistent transmitter occupancy across scans. Unit: One transmitter-occupancy report. Reward is the per-scan IoU between the true long-run available spectrum and the availability implied by complementing your reported transmitters. An instance completes after you submit one transmitter-occupancy report for the current scan.",
+ "instructions_file": "instructions.txt",
+ "tools_file": "tools.json",
+ "view": "At each step the agent receives the task's prompt for that step (the first step of each instance repeats the brief). It answers with one JSON object that matches the response schema named in <tools>, and then receives feedback on that answer. The agent keeps the whole run in its context: every prompt, every answer and every piece of feedback, across all instances, in order. In these runs nothing is dropped (the context holds about 1,000,000 tokens). The Logbook's text is added to the current prompt only. In step[\"action\"], \"tool\" is the name of the response schema and \"arguments\" is the agent's JSON answer; step[\"result\"] is the feedback text.",
+ "example_step_file": "example_step.txt"
+}
