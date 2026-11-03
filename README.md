@@ -18,6 +18,12 @@ Four public benchmarks, each scored with its own metrics.
 | [τ²-bench](benchmarks/tau2-bench): customer service conversations | the whole conversation | none |
 | [Vending Bench](benchmarks/vending-bench): 30 days of a vending business | its last 8 to 9 days, plus its own notes | none |
 
+![Runs still in business on AhaBench, Claude Haiku 5.5, 15 seeds per setup: with no memory and with its own notes, every run is out by day 53; with the Logbook, 80% are still in business at day 290 and 60% complete the year.](benchmarks/ahabench/results/survival.png)
+
+![Mean net profit by day on AhaBench, seeds 0 to 4: Haiku 5.5 and Sonnet 5.5 without memory stay below zero; with the Logbook, Haiku ends near +$630 and Sonnet near +$1,580.](benchmarks/ahabench/results/sonnet_vs_haiku.png)
+
+![Learning gain per task on Continual Learning Bench, Claude Sonnet 4.6, 5 runs per system: on Blind Spectrum Monitoring every Logbook run is above every run without it (mean 46.6% vs 26.5%); on poker and cohort studies the runs overlap, and one Logbook run on cohort studies collapses to -55%.](benchmarks/clbench/results/gain_by_task.png)
+
 - **It helps when the feedback an agent needs has left its view, or is spread over many steps.** Where the agent already sees what it needs, it changes nothing.
 - **A small model with a Logbook can beat a bigger one without.** On AhaBench, Claude Haiku 5.5 with the Logbook beat Claude Sonnet 5.5 without it on 4 of 5 seeds, at about 1/26 of the cost.
 - **What the record says matters.** A raw list of error messages did not change the agent's behavior. The same facts in the task's terms ("order refused, missing: account number") did.
