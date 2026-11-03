@@ -55,9 +55,9 @@ The Logbooks written by hand for each benchmark are in [logbook/](logbook).
 
 ## Limits
 
-- Two strong effects, on two tasks. The other tasks show none.
-- The author prompt was designed from AhaBench failures.
-- Each benchmark folder gives its protocol, numbers, limits and the commands to reproduce.
+- **It does not help everywhere.** No effect on τ²-bench, on Vending Bench, or on 2 of the 3 Continual Learning Bench tasks.
+- **The author prompt was refined on AhaBench.** There, on fresh seeds, its Logbooks kept 15/15 runs in business. Unchanged, on Continual Learning Bench, they helped on 1 task of 3.
+- **Few runs**: 5 to 15 per setup. Each benchmark folder gives its protocol, numbers, limits and the commands to reproduce.
 
 ## Repository
 
