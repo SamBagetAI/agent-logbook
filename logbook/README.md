@@ -38,7 +38,7 @@ To have a model write it, see [author/](../author): from a spec of your agent an
 
 To write it yourself, here is what the three benchmarks taught us:
 
-- **It helps when feedback leaves the agent's view before the agent needs it.** If the agent still sees everything it needs (a short conversation, a long history window), expect nothing.
+- **It helps when the agent needs a total over many steps.** A refusal that left its view, a transmitter seen in earlier scans: what one prompt no longer holds, or holds without adding it up. On Continual Learning Bench the agent kept its whole history and still gained where there was something to add up (radio scans, code fixes). If one prompt already holds what the agent needs (a short conversation), expect nothing on the score, and a cost: on poker the model wrote twice as much reasoning with the Logbook in front of it, and on cohort studies one run applied the rule set the Logbook listed as best and collapsed.
 - **Record outcomes, in the task's terms.** The same supplier refusal, kept as a raw error line ("x10 [read_email from 3 different senders: ...]: We can prepare this order, but we still need the following before we can proceed: account number"), did not change what Haiku did. Kept as an outcome of the agent's own goal, per supplier ("Bunch Vending Support: order refused: missing info x3 (missing: account number)"), it did.
 - **Only what the agent was shown.** Parse tool results, never the environment's state. It keeps the comparison fair, and it is all you have outside a benchmark.
 - **Short and stable.** The same sections, in the same order, at every call.

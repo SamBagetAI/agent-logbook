@@ -23,7 +23,7 @@ Four public benchmarks, each scored with its own metrics.
 
 ![Continual Learning Bench, all 6 tasks, mean normalized reward: ICL with a Logbook, Claude Sonnet 4.6, 27.4%; then the 12 published systems, led by ICL with Claude Sonnet 4.6 at 19.6%, ICL with GPT-5.4 at 18.9% and Claude Code with Sonnet 4.6 at 18.5%.](benchmarks/clbench/results/board.png)
 
-- **It helps when the feedback an agent needs has left its view, or is spread over many steps.** Where the agent already sees what it needs, it changes nothing.
+- **It helps when the agent needs a total over many steps**: a refusal that left its view 8 actions ago, a transmitter seen in earlier scans but silent in this one. When one prompt already holds what the agent needs, it gains nothing, and it is not free: on the poker task the model wrote twice as much reasoning with it, at twice the cost, and on cohort studies one run applied the rule set the Logbook listed as best and collapsed.
 - **A small model with a Logbook can beat a bigger one without.** On AhaBench, Claude Haiku 5.5 with the Logbook beat Claude Sonnet 5.5 without it on 4 of 5 seeds, at about 1/26 of the cost.
 - **What the record says matters.** A raw list of error messages did not change the agent's behavior. The same facts in the task's terms ("order refused, missing: account number") did.
 - **A model can write it.** From a description of the agent and one failed run, Claude Opus 5.5 wrote Logbooks that kept Haiku in business at day 60 in 15/15 runs (no memory: 5/15). From the task descriptions alone, it wrote the six Logbooks used on Continual Learning Bench.

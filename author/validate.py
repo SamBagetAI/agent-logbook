@@ -1,9 +1,10 @@
 """Run a written Logbook on the steps its author has seen, and print one JSON line.
 
-  python validate.py my_logbook.py spec.json start|past [max_chars]
+  python validate.py my_logbook.py spec.json start|past|<steps file> [max_chars]
 
 start: the spec's example step only. past: every step of the spec's past runs
-(`past_runs_steps_file`, a JSON list of {"action", "result", "seen"}, optionally .gz).
+(`past_runs_steps_file`, a JSON list of {"action", "result", "seen"}, optionally .gz). A path:
+that steps file, in the same format, e.g. the run so far of a mid-run rewrite (rewrite.py).
 """
 import gzip
 import importlib.util
@@ -25,11 +26,11 @@ try:
     sys.modules["written_logbook"] = mod
     m.loader.exec_module(mod)
     book = mod.Logbook()
-    if mode == "past":
-        f = base / spec["past_runs_steps_file"]
-        steps = json.loads(gzip.decompress(f.read_bytes()) if f.suffix == ".gz" else f.read_text())
-    else:
+    if mode == "start":
         steps = [{"action": None, "result": "", "seen": (base / spec["example_step_file"]).read_text()}]
+    else:
+        f = base / spec["past_runs_steps_file"] if mode == "past" else Path(mode)
+        steps = json.loads(gzip.decompress(f.read_bytes()) if f.suffix == ".gz" else f.read_text())
     errors, first_error, longest, slowest = 0, None, 0, 0.0
     for step in steps:
         for fn, args in ((book.observe, (step,)), (book.brief, ())):
