@@ -1,0 +1,7 @@
+{
+ "decisions": 313,
+ "errors": 0,
+ "longest_brief": 2117,
+ "slowest_call_s": 0.0,
+ "logbook": "../benchmarks/clbench/rewrite/poker_at_hand31_haiku.py"
+}

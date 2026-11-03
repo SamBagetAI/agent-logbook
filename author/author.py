@@ -151,8 +151,13 @@ def api_key(key_file: Path | None) -> str:
     raise SystemExit("Set ANTHROPIC_API_KEY (or ANTHROPIC_KEY_FILE) before running.")
 
 
-def call(model: str, system: str, messages: list[dict], key: str, max_tokens: int = 16000) -> tuple[str, dict]:
+def call(model: str, system: str, messages: list[dict], key: str, max_tokens: int = 16000,
+         effort: str | None = None, thinking: str | None = None) -> tuple[str, dict]:
     body = {"model": model, "max_tokens": max_tokens, "system": system, "messages": messages}
+    if effort:
+        body["output_config"] = {"effort": effort}
+    if thinking:
+        body["thinking"] = {"type": thinking}
     last = None
     for attempt in range(6):
         try:
@@ -188,7 +193,11 @@ def main() -> int:
                     help="the trial report is the current run so far: the new Logbook replays it, then takes over")
     ap.add_argument("--steps-file", type=Path, default=None,
                     help="validate the drafts on these steps (JSON list of {action, result, seen}, .gz allowed)")
-    ap.add_argument("--max-tokens", type=int, default=16000, help="longest answer (16,000 in the AhaBench tests)")
+    ap.add_argument("--max-tokens", type=int, default=16000, help="longest answer, thinking included (16,000 in the AhaBench tests)")
+    ap.add_argument("--effort", default=None, choices=["low", "medium", "high", "xhigh", "max"],
+                    help="the author's effort (output_config.effort); the API's default when omitted")
+    ap.add_argument("--thinking", default=None, choices=["adaptive", "disabled"],
+                    help="the author's thinking; omitted by default (adaptive on current models; disabled is refused by Opus 5.5)")
     ap.add_argument("--key-file", type=Path, default=None)
     a = ap.parse_args()
     spec = json.loads(a.spec.read_text())
@@ -208,7 +217,7 @@ def main() -> int:
                      {"role": "user", "content": template.format(outcome=a.trial_outcome, report=a.trial_report.read_text())}]
     mode = str(a.steps_file.resolve()) if a.steps_file else ("past" if a.past_runs else "start")
     for _ in range(3):  # first draft + at most two repairs
-        text, usage = call(a.author, system, messages, key, a.max_tokens)
+        text, usage = call(a.author, system, messages, key, a.max_tokens, a.effort, a.thinking)
         pin, pout = PRICE.get(a.author, (0.0, 0.0))
         cost += (usage.get("input_tokens", 0) * pin + usage.get("output_tokens", 0) * pout) / 1e6
         blocks = re.findall(r"```python\s*\n(.*?)```", text, re.S)
@@ -230,7 +239,8 @@ def main() -> int:
             break
         problem = v.get("fatal") or json.dumps({k: v[k] for k in v if k not in ("ok", "sample_brief")})[:3000]
         messages += [{"role": "assistant", "content": text}, {"role": "user", "content": REPAIR.format(problem=problem)}]
-    log = {"name": a.name, "author": a.author, "prompt_version": a.prompt_version, "past_runs": a.past_runs,
+    log = {"name": a.name, "author": a.author, "effort": a.effort, "thinking": a.thinking, "max_tokens": a.max_tokens,
+           "prompt_version": a.prompt_version, "past_runs": a.past_runs,
            "revised_from": a.revise_from, "same_run": a.same_run, "spec": str(a.spec), "rounds": rounds,
            "trial_report_chars": len(a.trial_report.read_text()) if a.trial_report else 0,
            "final_ok": bool(rounds and rounds[-1].get("validation", {}).get("ok")), "cost_usd": round(cost, 4),

@@ -49,7 +49,8 @@ def write_inputs(rows: list[dict], folder: Path) -> tuple[Path, Path]:
 
 def run_author(spec: Path, logbook: Path, report_path: Path, steps: Path, name: str, out: Path,
                author: str = "claude-opus-5-5", outcome: str = "", past_runs: bool = False,
-               key_file: Path | None = None, max_tokens: int = 16000) -> Path | None:
+               key_file: Path | None = None, max_tokens: int = 16000, effort: str | None = None,
+               thinking: str | None = None) -> Path | None:
     """author.py in same-run mode. The new Logbook's path, or None when the author failed. A Logbook
     already written under this name is reused."""
     log = out / f"{name}.json"
@@ -59,6 +60,8 @@ def run_author(spec: Path, logbook: Path, report_path: Path, steps: Path, name: 
                "--steps-file", str(steps), "--trial-outcome", outcome, "--max-tokens", str(max_tokens)]
         cmd += ["--past-runs"] if past_runs else []
         cmd += ["--key-file", str(key_file)] if key_file else []
+        cmd += ["--effort", effort] if effort else []
+        cmd += ["--thinking", thinking] if thinking else []
         r = subprocess.run(cmd, capture_output=True, text=True)
         if not log.exists():
             print((r.stdout + r.stderr)[-3000:], file=sys.stderr)
@@ -68,7 +71,8 @@ def run_author(spec: Path, logbook: Path, report_path: Path, steps: Path, name: 
 
 def rewrite_mid_run(book: LogbookAdapter, spec: str | Path, name: str, out: str | Path = "written",
                     author: str = "claude-opus-5-5", outcome: str = "", past_runs: bool = False,
-                    key_file: str | Path | None = None) -> Path | None:
+                    key_file: str | Path | None = None, max_tokens: int = 16000, effort: str | None = None,
+                    thinking: str | None = None) -> Path | None:
     """The author rewrites the Logbook that `book` runs, from the run so far; the new one replays every
     decision and takes over. None, and the current Logbook stays, when the author failed."""
     if book.path is None:
@@ -76,7 +80,7 @@ def rewrite_mid_run(book: LogbookAdapter, spec: str | Path, name: str, out: str 
     out = Path(out)
     report_path, steps = write_inputs(book.rows, out / f"{name}_input")
     path = run_author(Path(spec), Path(book.path), report_path, steps, name, out, author, outcome, past_runs,
-                      Path(key_file) if key_file else None)
+                      Path(key_file) if key_file else None, max_tokens, effort, thinking)
     if path is None:
         return None
     return path if book.rewrite(path)["ok"] else None
@@ -112,6 +116,9 @@ def main() -> int:
     ap.add_argument("--outcome", default="", help="one sentence on the run so far, e.g. 'After 30 hands: -120 chips.'")
     ap.add_argument("--past-runs", action="store_true", help="the spec's past run was shown when the Logbook was written")
     ap.add_argument("--key-file", type=Path, default=None)
+    ap.add_argument("--max-tokens", type=int, default=16000, help="the author's longest answer, thinking included")
+    ap.add_argument("--effort", default=None, choices=["low", "medium", "high", "xhigh", "max"])
+    ap.add_argument("--thinking", default=None, choices=["adaptive", "disabled"])
     a = ap.parse_args()
     rows = [json.loads(line) for line in a.trace.read_text(encoding="utf-8").splitlines() if line.strip()]
     if any("seen" not in r for r in rows):
@@ -120,7 +127,8 @@ def main() -> int:
     so_far[-1]["action"] = so_far[-1]["result"] = None  # the decision the agent is about to make
     report_path, steps = write_inputs(so_far, a.out / f"{a.name}_input")
     print(json.dumps({"decisions_shown": len(so_far), "report_chars": len(report_path.read_text())}))
-    path = run_author(a.spec, a.logbook, report_path, steps, a.name, a.out, a.author, a.outcome, a.past_runs, a.key_file)
+    path = run_author(a.spec, a.logbook, report_path, steps, a.name, a.out, a.author, a.outcome, a.past_runs, a.key_file,
+                      a.max_tokens, a.effort, a.thinking)
     if path is None:
         print("the author failed; see", a.out / f"{a.name}.json")
         return 1

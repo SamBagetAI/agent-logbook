@@ -64,6 +64,7 @@ With AhaBench's spec and past run (about 115,000 input tokens), a Logbook cost $
 | `--past-runs` | off | show the author the spec's past run |
 | `--prompt-version` | 2 | 1: without the design principles (6/15 on AhaBench, against 15/15); 3: version 2 plus a count on every fact, not yet run on any benchmark |
 | `--max-chars` | 4000 | the longest text the Logbook may show |
+| `--max-tokens`, `--effort`, `--thinking` | 16,000, API defaults | the author's answer limit, thinking included, its effort and its thinking. Claude Haiku 5.5 at its default effort spent all 16,000 tokens thinking, three times, and returned no code: give it `--effort low --max-tokens 32000` |
 | `--revise-from`, `--trial-report`, `--trial-outcome` | | rewrite a Logbook after a trial run (step 4) |
 
 ### 3. Plug it into the agent loop
@@ -131,6 +132,8 @@ python rewrite.py my_agent/spec.json --logbook written/my_logbook.py --trace tri
 
 This cuts the trace after 80 decisions, has the author rewrite the Logbook from them, then replays the whole trace through the new Logbook, the decisions after the cut included, and prints its text at the cut and at the end.
 
+**Tried once, offline, on the poker task of Continual Learning Bench.** The published poker Logbook pools every count over "the opponent", while the task changes opponents four times per rollout; its author could not know it, since the spec's example was one hand against one opponent. On rollout 0 of the published Logbook run, cut at the start of hand 31 (91 decisions: 20 hands against Tom, then 10 against Alex, with the prompt's `NOTICE: You are now playing against Alex`), Claude Haiku 5.5 as the author, at `--effort low`, rewrote it in one round for $0.0125. The new Logbook keys every section by the opponent's name (`per opp: Tom 20 hands net +2470; Alex 8 hands net -55`, then `Alex RESPONSE TO YOUR BETS/RAISES`, `Alex TENDENCIES`, `Alex SHOWDOWNS`), and replayed on the whole rollout, 313 decisions: 0 errors, texts of at most 2,117 characters, the same 103 hands recorded as the original. At its default effort, Haiku had spent all 16,000 output tokens thinking, three times, and returned no code ([`benchmarks/clbench/rewrite/failed/`](../benchmarks/clbench/rewrite/failed)). Files: [`benchmarks/clbench/rewrite/`](../benchmarks/clbench/rewrite). Whether the rewritten Logbook helps the agent is not measured: no rollout was run with it.
+
 ## What the author is told
 
 The system prompt, version 2, with a past run:
@@ -196,7 +199,7 @@ The five design principles were written after looking at why version 1 failed on
 
 - **One benchmark, one agent, one author.** AhaBench Aha-Vending, Claude Haiku 5.5 as the agent, Claude Opus 5.5 as the author, 3 Logbooks per setup, runs stopped after day 60.
 - **The design principles come from AhaBench.** They were written after looking at AhaBench failures, then tested on fresh AhaBench seeds. Whether they hold on another task needs a second task.
-- **`rewrite.py` has not been tried with the author.** Its mechanics ran on a toy run and on one published poker rollout (the report and the steps the author would get are in [`benchmarks/clbench/rewrite/`](../benchmarks/clbench/rewrite)); the author call itself has not been made.
+- **`rewrite.py` was tried once, offline.** One poker rollout, cut at hand 31, Claude Haiku 5.5 as the author: the result replays cleanly and keys by opponent, but no rollout was run with it, so its effect on the score is unknown.
 - **`harness_files` has not been used in any test.** Every Logbook written so far saw the loop through `view` only, a sentence a human wrote.
 - **Version 2 was only tested with a past run.** Without one, version 1 and the task-specific prompt failed (2/15 and 1/15).
 - **Validation checks that the code runs, not that it helps.** Every Logbook written in the tests passed it, including the 9 written without a past run, which kept fewer runs in business than no memory.

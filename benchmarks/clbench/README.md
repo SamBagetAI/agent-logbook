@@ -76,7 +76,7 @@ API spend: $324, stateless baselines included. ICL + Logbook, 6 tasks: $216. ICL
 ## Limits
 
 - One model, 5 rollouts per task. Poker, cohort and codebase are noisy.
-- The Logbooks were written once and not revised. The poker one was written without knowing that the opponent changes.
+- The Logbooks were written once and not revised. The poker one was written without knowing that the opponent changes. Rewritten offline after 30 hands of rollout 0, by Claude Haiku 5.5 from the run so far ([`author/`](../../author), step 5), it keys every count by the opponent's name ([`rewrite/`](rewrite)); that version has not been run.
 
 ## Reproduce
 
