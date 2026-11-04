@@ -30,9 +30,22 @@ Four public benchmarks, each scored with its own metrics.
 
 ## How it works
 
-1. **Observe**: after each action, read what the agent received.
-2. **Record**: keep a structured record of the run, in the task's terms.
-3. **Show**: put a short summary of it in every prompt.
+![How the Logbook sits next to an agent: during the run, the world shows the agent a situation, the agent acts, what happened is counted by the memory, a program, and its memory block is in every message; before the run, a memory author, an LLM, writes the memory's code from the agent's spec, and a skill tells the agent how to read it.](assets/architecture.svg)
+
+During the run, at every step:
+
+1. The world shows the agent a situation: a prompt, the result of its last action.
+2. The memory, a program, reads it and counts what happened, in the task's terms: "orders to this supplier: sent 3, refused 2, reason: account number missing".
+3. The agent gets its message with the memory block on top, decides, and acts.
+4. The world answers. Back to 1.
+
+The agent's own context can stay short: its last 8 actions on AhaBench, the current episode only in the `logbook_only` variant. The memory is what carries over, and it costs nothing: no model call, a few milliseconds.
+
+Before the run:
+
+5. You describe the agent: its goal, its tools, one example of what it receives.
+6. The memory author, an LLM, writes the memory's code from that, once. It can rewrite it during the run, from what the run has shown.
+7. Optionally, a skill of four lines in the system prompt tells the agent how to read the memory: counts are counts, not rules.
 
 ## Use it
 
