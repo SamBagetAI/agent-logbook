@@ -72,6 +72,16 @@ The Logbooks written by hand for each benchmark are in [logbook/](logbook).
 - **On Continual Learning Bench, the comparison is with runs published on other days.** A same-day rerun of the baseline, on 3 of the 6 tasks, confirmed the gain on radio spectrum only.
 - **Few runs**: 5 to 15 per setup. Each benchmark folder gives its protocol, numbers, limits and the commands to reproduce.
 
+## Potential improvements
+
+Not built, or built and not measured. Each is a change to the harness, not to the model.
+
+- **The record checks the agent's reasoning.** Where the agent's answers carry its reasoning, a `check(reasoning)` next to `observe` and `brief` would compare what the agent states about the record with the record, and show each mismatch as one line of fact at the next decision: an absolute ("never", "always", "0%") resting on fewer than five observations, a number that is no longer the current count, a claim about a counterpart the record has never seen. In a poker rollout with the whole history in context, 62 decisions of 293 state a "never" or "always" on four observations or fewer; without the history, 1 or 2, but about one absolute per decision remains without its count. Nothing of the reasoning would be stored, and the line would never say what to do. The risk is that the agent argues with the line instead of reading the counts. Cost to try: one Logbook rewritten offline, one rollout.
+- **The Logbook as the only memory.** Clear the agent's context at the end of every episode, keep the Logbook. Being measured on Continual Learning Bench; see [benchmarks/clbench/logbook_only](benchmarks/clbench/logbook_only).
+- **A skill for reading it.** Four lines in the agent's instructions: counts are counts, not rules; start from today's numbers; no advice in there; do not restate it. Being measured with the above.
+- **A rewrite during the run.** The author rereads its Logbook and the run so far, and rewrites the code ([author/](author), step 5). Runs end to end; no gain shown on the one task tried.
+- **A database behind the record.** Worth it when the record outgrows a dictionary: thousands of counterparts, several agents feeding one record, a record kept from one run to the next. Same shape either way: code writes, code queries, a short text goes into every prompt.
+
 ## Repository
 
 ```text
