@@ -1,6 +1,6 @@
-# The Logbook code
+# The Register code
 
-A Logbook is a record kept by code, outside the model. Every Logbook here does the same three things:
+A Register is a record kept by code, outside the model. Every Register here does the same three things:
 
 | Step | When | What it does |
 |---|---|---|
@@ -10,9 +10,9 @@ A Logbook is a record kept by code, outside the model. Every Logbook here does t
 
 It never reads the benchmark's internals: every line it shows comes from something the agent was shown. It keeps its record for the whole run, even when the agent's own history is trimmed or lost.
 
-There is one Logbook per benchmark, because the record has to be written in the task's terms. These files are the exact code behind the published results, moved here from `benchmarks/*/code` without changes. The runners in [benchmarks/](../benchmarks) load them from this folder. Replaying the published AhaBench logs through these files rebuilds every Logbook block the agents saw, byte for byte (37,837 model calls, [`verify_replay.py`](../benchmarks/ahabench/code/verify_replay.py)).
+There is one Register per benchmark, because the record has to be written in the task's terms. These files are the exact code behind the published results, moved here from `benchmarks/*/code` without changes. The runners in [benchmarks/](../benchmarks) load them from this folder. Replaying the published AhaBench logs through these files rebuilds every Register block the agents saw, byte for byte (37,837 model calls, [`verify_replay.py`](../benchmarks/ahabench/code/verify_replay.py)).
 
-## The Logbooks
+## The Registers
 
 | Benchmark | Code | What it records | How the agent sees it | What it checks | Result |
 |---|---|---|---|---|---|
@@ -34,11 +34,11 @@ Same three steps, different method names:
 
 ## Writing one for your task
 
-To have a model write it, see [author/](../author): from a spec of your agent and one past run, Claude Opus 5.5 writes the Logbook, a Python class with `observe(step)` and `brief()` (record and show, no check), and [`author/adapter.py`](../author/adapter.py) plugs it into your loop. On AhaBench, its Logbooks kept 15 of 15 runs in business at day 60, against 14 of 15 for the one written by hand.
+To have a model write it, see [author/](../author): from a spec of your agent and one past run, Claude Opus 5.5 writes the Register, a Python class with `observe(step)` and `brief()` (record and show, no check), and [`author/adapter.py`](../author/adapter.py) plugs it into your loop. On AhaBench, its Registers kept 15 of 15 runs in business at day 60, against 14 of 15 for the one written by hand.
 
 To write it yourself, here is what the three benchmarks taught us:
 
-- **It helps when the agent needs a total over many steps.** A refusal that left its view, a transmitter seen in earlier scans: what one prompt no longer holds, or holds without adding it up. On Continual Learning Bench the agent kept its whole history and still gained where there was something to add up (radio scans, code fixes). If one prompt already holds what the agent needs (a short conversation), expect nothing on the score, and a cost: on poker the model wrote twice as much reasoning with the Logbook in front of it, and on cohort studies one run applied the rule set the Logbook listed as best and collapsed.
+- **It helps when the agent needs a total over many steps.** A refusal that left its view, a transmitter seen in earlier scans: what one prompt no longer holds, or holds without adding it up. On Continual Learning Bench the agent kept its whole history and still gained where there was something to add up (radio scans, code fixes). If one prompt already holds what the agent needs (a short conversation), expect nothing on the score, and a cost: on poker the model wrote twice as much reasoning with the Register in front of it, and on cohort studies one run applied the rule set the Register listed as best and collapsed.
 - **Record outcomes, in the task's terms.** The same supplier refusal, kept as a raw error line ("x10 [read_email from 3 different senders: ...]: We can prepare this order, but we still need the following before we can proceed: account number"), did not change what Haiku did. Kept as an outcome of the agent's own goal, per supplier ("Bunch Vending Support: order refused: missing info x3 (missing: account number)"), it did.
 - **Only what the agent was shown.** Parse tool results, never the environment's state. It keeps the comparison fair, and it is all you have outside a benchmark.
 - **Short and stable.** The same sections, in the same order, at every call.
@@ -47,7 +47,7 @@ To write it yourself, here is what the three benchmarks taught us:
 A minimal skeleton:
 
 ```python
-class Logbook:
+class Register:
     def __init__(self):
         self.record = {}                 # organized around the task: suppliers, orders, products, ...
 
