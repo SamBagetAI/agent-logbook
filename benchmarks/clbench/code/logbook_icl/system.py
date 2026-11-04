@@ -10,8 +10,9 @@ One Logbook per task, chosen from the instance id (or, when it has no task prefi
 stateless baseline gets a fresh one for every instance.
 
 Optional, off by default: a rewrite in the middle of the rollout (rewrite_after_instances=K). At the first turn of
-the (K+1)-th instance, the author model reads the Logbook and the rollout so far, as the system saw it, and rewrites
-it; the new Logbook replays every turn so far and takes over (agent-logbook author/rewrite.py). The author's call is
+the (K+1)-th instance the system is asked about (an instance that ends before the system acts, e.g. a poker hand
+where the opponent folds first, is not counted), the author model reads the Logbook and the rollout so far, as the
+system saw it, and rewrites it; the new Logbook replays every turn so far and takes over (agent-logbook author/rewrite.py). The author's call is
 recorded as a usage event, so it counts in the rollout's cost. The stateless baseline, reset at every instance, never
 reaches K and is unchanged.
 """

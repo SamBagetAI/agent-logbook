@@ -54,7 +54,7 @@ export ANTHROPIC_API_KEY=...            # or ANTHROPIC_KEY_FILE=/path/to/key
 python author.py my_agent/spec.json --past-runs --name my_logbook
 ```
 
-This writes `written/my_logbook.py` and `written/my_logbook.json` (every round, its validation, tokens and cost). [`validate.py`](validate.py) runs each draft on the steps the author saw, in a separate process: no exception, a text within the limit, every call under a second, a picklable object. On a problem the author gets the error and fixes it, at most twice. No human edits.
+This writes `written/my_logbook.py` and `written/my_logbook.json` (every round: the author's full answer, its validation, tokens and cost; with the spec and, for a rewrite, the `_input/` folder, every call can be read again without being made again). [`validate.py`](validate.py) runs each draft on the steps the author saw, in a separate process: no exception, a text within the limit, every call under a second, a picklable object. On a problem the author gets the error and fixes it, at most twice. No human edits.
 
 With AhaBench's spec and past run (about 115,000 input tokens), a Logbook cost $0.77 to $1.54 with Opus 5.5. All 24 Logbooks written in the tests passed validation at their first complete draft; the extra rounds came from first drafts cut by the 16,000-token answer limit (`--max-tokens`).
 
@@ -199,7 +199,7 @@ The five design principles were written after looking at why version 1 failed on
 
 - **One benchmark, one agent, one author.** AhaBench Aha-Vending, Claude Haiku 5.5 as the agent, Claude Opus 5.5 as the author, 3 Logbooks per setup, runs stopped after day 60.
 - **The design principles come from AhaBench.** They were written after looking at AhaBench failures, then tested on fresh AhaBench seeds. Whether they hold on another task needs a second task.
-- **`rewrite.py` was tried once, offline.** One poker rollout, cut at hand 31, Claude Haiku 5.5 as the author: the result replays cleanly and keys by opponent, but no rollout was run with it, so its effect on the score is unknown.
+- **`rewrite.py` was tried on one task.** Offline on one published poker rollout, then live in one development rollout on other seeds ([`benchmarks/clbench/rewrite/dev_seed7/`](../benchmarks/clbench/rewrite/dev_seed7)): the mechanism runs end to end, Claude Haiku 5.5 as the author keys the record by opponent, the agent reads it, and the rollout still ends below its stateless baseline, as most poker rollouts do. Its effect on a score is not measured.
 - **`harness_files` has not been used in any test.** Every Logbook written so far saw the loop through `view` only, a sentence a human wrote.
 - **Version 2 was only tested with a past run.** Without one, version 1 and the task-specific prompt failed (2/15 and 1/15).
 - **Validation checks that the code runs, not that it helps.** Every Logbook written in the tests passed it, including the 9 written without a past run, which kept fewer runs in business than no memory.

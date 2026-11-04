@@ -29,3 +29,51 @@ whether the mechanism runs end to end on the real harness and what the agent doe
 score improves. That needs 5 rollouts on `default` against 5 same-day rollouts without the rewrite.
 
 **What this run does not settle.** The effect on the score, and whether a rewrite at 25% is the right point.
+
+## During the run (2026-11-04, 12:40, 55 hands played)
+
+- The first attempt (2026-11-03, 18:08) was cut: the process hung on network errors during the night and was killed when the
+  session ended; the harness writes traces at the end, so nothing of it was saved but the author's output at hand 31
+  ([`author_attempt1_cut/`](author_attempt1_cut)). The second attempt runs detached, with live snapshots on disk.
+- The rewrite happened at hand 34, not 31: `rewrite_after_instances` counts the instances the system was asked about, and
+  three hands (24, 28, 31) ended before the system acted, the opponent having folded first. The rule is kept; it is now
+  said in the system's docstring. Under the evaluation's permuted runs, hands are shuffled within each stage, so a rewrite
+  "after 30 hands" lands somewhere in stage 2 either way.
+- The author's call: Claude Haiku 5.5, 1 round, $0.019, a 292-line Logbook that keys every count by the opponent's name,
+  valid on the 101 decisions so far. The Logbook's text went from 2,206 to 1,243 characters at the switch.
+
+## Result (2026-11-04, 13:51)
+
+The run completed: 120 hands, 294 calls, $13.28 (the author's call: $0.019); the stateless baseline, $2.44. Traces, run and
+baseline, in [`traces/`](traces); the author's inputs, code and log in [`author/`](author).
+
+**The mechanism ran end to end on the real harness.** The rewrite happened at hand 34 (see above), Haiku's Logbook replayed the
+101 decisions so far with 0 errors and took over; 0 Logbook errors over the 294 calls; the author's call is in the rollout's
+cost under its own call type. The agent read the new text: at hand 34 its reasoning quotes the per-opponent line
+("when we are button and act last: F check 4/bet 1") and draws on it.
+
+**On reward, no sign that it helped.** Mean reward per hand, the rollout against the stateless baseline on the same hands:
+
+| Stage | Rollout (Logbook, rewritten at hand 34) | Stateless baseline |
+|---|---|---|
+| Tom, calling station, hands 1-20 | +5.16 | +5.04 |
+| Alex, loose aggressive, 21-33 (old Logbook) | -2.82 | -2.00 |
+| Alex, 34-50 (rewritten Logbook) | +0.85 | **+5.92** |
+| Tom again, 51-60 | **+4.38** | -0.32 |
+| fit-or-fold, 61-95 | +0.22 | +0.55 |
+| Alex again, 96-120 | -0.15 | -0.62 |
+| Total | +128.7 | **+176.3** |
+
+The rise from -2.82 to +0.85 against Alex after the rewrite, which looked like an effect while the run was going, is the
+cards: on the same hands, the agent with no memory at all went from -2.00 to +5.92. With the per-opponent Logbook the agent
+captured +0.85 of it. The one stage the rollout wins clearly is the return of Tom (+4.38 against -0.32): memory of the
+calling station, which the Logbook had from hand 1 and the baseline never has. Over the 120 hands the rollout is 47.6 below
+the baseline. That is the published pattern on this task: of the 5 published ICL + Logbook rollouts on the evaluation
+schedule, 3 are below their stateless baseline (120, 139 and 151 against 274), and the task's normalized gain is negative for
+ICL with or without the Logbook.
+
+**What this settles, and not.** One rollout, one seed: it says the mechanism works and what the agent did with the rewritten
+text, not what it does to the score. It gives no reason to expect a gain on poker from the rewrite alone: the agent used the
+per-opponent facts and still played Alex worse than no memory. The next question is not poker. It is whether a rewrite helps
+on a task where the Logbook already helps (radio spectrum, code fixes), or on a task where the first Logbook missed something
+the run shows. That needs 5 rollouts against 5 same-day controls, on the evaluation schedule.
