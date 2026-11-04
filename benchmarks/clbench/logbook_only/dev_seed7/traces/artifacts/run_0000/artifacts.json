@@ -1,0 +1,26 @@
+{
+  "artifact_type": "logbook_only",
+  "messages": [],
+  "message_count": 0,
+  "interaction_count": 294,
+  "model": "claude-sonnet-4-6",
+  "context_tokens": 0,
+  "has_truncated": false,
+  "truncation_count": 0,
+  "provider_state": {
+    "provider": "anthropic",
+    "provider_mode": "auto",
+    "continuity_mode": "provider_native_stateful",
+    "sent_message_count": 0,
+    "previous_response_id": null,
+    "response_ids": [],
+    "hidden_state_used": false,
+    "metadata": {},
+    "native_message_count": 0,
+    "encrypted_reasoning_item_count": 0
+  },
+  "logbook_task": "exploitable_poker",
+  "logbook_errors": 0,
+  "logbook_last_text": "=== LOGBOOK (facts from this run) ===\n[1] RESULTS: hands done 97, total profit +2310\n  showdown: 41 hands, won 16, net +1020\n  opp folded: 31 hands, won 31, net +1475\n  you folded: 25 hands, won 0, net -295\n  as Button/SB: 60 hands, net +508\n  as BB: 37 hands, net +1692\n[2] OPP RESPONSE TO YOUR BETS/RAISES\n  PREFLOP: fold 7/call 16/reraise 4 (n=27, fold 25%)\n  FLOP: fold 20/call 23/reraise 0 (n=43, fold 46%)\n  TURN: fold 2/call 16/reraise 0 (n=18, fold 11%)\n  RIVER: fold 2/call 12/reraise 0 (n=14, fold 14%)\n  size small(<.5p): fold 1/call 2/reraise 0 (n=3, fold 33%)\n  size med(.5-1p): fold 23/call 50/reraise 0 (n=73, fold 31%)\n  size big(>1p): fold 7/call 15/reraise 4 (n=26, fold 26%)\n[3] OPP AGGRESSION\n  preflop (opp on button): limp 22 / raise 15\n  FLOP opp first to act: check 34 / bet 9\n  TURN opp first to act: check 22 / bet 1\n  RIVER opp first to act: check 20 / bet 0\n  FLOP after your check: check 13 / bet 6\n  TURN after your check: check 15 / bet 1\n  RIVER after your check: check 12 / bet 2\n  opp bet size avg 0.31 pot (n=19)\n[4] OPP SHOWDOWN HANDS vs their line (last 8)\n  #69 opp 6\u2663K\u2665 | board 6\u2660K\u26633\u26634\u26654\u2660 | opp: F:x F:call T:x T:call R:x | you 6\u26657\u2665 -50\n  #74 opp J\u26632\u2665 | board K\u2663A\u2660T\u26604\u26634\u2660 | opp: F:x T:x R:x | you 2\u26632\u2666 +10\n  #80 opp 7\u26668\u2666 | board 9\u26632\u26667\u2663T\u26656\u2663 | opp: F:x F:call T:x R:x | you 5\u26666\u2660 -22\n  #87 opp J\u2660K\u2660 | board T\u2665Q\u26603\u26632\u26608\u2666 | opp: P:limp P:call F:call T:call R:call | you Q\u2663J\u2665 +275\n  #88 opp 6\u26656\u2660 | board 4\u2660Q\u2666J\u26604\u26655\u2660 | opp: F:x F:call T:x R:x | you 8\u2665K\u2663 -22\n  #96 opp 5\u2665Q\u2663 | board 5\u2663Q\u26658\u26666\u2665A\u2666 | opp: F:bet0.2p F:call T:x T:call R:x | you 8\u26637\u2666 -125\n  #106 opp 4\u26654\u2663 | board K\u2663K\u26667\u26602\u26606\u2660 | opp: F:bet0.2p T:x R:x R:call | you 9\u2665Q\u2663 -60\n  #115 opp 3\u2666K\u2663 | board 6\u2663A\u26609\u26662\u26667\u2666 | opp: P:raise(+10) F:bet0.2p T:x R:x | you 4\u26638\u2663 -30\n[5] YOUR FOLDS\n  PREFLOP x13; FLOP x8; TURN x2; RIVER x2\n  chips lost in hands you folded: 295\n[6] LAST HANDS\n  #112 BTN 2\u26663\u2666 | you: P:C5 P:FOLD(to 10) | opp: - | -10 you folded\n  #113 BTN K\u26662\u2665 | you: P:C5 F:FOLD(to 10) | opp: F:bet0.5p | -10 you folded\n  #114 BTN Q\u26664\u2665 | you: P:C5 P:FOLD(to 10) | opp: - | -10 you folded\n  #115 BB 4\u26638\u2663 | you: P:C10 F:X F:C10 T:X R:X | opp: P:raise(+10) F:bet0.2p T:x R:x | -30 showdown\n  #119 BB 8\u26654\u2663 | you: P:X F:X F:FOLD(to 10) | opp: P:limp F:bet0.5p | -10 you folded\n  #120 BTN Q\u26633\u2666 | you: P:C5 | opp: F:bet0.5p | in progress",
+  "logbook_rewrite": null
+}

@@ -92,6 +92,7 @@ class LogbookICLSystem(ICLSystem):
         author_effort: str = "low",
         author_max_tokens: int = 32000,
         rewrite_dir: str = "",
+        usage_note_file: str = "",
     ):
         """
         Args:
@@ -105,7 +106,12 @@ class LogbookICLSystem(ICLSystem):
             specs_dir: the folder of specs the Logbooks were written from, one <task name>/spec.json each.
             author_model, author_effort, author_max_tokens: the author's model, effort and answer limit.
             rewrite_dir: where the rewritten Logbooks are written (default: a temporary folder per rollout).
+            usage_note_file: a text file telling the model how to read the Logbook, appended to the system prompt
+                (stable across calls, so cached). Default: no note; the model gets the Logbook's header line only.
         """
+        if usage_note_file:
+            note = Path(usage_note_file).expanduser().read_text().strip()
+            system_prompt = (system_prompt.rstrip() + "\n\n" + note) if system_prompt else note
         super().__init__(model=model, max_tokens=max_tokens, system_prompt=system_prompt, name=name,
                          reserve_tokens=reserve_tokens, provider_mode=provider_mode,
                          anthropic_max_tokens=anthropic_max_tokens)
@@ -218,3 +224,4 @@ class LogbookICLSystem(ICLSystem):
                           "logbook_errors": self._book.errors if self._book else 0,
                           "logbook_last_text": self._last_text, "logbook_rewrite": self._rewrite})
         return artifacts
+
