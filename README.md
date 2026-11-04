@@ -2,6 +2,8 @@
 
 # Agent Register
 
+Until 4 November 2026 this was called the Logbook; the code, the folder names and the run names still say `logbook` until the next release.
+
 An agent only knows what it is sent at each call. The Register is a record kept by code, outside the model, and shown to the agent at every decision.
 
 ![How the Register works. A supplier refuses an order because it lacks the account number. Eight actions later, the refusal has left the agent's view. Without a Register, the agent sends the same order again and the run stops. With the Register, the refusal stays in every prompt and the order goes through.](assets/how-it-works.gif)
