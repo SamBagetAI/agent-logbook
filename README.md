@@ -30,7 +30,7 @@ Four public benchmarks, each scored with its own metrics.
 
 ## How it works
 
-![How the Logbook sits next to an agent: during the run, the world shows the agent a situation, the agent acts, what happened is counted by the memory, a program, and its memory block is in every message; before the run, a memory author, an LLM, writes the memory's code from the agent's spec, and the agent's own skill says how to read it.](assets/architecture.png)
+![How the Logbook sits next to an agent: during the run, the world shows the agent a situation, the agent acts, what happened is counted by the memory, a program, and its memory block is in every message; before the run, a memory author, an LLM, writes the memory's code from the agent's spec, and the agent's own skill says how to read it.](assets/architecture-light.png)
 
 During the run, at every step:
 
