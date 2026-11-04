@@ -43,3 +43,28 @@ What the decisions show (same measures as [`../rewrite/dev_seed7/ANALYSIS.md`](.
 
 Traces (run, baseline, artifacts) in [`dev_seed7/traces/`](dev_seed7/traces) and [`dev_seed7_note/traces/`](dev_seed7_note/traces).
 Not measured: the other five tasks, and the evaluation schedule.
+
+## The other tasks, one rollout each (2026-11-04, evening)
+
+Evaluation schedule, one rollout, the stateless baseline skipped (`LOGBOOK_SKIP_BASELINE=1`), Register as the only memory,
+with the skill. Published rollouts of the same model for comparison. Traces in [`sanity/`](sanity).
+
+| Total reward | ICL, 5 published | ICL + Register, 5 published | **Register only + skill**, 1 | Stateless |
+|---|---|---|---|---|
+| Blind Spectrum Monitoring, 90 scans | 32.1 to 39.8, mean 36.6 | 49.7 to 54.4, mean 52.5 | **+53.6** ($1.29, against $3.58) | 19.7 |
+| Cohort Studies, 20 studies | −2.2 to −0.5, mean −1.4 | −2.6 to −0.3, mean −0.9 | **−0.36** ($7.77, against $5.15) | −0.5 |
+| Database Exploration, 40 questions | 9.6 to 17.3, mean 15.0 | 11.6 to 20.8, mean 15.5 | **+8.1** ($2.45) | 4.7 |
+
+- **Spectrum: the whole gain, without any history, at a third of the price.** The memory the task needs is a table of
+  transmitters seen in past scans; the Register holds it. The context at scan 90 is 3,800 tokens instead of hundreds of
+  thousands.
+- **Cohort: the best of the eleven rollouts, on the noisiest task of the six**, and the most expensive run of the three: the
+  Register's text is long there and the model reasons at length over it.
+- **Database: below every ICL rollout, barely above no memory.** The agent made 337 calls against 156 in the published
+  ICL + Register rollout: without the history it no longer has the rows its earlier queries returned, so it queries again,
+  and each query costs reward. The memory this task needs is content, the results themselves, not counts; a 4,000-character
+  Register cannot carry it. Score before the schema change 4.9, after 3.3.
+
+So the Register alone replaces the history where what must be remembered is a count or a table (spectrum, poker), and
+not where it is the content of past results (database). Codebase Adaptation and Sales Prediction were not run: their tasks
+run in Docker, absent on this machine. One rollout per task.

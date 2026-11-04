@@ -1,0 +1,26 @@
+{
+  "artifact_type": "logbook_only",
+  "messages": [],
+  "message_count": 0,
+  "interaction_count": 90,
+  "model": "claude-sonnet-4-6",
+  "context_tokens": 0,
+  "has_truncated": false,
+  "truncation_count": 0,
+  "provider_state": {
+    "provider": "anthropic",
+    "provider_mode": "auto",
+    "continuity_mode": "provider_native_stateful",
+    "sent_message_count": 0,
+    "previous_response_id": null,
+    "response_ids": [],
+    "hidden_state_used": false,
+    "metadata": {},
+    "native_message_count": 0,
+    "encrypted_reasoning_item_count": 0
+  },
+  "logbook_task": "blind_spectrum_monitoring",
+  "logbook_errors": 0,
+  "logbook_last_text": "== LOGBOOK (facts from this run) ==\n[1] Status: band 0.0-168.0 MHz | scans of this band seen: 90 | total scans: 90 | Scan 90/90\n    noise floor now: -60.0 dBm\n[2] Past reports -> feedback (last 6):\n    scan#84: 13 tx, 133.4 MHz occupied, omitted 1 known clusters, no score shown | 'Scan 84 recorded.'\n    scan#85: 13 tx, 133.6 MHz occupied, omitted 1 known clusters, no score shown | 'Scan 85 recorded.'\n    scan#86: 13 tx, 133.6 MHz occupied, omitted 1 known clusters, no score shown | 'Scan 86 recorded.'\n    scan#87: 14 tx, 134.1 MHz occupied, omitted 1 known clusters, no score shown | 'Scan 87 recorded.'\n    scan#88: 13 tx, 133.3 MHz occupied, omitted 2 known clusters, no score shown | 'Scan 88 recorded.'\n    scan#89: 13 tx, 133.4 MHz occupied, omitted 2 known clusters, no score shown | 'Scan 89 recorded.'\n[3] Transmitter clusters across scans of this band (by freq):\n    id | center | med width | span seen (lo-hi) | seen k/N scans | med power | SNR | active now\n    C5 | 7.45 | 14.70 | -3.55-18.55 | 30/90 | -41.9 | 18.1 | no\n    C6 | 19.45 | 5.00 | 13.75-24.40 | 21/90 | -40.5 | 19.6 | no\n    C0 | 31.40 | 14.90 | 20.95-41.85 | 34/90 | -41.6 | 18.4 | no\n    C10 | 43.10 | 4.45 | 36.65-48.10 | 25/90 | -41.7 | 18.3 | no\n    C2 | 54.95 | 14.35 | 45.05-68.15 | 31/90 | -40.4 | 19.6 | no\n    C11 | 67.30 | 4.90 | 61.75-72.05 | 25/90 | -42.5 | 17.5 | YES\n    C1 | 79.75 | 14.90 | 69.15-89.45 | 29/90 | -40.4 | 19.6 | no\n    C7 | 91.60 | 4.70 | 87.15-95.75 | 23/90 | -41.4 | 18.6 | no\n    C3 | 103.40 | 13.80 | 93.25-113.35 | 29/90 | -39.9 | 20.1 | YES\n    C9 | 115.85 | 5.00 | 111.05-119.80 | 15/90 | -39.5 | 20.6 | YES\n    C12 | 127.30 | 16.00 | 116.80-138.50 | 17/90 | -40.3 | 19.7 | no\n    C8 | 139.60 | 5.35 | 135.40-143.55 | 12/90 | -39.8 | 20.2 | YES\n    C4 | 152.10 | 14.70 | 140.60-162.60 | 17/90 | -41.1 | 18.9 | YES\n    clusters above cover 132.8 MHz (median widths) of 168.0 MHz band\n[4] One-off peaks (seen in only 1 of 90 scans, not active now):\n    94.9(w0.9,-49dBm,scan87), 135.7(w1.2,-52dBm,scan56)\n[5] Current scan peaks -> cluster:\n    66.3->C11, 104.3->C3, 113.4->C9, 117.1->C9, 140.2->C8, 152.0->C4",
+  "logbook_rewrite": null
+}

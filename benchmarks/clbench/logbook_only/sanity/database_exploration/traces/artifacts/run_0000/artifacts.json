@@ -1,0 +1,26 @@
+{
+  "artifact_type": "logbook_only",
+  "messages": [],
+  "message_count": 0,
+  "interaction_count": 337,
+  "model": "claude-sonnet-4-6",
+  "context_tokens": 0,
+  "has_truncated": false,
+  "truncation_count": 0,
+  "provider_state": {
+    "provider": "anthropic",
+    "provider_mode": "auto",
+    "continuity_mode": "provider_native_stateful",
+    "sent_message_count": 0,
+    "previous_response_id": null,
+    "response_ids": [],
+    "hidden_state_used": false,
+    "metadata": {},
+    "native_message_count": 0,
+    "encrypted_reasoning_item_count": 0
+  },
+  "logbook_task": "database_exploration",
+  "logbook_errors": 0,
+  "logbook_last_text": "== CURRENT QUESTION ==\nQueries used: 6/15. Each query costs reward; a wrong answer costs the full budget.\n Q1: SELECT name FROM sqlite_master WHERE type='table' -> 13 rows; first: items_g1\n Q2: PRAGMA table_info(items_g1) -> 0 rows; first: (no rows)\n Q3: SELECT main_cat, COUNT(*) FROM items_g1 GROUP BY main_cat LIMIT 10 -> 0 rows; first: (no rows)\n Q4: SELECT main_cat, COUNT(*) FROM items_g1 GROUP BY main_cat ORDER BY COUNT(*) DESC LIMIT 20 -> 0 rows; first: (no rows)\n Q5: PRAGMA table_info(fdbk_g1) -> 0 rows; first: (no rows)\n Q6: SELECT CASE WHEN i.prc < 15 THEN 'under15' WHEN i.prc < 30 THEN '15to30' WHEN i.prc < 60 THEN '30to60' ELSE... -> 0 rows; first: (no rows)\n== PAST QUESTIONS (this run) ==\nCorrect 15, incorrect 24. Avg queries on correct: 6.9; on incorrect: 7.8\n BAD (12q) Across electronics listings with a positive list price, what is the... -> gave 164.13, correct 117.69\n BAD (9q) How many distinct musical instrument products have brand informatio... -> gave 980, correct 1145\n BAD (8q) How many active office products have an average verified review rat... -> gave 370, correct 514\n BAD (9q) Take the ten instrument brands with the most total customer reviews... -> gave 0.80, correct 0.58\n OK  (10q) How many instrument brands have at least one customer review in eac... -> 891\n OK  (8q) Among electronics products that have both a recorded average custom... -> 39.4\n OK  (8q) How many distinct instrument brand names appear on products in the ... -> 2408\n OK  (6q) Among electronics, look at the broadest category label on each prod... -> Computers & Accessories\n== SCHEMA SEEN IN THIS RUN ==\nitems_g1(cols unseen); fdbk_g1(cols unseen); taxn_g1(cols unseen); attrs_g1(cols unseen); items_g2(cols unseen); fdbk_g2(cols unseen); taxn_g2(cols unseen); items_g3(cols unseen); fdbk_g3(cols unseen); attrs_g3(cols unseen); fdbk_stats_g1(cols unseen); Query(cols unseen); result(cols unseen); queries(cols unseen); 11(cols unseen); attrs_g3_legacy(cols unseen); product_attributes_g3(cols unseen)\n== FAILED QUERIES (recent) ==\n SELECT .tables -> Query result (8/15 queries used, 7 remaining): ERROR: near \".\": syntax error\n SELECT COUNT(*) FROM attrs_g3 -> Query result (1/15 queries used, 14 remaining): ERROR: no such table: attrs_g3\n SELECT AVG(ABS(list_price - avg_price)) as mad FROM (SELECT list_price, AVG(list_price)... -> Query result (1/15 queries used, 14 remaining): ERROR: no such column: list_price\n SELECT PRAGMA table_info(fdbk_g1) -> Query result (3/15 queries used, 12 remaining): ERROR: near \"(\": syntax error",
+  "logbook_rewrite": null
+}

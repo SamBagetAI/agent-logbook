@@ -20,12 +20,13 @@ reaches K and is unchanged.
 from __future__ import annotations
 
 import json
+import os
 import sys
 import tempfile
 import uuid
 from copy import deepcopy
 from pathlib import Path
-from typing import Any
+from typing import Any, ClassVar
 
 from ...interface import Observation, Query, Response
 from ...registry import register_system
@@ -73,6 +74,10 @@ class _LogbookTurnClient(ProviderTurnClient):
 @register_system("logbook_icl")
 class LogbookICLSystem(ICLSystem):
     """ICL plus a written Logbook: the full ICL history, and the Logbook's text in front of the current prompt."""
+
+    # LOGBOOK_SKIP_BASELINE=1 skips the stateless baseline the harness runs after every rollout (development runs:
+    # the baselines of the published runs serve as reference). Leaderboard runs keep it.
+    supports_baseline: ClassVar[bool] = os.environ.get("LOGBOOK_SKIP_BASELINE", "") != "1"
 
     def __init__(
         self,

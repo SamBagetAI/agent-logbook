@@ -1,0 +1,5 @@
+{
+  "artifact_type": "logbook_only",
+  "trace_file": "results/cohort_studies/traces/sanity-logbook-only-note/run_0000.json",
+  "artifact_payload_path": "artifacts.json"
+}
