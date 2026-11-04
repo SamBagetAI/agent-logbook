@@ -4,7 +4,7 @@ Question: on a benchmark built to measure learning across episodes, does a Regis
 
 ![Continual Learning Bench, all 6 tasks, mean normalized reward: ICL with a Register, Claude Sonnet 4.6, 27.4%; then the 12 published systems, led by ICL with Claude Sonnet 4.6 at 19.6%, ICL with GPT-5.4 at 18.9% and Claude Code with Sonnet 4.6 at 18.5%.](results/board.png)
 
-**ICL + Register ranks first of the 12 systems the benchmark publishes**, on its ranking metric computed with its own analysis code: 27.4% mean normalized reward over the 6 tasks, against 19.6% for the same model without the Logbook.
+**ICL + Register ranks first of the 12 systems the benchmark publishes**, on its ranking metric computed with its own analysis code: 27.4% mean normalized reward over the 6 tasks, against 19.6% for the same model without the Register.
 
 ## Setup
 
@@ -20,7 +20,7 @@ Benchmark: [Continual Learning Bench](https://github.com/pgasawa/continual-learn
 
 At each call the Register reads the previous answer, its feedback and the new prompt, updates its record, and returns at most 4,000 characters. The text is never stored in the history ([`code/test_injection.py`](code/test_injection.py)).
 
-**Who wrote the Logbooks.** Claude Opus 5.5, with [`author/author.py`](../../author) (prompt v2), from each task's brief, its response schemas and one example instance answered by a fixed placeholder policy ([`code/make_specs.py`](code/make_specs.py)). No past run, no change after any result, one Register per task, each valid on the first try. The examples use instances the evaluation does not draw where the task allows it (poker and spectrum: seed 7; database: question 21). The other three tasks ship fixed data: their example is the first evaluation instance, with the feedback on placeholder answers only. Writing the six cost $0.97.
+**Who wrote the Registers.** Claude Opus 5.5, with [`author/author.py`](../../author) (prompt v2), from each task's brief, its response schemas and one example instance answered by a fixed placeholder policy ([`code/make_specs.py`](code/make_specs.py)). No past run, no change after any result, one Register per task, each valid on the first try. The examples use instances the evaluation does not draw where the task allows it (poker and spectrum: seed 7; database: question 21). The other three tasks ship fixed data: their example is the first evaluation instance, with the feedback on placeholder answers only. Writing the six cost $0.97.
 
 ## Per task
 

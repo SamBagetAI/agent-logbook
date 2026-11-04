@@ -49,7 +49,7 @@ Order of the tests: generic v1 was run to answer "is the Register tailored to th
 
 ## Can a model write the Register?
 
-The task Register above was written by hand, by Claude, before the evaluation runs. Three tests asked whether a model can write it instead, choosing by itself what to record. The agent is Claude Haiku 5.5, on fresh seeds 15 to 29. Each written Register ran on 5 of them, so each row is 3 Logbooks. Runs still alive were stopped before the end of the year (after day 60 in tests 2 and 3, between day 61 and day 334 in test 1), so the table compares day 60.
+The task Register above was written by hand, by Claude, before the evaluation runs. Three tests asked whether a model can write it instead, choosing by itself what to record. The agent is Claude Haiku 5.5, on fresh seeds 15 to 29. Each written Register ran on 5 of them, so each row is 3 Registers. Runs still alive were stopped before the end of the year (after day 60 in tests 2 and 3, between day 61 and day 334 in test 1), so the table compares day 60.
 
 | Haiku 5.5, seeds 15 to 29 | In business at day 60 | Net profit at day 60, median | Account number sent after a refusal |
 |---|---|---|---|

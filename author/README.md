@@ -60,7 +60,7 @@ With AhaBench's spec and past run (about 115,000 input tokens), a Register cost 
 
 | Option | Default | What it does |
 |---|---|---|
-| `--author` | `claude-opus-5-5` | the model that writes the Logbook. Haiku 5.5 as author failed on AhaBench (2/15) |
+| `--author` | `claude-opus-5-5` | the model that writes the Register. Haiku 5.5 as author failed on AhaBench (2/15) |
 | `--past-runs` | off | show the author the spec's past run |
 | `--prompt-version` | 2 | 1: without the design principles (6/15 on AhaBench, against 15/15); 3: version 2 plus a count on every fact, not yet run on any benchmark |
 | `--max-chars` | 4000 | the longest text the Register may show |
@@ -179,7 +179,7 @@ Rules:
 Answer with the complete module in a single ```python block, and nothing else.
 ```
 
-The first message is the spec, in tags: `<goal>`, `<instructions>`, `<tools>`, `<view>`, `<harness>` when the spec gives harness files (each file under a line saying its role), `<example_step>`, then `<past_runs>` (the intro sentence and the past run), and "Write the Logbook." Without a past run, the second rule reads: "Show only what this run has produced. Do not hard-code facts or advice about the environment." Version 1 has no "How to design it" section, and lets the author turn past runs into rules shown when the current run reaches the same situation. Version 3 adds one principle after "Record outcomes": "Give every fact its count: how many attempts, and how many of each outcome ('sent 10: accepted 8, refused 2'), so the agent can weigh it", and ends "Prefer facts to instructions" with "Show the evidence; never tell the agent what to do." It has not been run on any benchmark.
+The first message is the spec, in tags: `<goal>`, `<instructions>`, `<tools>`, `<view>`, `<harness>` when the spec gives harness files (each file under a line saying its role), `<example_step>`, then `<past_runs>` (the intro sentence and the past run), and "Write the Register." Without a past run, the second rule reads: "Show only what this run has produced. Do not hard-code facts or advice about the environment." Version 1 has no "How to design it" section, and lets the author turn past runs into rules shown when the current run reaches the same situation. Version 3 adds one principle after "Record outcomes": "Give every fact its count: how many attempts, and how many of each outcome ('sent 10: accepted 8, refused 2'), so the agent can weigh it", and ends "Prefer facts to instructions" with "Show the evidence; never tell the agent what to do." It has not been run on any benchmark.
 
 The five design principles were written after looking at why version 1 failed on AhaBench. Its Registers did show the right rule ("Reply once with items, qty, delivery address and 'Account to charge: BIZ-0001'"), and Haiku mostly kept withholding the account number (it was in 25% of its supplier emails after a refusal). Version 2's Registers show evidence from the current run instead, for example "emails containing 'BIZ-0001': 10 answered -> CHARGED x8 [...] emails without it: 24 answered -> asked for account number x13", and Haiku acted on it.
 

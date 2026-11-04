@@ -20,7 +20,7 @@ A gate. It keeps the conversation's facts (who is authenticated, each order and 
 | Haiku 5.5 + Register | 0.850 | 0.725 | 3 | $0.44 |
 | Sonnet 5.5, no Register | 0.900 | 0.850 | - | $6.06 |
 
-The Register stepped in on 2 of 160 conversations (3 refusals). In the other 158 the model received exactly the same prompts as without it, so the gap between the two Haiku rows is the model's run-to-run variation (default temperature), not an effect of the Logbook.
+The Register stepped in on 2 of 160 conversations (3 refusals). In the other 158 the model received exactly the same prompts as without it, so the gap between the two Haiku rows is the model's run-to-run variation (default temperature), not an effect of the Register.
 
 ## Crash test (our protocol, not part of the benchmark)
 
