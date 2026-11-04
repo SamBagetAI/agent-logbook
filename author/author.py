@@ -222,7 +222,7 @@ def main() -> int:
         cost += (usage.get("input_tokens", 0) * pin + usage.get("output_tokens", 0) * pout) / 1e6
         blocks = re.findall(r"```python\s*\n(.*?)```", text, re.S)
         if not blocks:
-            rounds.append({"usage": usage, "problem": "no python block"})
+            rounds.append({"usage": usage, "answer": text, "problem": "no python block"})
             messages += [{"role": "assistant", "content": text},
                          {"role": "user", "content": "Answer with the complete module in a single ```python block."}]
             continue
@@ -234,7 +234,7 @@ def main() -> int:
             v = json.loads(r.stdout.strip().splitlines()[-1])
         except Exception:  # noqa: BLE001
             v = {"ok": False, "fatal": (r.stdout + r.stderr)[-3000:]}
-        rounds.append({"usage": usage, "validation": v})
+        rounds.append({"usage": usage, "answer": text, "validation": v})
         if v.get("ok"):
             break
         problem = v.get("fatal") or json.dumps({k: v[k] for k in v if k not in ("ok", "sample_brief")})[:3000]

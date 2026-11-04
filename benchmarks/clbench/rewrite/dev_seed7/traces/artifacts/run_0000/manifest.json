@@ -1,0 +1,5 @@
+{
+  "artifact_type": "logbook_icl",
+  "trace_file": "results/exploitable_poker/traces/dev-seed7-rewrite30-b/run_0000.json",
+  "artifact_payload_path": "artifacts.json"
+}

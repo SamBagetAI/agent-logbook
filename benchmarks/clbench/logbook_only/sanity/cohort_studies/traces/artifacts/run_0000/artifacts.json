@@ -1,0 +1,26 @@
+{
+  "artifact_type": "logbook_only",
+  "messages": [],
+  "message_count": 0,
+  "interaction_count": 214,
+  "model": "claude-sonnet-4-6",
+  "context_tokens": 0,
+  "has_truncated": false,
+  "truncation_count": 0,
+  "provider_state": {
+    "provider": "anthropic",
+    "provider_mode": "auto",
+    "continuity_mode": "provider_native_stateful",
+    "sent_message_count": 0,
+    "previous_response_id": null,
+    "response_ids": [],
+    "hidden_state_used": false,
+    "metadata": {},
+    "native_message_count": 0,
+    "encrypted_reasoning_item_count": 0
+  },
+  "logbook_task": "cohort_studies",
+  "logbook_errors": 0,
+  "logbook_last_text": "=== LOGBOOK ===\n[1 STATUS] Study 20/20 CADENCE Cohort | patients 134 region Industrial | actions 8/20, 12 left | SUBMISSION phase: estimates for all 36 cohorts due now\n[2 FAILURES this study] none\n[3 COHORT VARIABLES -> columns in this study]\n  age: age Patient age at enrollment units=years\n  years_of_education: years_of_education Formal education completed units=years\n  family_history: family_history Family history of neurological/vascular disease (0 = no, 1 = yes)\n  prb1_ratio: prb1_ratio PRB1 protein ratio\n  cognitive_score: mmse_score Mini-Mental State Examination (MMSE) (0-30; higher = better cognition)\n  absent here: genotype_group, acron_use_avg, hhbp_serum_level, voc_mg_l, ambient_voc_ppb\n  across run: age[CADENCE,CADENCE,CADENCE,CADENCE] years[CADENCE,CADENCE,CADENCE,CADENCE] family[CADENCE,CADENCE,CADENCE,CADENCE] genotype[FORGE,FORGE,FORGE,FORGE] prb1[CADENCE,CADENCE,CADENCE,CADENCE] acron[FORGE,FORGE,FORGE,FORGE] hhbp[FORGE,FORGE,FORGE,FORGE] voc[FORGE,FORGE,FORGE,FORGE] ambient[FORGE,FORGE,FORGE,FORGE] cognitive[CADENCE,CADENCE,CADENCE,CADENCE]\n[4 EVIDENCE this study] 7 results\n  predict_cohort_survival `CASE WHEN age >= 60 AND family_history = 1 THEN 'age_gte60_fh1' WHEN age >= 60 AND family_history...`\n    age_40_55: S(12m)=0.7647 S(24m)=0.5000 S(36m)=0.3125\n    age_55_60: S(12m)=0.8000 S(24m)=0.3600 S(36m)=0.2400\n    age_gte60_fh0: S(12m)=0.7071 S(24m)=0.2020 S(36m)=0.1010\n  estimate_survival_by_group `CASE WHEN age >= 55 THEN 'age_gte55' ELSE 'age_lt55' END`\n    age_gte55: n=47 (35.1%) S(12m)=0.7979 S(24m)=0.4014 S(36m)=0.1653\n    age_lt55: n=87 (64.9%) S(12m)=0.8720 S(24m)=0.6662 S(36m)=0.4366\n    === Cohort Group Decomposition (5 observable, 31 unobservable) ===\n  query_sql `SELECT COUNT(*) as n, AVG(CAST(mmse_score < 23 AS INTEGER)) as pct_lt23, AVG(CAST(mmse_score < 25...`\n    n | pct_lt23 | pct_lt25 | pct_lt22\n    87 | 0.6552 | 0.8621 | 0.4368\n    (1 rows)\n  predict_cohort_survival `CASE WHEN years_of_education >= 16 AND family_history = 1 THEN 'edu_hi_fh1' WHEN years_of_educati...`\n    age_gte60_edu_mid: S(12m)=0.8333 S(24m)=0.4167 S(36m)=0.0833\n    edu_hi_fh0_prb_hi: S(12m)=0.9000 S(24m)=0.4500 S(36m)=0.1125\n    edu_hi_fh0_prb_lo: S(12m)=0.7778 S(24m)=0.4444 S(36m)=0.2222\n  predict KL (lower=closer fit): 0.0001 `CASE WHEN family_history = 1 AND prb1_ratio >= 28 THEN 'fh1_prb1_high'` | 0.0002 `CASE WHEN family_history = 1 AND prb1_ratio >= 28 AND mmse_score >= 23` | 0.0008 `CASE WHEN age >= 60 AND family_history = 1 THEN 'age_gte60_fh1' WHEN a`\n[5 PRIOR STUDIES] \n  15/20 FORGE Study: 8 actions, 0 errors, submitted | submitted mean(min-max) s12 0.39(0.17-0.66) s24 0.19(0.01-0.48) s36 0.10(0.01-0.33)\n    best KL 0.0164 `CASE WHEN hhbp_serum_level >= 8 AND voc_mg_l >= 5 THEN 'hhbp_high_voc_high' WHEN hhbp_seru`\n    feedback: Report submitted for FORGE. Moving to study 16/20...\n  16/20 FORGE Study: 7 actions, 0 errors, submitted | submitted mean(min-max) s12 0.47(0.11-1.00) s24 0.26(0.00-0.87) s36 0.16(0.00-0.60)\n    best KL 0.0013 `CASE WHEN genotype_group = 'non-GG-1' AND voc_mg_l < 3 THEN 'gg3_voc_lt3' WHEN genotype_gr`\n    feedback: Report submitted for FORGE. Moving to study 17/20...\n  17/20 CADENCE Cohort: 11 actions, 0 errors, submitted | submitted mean(min-max) s12 0.72(0.50-1.00) s24 0.44(0.21-0.81) s36 0.25(0.06-0.64)\n    best KL 0.0001 `CASE WHEN family_history = 1 AND prb1_ratio >= 28 THEN 'family_history_prb1_gte28' WHEN fa`\n    feedback: Report submitted for CADENCE. Moving to study 18/20...\n  18/20 CADENCE Cohort: 9 actions, 0 errors, submitted | submitted mean(min-max) s12 0.72(0.55-0.87) s24 0.50(0.33-0.68) s36 0.34(0.19-0.52)\n    best KL 0 `CASE WHEN family_history = 1 AND prb1_ratio >= 28 THEN 'family_history_prb1_gte28' WHEN fa`\n    feedback: Report submitted for CADENCE. Moving to study 19/20...\n  19/20 CADENCE Cohort: 8 actions, 0 errors, submitted | submitted mean(min-max) s12 0.86(0.60-0.95) s24 0.62(0.41-0.85) s36 0.40(0.09-0.70)\n    best KL 0 `CASE WHEN family_history = 1 \n...",
+  "logbook_rewrite": null
+}
