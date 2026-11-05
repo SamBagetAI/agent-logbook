@@ -1,9 +1,9 @@
-"""Turn an AhaBench run with a written Logbook into the trace that author/trial_report.py reads.
+"""Turn an AhaBench run with a written Register into the trace that author/trial_report.py reads.
 
   python trace_from_calls.py runs/trial/opusGP1_seed201 trace.jsonl
 
-Reads <run>.calls.jsonl (every model call, written by logbook_provider.py), and <run>.timeseries.csv
-and <run>.json (written by aha_run_ckpt.py). Writes one line per decision: the time, the Logbook's
+Reads <run>.calls.jsonl (every model call, written by register_provider.py), and <run>.timeseries.csv
+and <run>.json (written by aha_run_ckpt.py). Writes one line per decision: the time, the Register's
 text the agent saw, the action it chose and the result it got. Prints how the run ended, as the
 sentence passed to author.py with --trial-outcome.
 """

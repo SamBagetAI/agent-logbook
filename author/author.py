@@ -1,25 +1,25 @@
-r"""Have a model write the Logbook for any agent, from a spec of that agent.
+r"""Have a model write the Register for any agent, from a spec of that agent.
 
 The prompt is generic: nothing in it is specific to one benchmark. Everything specific comes from
 the spec (a JSON file): the agent's goal, its instructions, its tools, what it keeps in view, one
 example step, and optionally the files of its harness and past runs. See README.md for the spec format and the interface the
-written Logbook implements.
+written Register implements.
 
   export ANTHROPIC_API_KEY=...            # or ANTHROPIC_KEY_FILE=/path/to/key
-  python author.py examples/ahabench/spec.json --past-runs --name my_logbook
+  python author.py examples/ahabench/spec.json --past-runs --name my_register
 
-Writes <out>/<name>.py (the Logbook, after at most two repair rounds) and <out>/<name>.json
+Writes <out>/<name>.py (the Register, after at most two repair rounds) and <out>/<name>.json
 (the prompt version, every round's validation, tokens and cost).
 
-Rewrite a Logbook after a trial run (see trial_report.py):
+Rewrite a Register after a trial run (see trial_report.py):
 
-  python author.py spec.json --past-runs --revise-from my_logbook --trial-report report.txt \
-      --trial-outcome "The trial ran for 60 days. ..." --name my_logbook_2
+  python author.py spec.json --past-runs --revise-from my_register --trial-report report.txt \
+      --trial-outcome "The trial ran for 60 days. ..." --name my_register_2
 
 Rewrite it in the middle of a run, from the run so far (rewrite.py builds the report and the steps):
 
-  python author.py spec.json --revise-from written/my_logbook.py --trial-report so_far/report.txt --same-run \
-      --steps-file so_far/steps.json.gz --name my_logbook_2
+  python author.py spec.json --revise-from written/my_register.py --trial-report so_far/report.txt --same-run \
+      --steps-file so_far/steps.json.gz --name my_register_2
 """
 from __future__ import annotations
 
@@ -37,17 +37,17 @@ import httpx
 HERE = Path(__file__).resolve().parent
 PRICE = {"claude-opus-5-5": (4.0, 20.0), "claude-sonnet-5-5": (2.0, 10.0), "claude-haiku-5-5": (0.10, 0.50)}  # $/M tokens
 
-SYSTEM = """You design a Logbook for an AI agent.
+SYSTEM = """You design a Register for an AI agent.
 
 The agent works in a loop. At each step it receives what its environment shows it, then it acts, usually by calling a tool, and the action returns a result. The agent keeps only part of this in view from one step to the next (see <view>). What leaves its view is lost to it.
 
-A Logbook is code that runs next to the agent, outside the model. Before every decision, it reads what happened since the previous one, updates a record that it keeps for the whole run, and returns a short text that is shown to the agent.
+A Register is code that runs next to the agent, outside the model. Before every decision, it reads what happened since the previous one, updates a record that it keeps for the whole run, and returns a short text that is shown to the agent.
 
-Your job: from the agent's goal, instructions and tools, decide what this Logbook should record and show so that the agent reaches its goal. Then write it.
+Your job: from the agent's goal, instructions and tools, decide what this Register should record and show so that the agent reaches its goal. Then write it.
 
 Interface (exactly):
 
-    class Logbook:
+    class Register:
         def __init__(self) -> None: ...
 
         def observe(self, step: dict) -> None:
@@ -65,7 +65,7 @@ Rules:
 - {lessons_rule}
 - Python 3 standard library only. No files, network, subprocesses, threads or randomness.
 - observe and brief must be fast (well under 100 ms) and must never raise.
-- The Logbook object must be picklable: no lambdas or local functions stored on it.
+- The Register object must be picklable: no lambdas or local functions stored on it.
 
 Answer with the complete module in a single ```python block, and nothing else."""
 
@@ -97,22 +97,22 @@ HARNESS = ("The agent's side of its loop, as code and files: what builds each pr
            "steps, and what the agent may load during the run (skills, memory, notes). It is shown so that you know "
            "exactly what the agent sees and keeps; the environment's side is not shown.")
 
-REPAIR = ("Running your Logbook on the inputs above gave this problem:\n\n{problem}\n\n"
+REPAIR = ("Running your Register on the inputs above gave this problem:\n\n{problem}\n\n"
           "Fix it. Answer with the complete module in a single ```python block.")
-REVISE = """Here is a trial run of the agent using your Logbook, on a different random seed. For each step: the lines that were new in your Logbook's text at that step (if any), the action the agent chose, and the result it received (long results are cut). {outcome}
+REVISE = """Here is a trial run of the agent using your Register, on a different random seed. For each step: the lines that were new in your Register's text at that step (if any), the action the agent chose, and the result it received (long results are cut). {outcome}
 
 <trial_run>
 {report}
 </trial_run>
 
-Find where the agent ignored or misread what your Logbook showed, where it acted on it, and what it lacked. Then rewrite the Logbook. Answer with the complete module in a single ```python block."""
-REVISE_SAME_RUN = """Here is the current run of the agent with your Logbook, from its first decision to now. For each decision: the lines that were new in what the agent received (its prompt), the lines that were new in your Logbook's text, the action the agent chose and the result it received (long texts are cut); then the full prompt of the last decision. The run goes on from here: the Logbook you write now replays all these decisions, then takes over. {outcome}
+Find where the agent ignored or misread what your Register showed, where it acted on it, and what it lacked. Then rewrite the Register. Answer with the complete module in a single ```python block."""
+REVISE_SAME_RUN = """Here is the current run of the agent with your Register, from its first decision to now. For each decision: the lines that were new in what the agent received (its prompt), the lines that were new in your Register's text, the action the agent chose and the result it received (long texts are cut); then the full prompt of the last decision. The run goes on from here: the Register you write now replays all these decisions, then takes over. {outcome}
 
 <run_so_far>
 {report}
 </run_so_far>
 
-Find what your Logbook misses: a counterpart, a field or a change in what the agent receives that its record does not separate; what the agent ignored or misread in its text; what it lacked. Then rewrite the Logbook. Count what these decisions show; do not hard-code it: the rewritten Logbook must work as well on the decisions that follow, which you have not seen. Answer with the complete module in a single ```python block."""
+Find what your Register misses: a counterpart, a field or a change in what the agent receives that its record does not separate; what the agent ignored or misread in its text; what it lacked. Then rewrite the Register. Count what these decisions show; do not hard-code it: the rewritten Register must work as well on the decisions that follow, which you have not seen. Answer with the complete module in a single ```python block."""
 
 
 def build(spec: dict, past_runs: bool, max_chars: int = 4000, version: int = 2) -> tuple[str, str]:
@@ -136,7 +136,7 @@ def build(spec: dict, past_runs: bool, max_chars: int = 4000, version: int = 2) 
         parts.insert(4, f"<harness>\n{HARNESS}\n\n" + "\n\n".join(shown) + "\n</harness>")
     if past_runs:
         parts.append(f"<past_runs>\n{spec['past_runs_intro']}\n\n{read('past_runs_file')}\n</past_runs>")
-    parts.append("Write the Logbook.")
+    parts.append("Write the Register.")
     return system, "\n\n".join(parts)
 
 
@@ -179,18 +179,18 @@ def call(model: str, system: str, messages: list[dict], key: str, max_tokens: in
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("spec", type=Path, help="the agent spec (JSON)")
-    ap.add_argument("--name", required=True, help="name of the Logbook to write")
-    ap.add_argument("--author", default="claude-opus-5-5", help="the model that writes the Logbook")
+    ap.add_argument("--name", required=True, help="name of the Register to write")
+    ap.add_argument("--author", default="claude-opus-5-5", help="the model that writes the Register")
     ap.add_argument("--past-runs", action="store_true", help="show the author the spec's past runs")
     ap.add_argument("--prompt-version", type=int, default=2, choices=[1, 2, 3],
                     help="2: with design principles (default); 3: version 2 plus a count on every fact (untested)")
-    ap.add_argument("--max-chars", type=int, default=4000, help="longest text the Logbook may show")
-    ap.add_argument("--out", type=Path, default=Path("written"), help="folder for the written Logbooks")
-    ap.add_argument("--revise-from", default=None, help="a Logbook in --out to rewrite after a trial run")
+    ap.add_argument("--max-chars", type=int, default=4000, help="longest text the Register may show")
+    ap.add_argument("--out", type=Path, default=Path("written"), help="folder for the written Registers")
+    ap.add_argument("--revise-from", default=None, help="a Register in --out to rewrite after a trial run")
     ap.add_argument("--trial-report", type=Path, default=None, help="from trial_report.py")
     ap.add_argument("--trial-outcome", default="", help="one sentence: how the trial ended")
     ap.add_argument("--same-run", action="store_true",
-                    help="the trial report is the current run so far: the new Logbook replays it, then takes over")
+                    help="the trial report is the current run so far: the new Register replays it, then takes over")
     ap.add_argument("--steps-file", type=Path, default=None,
                     help="validate the drafts on these steps (JSON list of {action, result, seen}, .gz allowed)")
     ap.add_argument("--max-tokens", type=int, default=16000, help="longest answer, thinking included (16,000 in the AhaBench tests)")
@@ -210,7 +210,7 @@ def main() -> int:
     system, user = build(spec, a.past_runs, a.max_chars, a.prompt_version)
     key = api_key(a.key_file)
     messages, rounds, cost, code = [{"role": "user", "content": user}], [], 0.0, None
-    if a.revise_from:  # the author sees its own Logbook, then how the agent behaved with it
+    if a.revise_from:  # the author sees its own Register, then how the agent behaved with it
         previous = Path(a.revise_from) if a.revise_from.endswith(".py") else a.out / f"{a.revise_from}.py"
         template = REVISE_SAME_RUN if a.same_run else REVISE
         messages += [{"role": "assistant", "content": "```python\n" + previous.read_text() + "\n```"},

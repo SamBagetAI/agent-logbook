@@ -21,15 +21,15 @@ from open_vending_bench._no_order_watchdog import NoOrderWatchdog
 from open_vending_bench._tool_call_watchdog import ToolCallSuccessRateWatchdog
 from open_vending_bench.utils import slugify, write_json
 
-PROVIDER = str(Path(__file__).resolve().parent / "logbook_provider.py") + ":AnthropicLogbookProvider"
+PROVIDER = str(Path(__file__).resolve().parent / "register_provider.py") + ":AnthropicRegisterProvider"
 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--arm", required=True, choices=["none", "notes", "logbook", "generic", "generic2", "logbook_noout", "auto", "auto2"])
+    ap.add_argument("--arm", required=True, choices=["none", "notes", "register", "generic", "generic2", "register_noout", "auto", "auto2"])
     ap.add_argument("--max-day", type=int, default=None, help="stop after this simulated day")
     ap.add_argument("--label", default=None, help="run name (default: the arm)")
-    ap.add_argument("--logbook-file", default=None, help="for --arm auto or auto2: the written Logbook to load")
+    ap.add_argument("--register-file", default=None, help="for --arm auto or auto2: the written Register to load")
     ap.add_argument("--seed", type=int, required=True)
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--model", default="claude-haiku-5-5")
@@ -46,8 +46,8 @@ def main() -> int:
         print("already finished")
         return 0
     os.environ["AHA_ARM"] = args.arm
-    if args.logbook_file:
-        os.environ["AHA_LOGBOOK_FILE"] = str(Path(args.logbook_file).resolve())
+    if args.register_file:
+        os.environ["AHA_REGISTER_FILE"] = str(Path(args.register_file).resolve())
     os.environ["AHA_USAGE_LOG"] = str(out / f"{stem}.usage.json")
     os.environ["AHA_TRACE_LOG"] = str(out / f"{stem}.calls.jsonl")
     ts_path, ckpt = out / f"{stem}.timeseries.csv", out / f"{stem}.ckpt.pkl"
@@ -104,7 +104,7 @@ def main() -> int:
         tmp = ckpt.with_suffix(".tmp")
         try:
             _save(tmp)
-        except Exception as exc:  # noqa: BLE001 - e.g. a written Logbook that cannot be pickled
+        except Exception as exc:  # noqa: BLE001 - e.g. a written Register that cannot be pickled
             tmp.unlink(missing_ok=True)
             print(f"checkpoint skipped: {type(exc).__name__}: {exc}"[:200], flush=True)
 
@@ -158,7 +158,7 @@ def main() -> int:
     payload["arm"] = label
     if args.max_day and not getattr(env, "termination_reason", None) and rows[-1]["day"] > args.max_day:
         payload["termination_reason"] = f"stopped_after_day_{args.max_day}"
-    payload["logbook_file"] = args.logbook_file
+    payload["register_file"] = args.register_file
     payload["model"] = args.model
     payload["wall_seconds"] = round(time.time() - t0, 1)
     payload["usage"] = dict(provider.totals)

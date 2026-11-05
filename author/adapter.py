@@ -1,13 +1,13 @@
-"""Plug a written Logbook into any agent loop.
+"""Plug a written Register into any agent loop.
 
-    from adapter import LogbookAdapter
+    from adapter import RegisterAdapter
 
-    book = LogbookAdapter("written/my_logbook.py", trace="trial/trace.jsonl")  # trace is optional
+    book = RegisterAdapter("written/my_register.py", trace="trial/trace.jsonl")  # trace is optional
     action, result = None, ""
     while not done:
         seen = ...                                           # what the agent receives at this step
-        text = book.step(action, result, seen, time=clock)  # updates the Logbook, returns its text
-        action = agent.decide(seen, logbook=text)           # show the text the way your loop shows context
+        text = book.step(action, result, seen, time=clock)  # updates the Register, returns its text
+        action = agent.decide(seen, register=text)           # show the text the way your loop shows context
         result = env.run(action)                            # the text the action returned
     book.close(action, result)
 
@@ -18,13 +18,13 @@ timeout never stops the run (it is counted in book.errors, and the last text tha
 again); the text is cut at `cap` characters (4,200 by default, a little above the author's limit).
 
 Every decision is kept in book.rows, in order: {"time", "seen", "brief", "action", "result"}. In
-the middle of a run, book.rewrite(path) switches to another Logbook: it replays every decision so
+the middle of a run, book.rewrite(path) switches to another Register: it replays every decision so
 far into it, so its record starts at the first one, and its text is shown from the next decision
-on (rewrite.py has the author write that Logbook from the run so far).
+on (rewrite.py has the author write that Register from the run so far).
 
 With trace=..., every decision is also written to a JSONL file in the same shape, "seen" included
 with trace_seen=True. trial_report.py turns a trace into the report the author reads before
-rewriting its Logbook. Without a Logbook (path=None) the adapter only records: with
+rewriting its Register. Without a Register (path=None) the adapter only records: with
 trace_seen=True, that is a past run for past_run.py.
 """
 from __future__ import annotations
@@ -58,16 +58,16 @@ def _guarded(fn, *args, seconds: float = 2.0):
         signal.signal(signal.SIGALRM, old)
 
 
-def load_logbook(path: str | Path):
-    """A new Logbook from the module at path. The module gets a stable name, so a pickled Logbook loads back."""
+def load_register(path: str | Path):
+    """A new Register from the module at path. The module gets a stable name, so a pickled Register loads back."""
     path = Path(path).resolve()
-    name = "written_logbook_" + hashlib.sha1(str(path).encode()).hexdigest()[:10]
+    name = "written_register_" + hashlib.sha1(str(path).encode()).hexdigest()[:10]
     if name not in sys.modules:
         spec = importlib.util.spec_from_file_location(name, path)
         mod = importlib.util.module_from_spec(spec)
         sys.modules[name] = mod
         spec.loader.exec_module(mod)
-    return sys.modules[name].Logbook()
+    return sys.modules[name].Register()
 
 
 def _step(prev: dict | None, seen: str) -> dict:
@@ -80,10 +80,10 @@ def steps_from_rows(rows: list[dict]) -> list[dict]:
     return [_step(rows[i - 1] if i else None, row["seen"]) for i, row in enumerate(rows)]
 
 
-class LogbookAdapter:
+class RegisterAdapter:
     def __init__(self, path: str | Path | None, cap: int = 4200, seconds: float = 2.0,
                  trace: str | Path | None = None, trace_seen: bool = False):
-        self.book = load_logbook(path) if path else None
+        self.book = load_register(path) if path else None
         self.path = str(path) if path else None
         self.cap, self.seconds = cap, seconds
         self.trace, self.trace_seen = (Path(trace) if trace else None), trace_seen
@@ -111,12 +111,12 @@ class LogbookAdapter:
         self._finish(action, result)
 
     def rewrite(self, path: str | Path) -> dict:
-        """In the middle of the run: switch to the Logbook at path. It replays every decision so far, so its
+        """In the middle of the run: switch to the Register at path. It replays every decision so far, so its
         record starts at the first one; book.text holds its text, shown from the next decision on. Give it a
-        file of its own: a module already loaded is not read again. If it does not load, the current Logbook
+        file of its own: a module already loaded is not read again. If it does not load, the current Register
         stays. Returns {"ok", "replayed", "errors"}."""
         try:
-            book = load_logbook(path)
+            book = load_register(path)
         except Exception:  # noqa: BLE001
             self.errors += 1
             return {"ok": False, "replayed": 0, "errors": 1}
@@ -132,7 +132,7 @@ class LogbookAdapter:
         try:
             _guarded(book.observe, step, seconds=self.seconds)
             return 0
-        except Exception:  # noqa: BLE001 - a Logbook bug must never stop the run
+        except Exception:  # noqa: BLE001 - a Register bug must never stop the run
             return 1
 
     def _brief(self, book) -> tuple[str, int]:

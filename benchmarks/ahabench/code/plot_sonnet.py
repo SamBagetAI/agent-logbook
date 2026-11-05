@@ -1,6 +1,8 @@
-"""Chart: Haiku 5.5 + Logbook vs Sonnet 5.5 with no memory, paper seeds 0-4 (mean net profit by day)."""
+"""Chart: Haiku 5.5 + Register vs Sonnet 5.5 with no memory, paper seeds 0-4 (mean net profit by day)."""
 import csv, json, sys
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from recorded import run_stem  # noqa: E402
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -10,20 +12,20 @@ SONNET = Path(sys.argv[2] if len(sys.argv) > 2 else "runs/sonnet")
 OUT = Path(sys.argv[3] if len(sys.argv) > 3 else "results")
 # colour = memory setup (same as the other charts), line style = model
 SERIES = [(HAIKU, "none", "Haiku 5.5, no memory", "Haiku, no memory", "#2a78d6", "-"),
-          (HAIKU, "logbook", "Haiku 5.5 + Logbook", "Haiku + Logbook", "#1baf7a", "-"),
+          (HAIKU, "register", "Haiku 5.5 + Register", "Haiku + Register", "#1baf7a", "-"),
           (SONNET, "none", "Sonnet 5.5, no memory", "Sonnet, no memory", "#2a78d6", "--"),
-          (SONNET, "logbook", "Sonnet 5.5 + Logbook", "Sonnet + Logbook", "#1baf7a", "--")]
+          (SONNET, "register", "Sonnet 5.5 + Register", "Sonnet + Register", "#1baf7a", "--")]
 INK, MUTED, GRID = "#1f1f1e", "#6b6a64", "#e6e5e0"
 days = list(range(1, 366))
 fig, ax = plt.subplots(figsize=(8, 4.2), dpi=150)
 ends = []
 for root, arm, label, short, color, dash in SERIES:
-    if not (root / f"{arm}_seed0.timeseries.csv").exists():
+    if not (root / f"{run_stem(root, arm, 0)}.timeseries.csv").exists():
         continue
     runs = []
     for s in range(5):
         prof = {}
-        with (root / f"{arm}_seed{s}.timeseries.csv").open() as fh:
+        with (root / f"{run_stem(root, arm, s)}.timeseries.csv").open() as fh:
             for r in csv.DictReader(fh):
                 prof[int(r["day"])] = float(r["net_profit"])
         runs.append(prof)

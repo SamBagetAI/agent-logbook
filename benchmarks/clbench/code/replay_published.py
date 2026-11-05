@@ -1,4 +1,4 @@
-"""Replay published CL-Bench traces through a written Logbook, before any run: errors, slowest step, longest text.
+"""Replay published CL-Bench traces through a written Register, before any run: errors, slowest step, longest text.
 Nothing goes back to the author.
 
   CLBENCH_REPO=/path/to/continual-learning-bench python replay_published.py exploitable_poker [run name]
@@ -6,17 +6,17 @@ Nothing goes back to the author.
 import gzip, json, os, sys, time
 from pathlib import Path
 HERE = Path(__file__).resolve().parent
-sys.path.insert(0, str(HERE / "logbook_icl"))
-from adapter import LogbookAdapter  # noqa: E402
+sys.path.insert(0, str(HERE / "register_icl"))
+from adapter import RegisterAdapter  # noqa: E402
 REPO = Path(os.environ.get("CLBENCH_REPO", "continual-learning-bench")).resolve()
 task, run = sys.argv[1], sys.argv[2] if len(sys.argv) > 2 else "icl-claude-sonnet-4.6"
 d = json.load(gzip.open(REPO / "final_results" / "runs" / run / "tasks" / f"{task}.json.gz"))
-book_path = HERE.parent / "written_logbooks" / f"{task}.py"
+book_path = HERE.parent / "written_registers" / f"{task}.py"
 worst, total_steps, errors, longest = 0.0, 0, 0, 0
 samples = {}
 for rt in d["run_traces"]:
     inter = rt["trace"]["interactions"]
-    book = LogbookAdapter(book_path, cap=4200)
+    book = RegisterAdapter(book_path, cap=4200)
     last_action, last_result = None, ""
     for k, it in enumerate(inter):
         q, r, o = it["query"], it["response"], it["observation"]

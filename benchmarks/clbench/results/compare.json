@@ -1084,7 +1084,7 @@
     "warnings": ""
    }
   },
-  "logbook-icl-claude-sonnet-4-6": {
+  "register-icl-claude-sonnet-4-6": {
    "blind_spectrum_monitoring": {
     "n_runs": 5,
     "n_instances": 90,
@@ -1599,7 +1599,7 @@
     }
    ]
   },
-  "logbook-icl-claude-sonnet-4-6": {
+  "register-icl-claude-sonnet-4-6": {
    "blind_spectrum_monitoring": [
     {
      "run_index": 0,
@@ -1886,7 +1886,7 @@
  },
  "tests": {
   "exploitable_poker": {
-   "logbook": [
+   "register": [
     0.02429430819065254,
     -0.17781119851920396,
     -0.1429893567792688,
@@ -1901,10 +1901,10 @@
     -0.03363006923837776
    ],
    "p_one_sided": 0.2896825396825397,
-   "logbook_min_above_icl_max": false
+   "register_min_above_icl_max": false
   },
   "blind_spectrum_monitoring": {
-   "logbook": [
+   "register": [
     0.4873438260587373,
     0.4641294539285093,
     0.42615950878331654,
@@ -1919,10 +1919,10 @@
     0.34406886075372684
    ],
    "p_one_sided": 0.003968253968253968,
-   "logbook_min_above_icl_max": true
+   "register_min_above_icl_max": true
   },
   "cohort_studies": {
-   "logbook": [
+   "register": [
     0.04378368604396162,
     0.048177896050878063,
     0.058499584591507954,
@@ -1937,7 +1937,7 @@
     0.057854585436260715
    ],
    "p_one_sided": 0.8849206349206349,
-   "logbook_min_above_icl_max": false
+   "register_min_above_icl_max": false
   }
  },
  "board_3_tasks": [
@@ -1948,7 +1948,7 @@
    "cost_3": 26.263679670000002
   },
   {
-   "run": "logbook-icl-claude-sonnet-4-6",
+   "run": "register-icl-claude-sonnet-4-6",
    "gain_3": 0.09873932657904992,
    "reward_3": 0.1003805889512367,
    "cost_3": 26.66037219
@@ -2028,7 +2028,7 @@
  ],
  "board_6_tasks": [
   {
-   "run": "logbook-icl-claude-sonnet-4-6",
+   "run": "register-icl-claude-sonnet-4-6",
    "reward_6": 0.2742180806274693,
    "gain_6": 0.27807714588774574,
    "cost_6": 38.70235275
@@ -2120,6 +2120,6 @@
   "icl-notepad-gpt-5.4": {},
   "mem0-gpt-5.4": {},
   "icl-claude-sonnet-4-6-rerun": {},
-  "logbook-icl-claude-sonnet-4-6": {}
+  "register-icl-claude-sonnet-4-6": {}
  }
 }

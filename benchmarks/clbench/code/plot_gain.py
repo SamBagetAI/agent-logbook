@@ -1,4 +1,4 @@
-"""Chart: normalized gain per task, every rollout, ICL vs ICL + Logbook (from ../results/compare.json).
+"""Chart: normalized gain per task, every rollout, ICL vs ICL + Register (from ../results/compare.json).
 
   python plot_gain.py        # writes ../results/gain_by_task.png
 """
@@ -12,9 +12,9 @@ HERE = Path(__file__).resolve().parent
 d = json.loads((HERE.parent / "results" / "compare.json").read_text())
 TASKS = [("blind_spectrum_monitoring", "Blind Spectrum\nMonitoring"), ("exploitable_poker", "Exploitable\nPoker"),
          ("cohort_studies", "Cohort\nStudies")]
-# same colours as the AhaBench charts: blue = no Logbook, green = Logbook
+# same colours as the AhaBench charts: blue = no Register, green = Register
 SERIES = [("icl-claude-sonnet-4-6-rerun", "ICL (whole history in context)", "#2a78d6", -0.17),
-          ("logbook-icl-claude-sonnet-4-6", "ICL + Logbook", "#1baf7a", 0.17)]
+          ("register-icl-claude-sonnet-4-6", "ICL + Register", "#1baf7a", 0.17)]
 INK, MUTED, GRID, SURFACE = "#1f1f1e", "#6b6a64", "#e6e5e0", "#ffffff"
 plt.rcParams["font.family"] = "Inter"
 
@@ -29,7 +29,7 @@ for run, label, color, dx in SERIES:
                 label="mean of the 5 runs" if (i == 0 and dx > 0) else None)
         ax.scatter(jitter, pts, s=46, color=color, edgecolor=SURFACE, linewidth=2, zorder=3,
                    label=label if i == 0 else None)
-        side = 1 if dx > 0 else -1  # ICL labels on the left of their line, Logbook labels on the right
+        side = 1 if dx > 0 else -1  # ICL labels on the left of their line, Register labels on the right
         ax.annotate(f"{mean:+.1f}%".replace("-", "\u2212"), xy=(x + side * 0.14, mean), va="center",
                     ha="left" if side > 0 else "right", fontsize=9, color=INK)
 ax.axhline(0, color=MUTED, linewidth=0.8, zorder=1)

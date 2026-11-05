@@ -1,6 +1,6 @@
-"""Results of the three "a model writes the Logbook" tests, from the published data.
+"""Results of the three "a model writes the Register" tests, from the published data.
 
-  python report_written.py      # reads ../data/written_logbooks_*.zip, writes ../results/written_logbooks_runs.csv
+  python report_written.py      # reads ../data/written_registers_*.zip, writes ../results/written_registers_runs.csv
 
 Claude Haiku 5.5 as the agent, fresh seeds 15 to 29. Runs still alive were stopped on purpose
 (after day 60 in the second and third tests, between day 61 and day 334 in the first), so the
@@ -21,10 +21,12 @@ from datetime import date
 from math import comb
 from pathlib import Path
 
+from recorded import current
+
 HERE = Path(__file__).resolve().parent
-DATA, RESULTS, WRITTEN = HERE.parent / "data", HERE.parent / "results", HERE.parent / "written_logbooks"
+DATA, RESULTS, WRITTEN = HERE.parent / "data", HERE.parent / "results", HERE.parent / "written_registers"
 TESTS = ["task_prompt", "generic_v1", "generic_v2"]
-LABEL = {"none": "No memory", "logbook": "Logbook written by hand",
+LABEL = {"none": "No memory", "register": "Register written by hand",
          "opusA": "Opus 5.5, task prompt, prompt only", "opusB": "Opus 5.5, task prompt, after a failed run",
          "haikuA": "Haiku 5.5, task prompt, prompt only", "haikuB": "Haiku 5.5, task prompt, after a failed run",
          "opusGA": "Opus 5.5, generic prompt v1, no past run", "opusGB": "Opus 5.5, generic prompt v1, after a failed run",
@@ -85,37 +87,38 @@ def acct_share(lines, until_day: int = 60):
 
 
 def load():
-    per, calls = zipfile.ZipFile(DATA / "written_logbooks_per_run.zip"), zipfile.ZipFile(DATA / "written_logbooks_calls.zip")
+    per, calls = zipfile.ZipFile(DATA / "written_registers_per_run.zip"), zipfile.ZipFile(DATA / "written_registers_calls.zip")
     names = set(per.namelist())
     runs = []
     for test in TESTS:
         for f in sorted(n for n in names if n.startswith(test + "/") and n.endswith(".timeseries.csv")):
             stem = f[:-len(".timeseries.csv")]
             label, seed = stem.split("/", 1)[1].rsplit("_seed", 1)
-            setup = label if label in ("none", "logbook") else label[:-1]
+            label = current(label)  # the zips keep the names the runs were recorded under
+            setup = label if label in ("none", "register") else label[:-1]
             rows = list(csv.DictReader(io.StringIO(per.read(f).decode())))
             by_day = {int(r["day"]): float(r["net_profit"]) for r in rows}
             last_day = int(rows[-1]["day"])
             sm = json.loads(per.read(stem + ".json")) if stem + ".json" in names else None
-            usage = json.loads(per.read(stem + ".usage.json"))
+            usage = {current(k): v for k, v in json.loads(per.read(stem + ".usage.json")).items()}
             ended = sm is not None and not sm["termination_reason"].startswith(("completed_horizon", "stopped_after_day"))
 
             def at(d):  # net profit on day d; a run that ended earlier keeps its final result
                 if last_day >= d:
                     return by_day.get(d, by_day[max(x for x in by_day if x <= d)])
                 return sm["final_net_profit"] if ended else None
-            runs.append({"test": test, "setup": setup, "logbook": "" if setup == label else label, "seed": int(seed),
+            runs.append({"test": test, "setup": setup, "register": "" if setup == label else label, "seed": int(seed),
                          "last_day": last_day, "end": sm["termination_reason"] if sm else f"stopped by us on day {last_day}",
                          "in_business_day60": int(last_day >= 60), "net_profit_day60": at(60),
                          "net_profit_day100": at(100) if test == "task_prompt" else None,
                          "account_number_share_after_refusal_d1_60": acct_share(
                              calls.read(stem + ".calls.jsonl").decode("utf-8").splitlines()),
-                         "logbook_errors": usage.get("logbook_errors", 0), "cost_usd": round(usage.get("cost_usd", 0.0), 4)})
+                         "register_errors": usage.get("register_errors", 0), "cost_usd": round(usage.get("cost_usd", 0.0), 4)})
     return runs
 
 
 def cost(folder: str) -> float:
-    per = zipfile.ZipFile(DATA / "written_logbooks_per_run.zip")
+    per = zipfile.ZipFile(DATA / "written_registers_per_run.zip")
     return sum(json.loads(per.read(n))["cost_usd"] for n in per.namelist() if n.startswith(folder + "/") and n.endswith(".usage.json"))
 
 
@@ -126,7 +129,7 @@ def authoring(folder: str, prefixes: tuple) -> float:
 def main():
     runs = load()
     RESULTS.mkdir(exist_ok=True)
-    with open(RESULTS / "written_logbooks_runs.csv", "w", newline="") as fh:
+    with open(RESULTS / "written_registers_runs.csv", "w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=list(runs[0]))
         w.writeheader()
         share = "account_number_share_after_refusal_d1_60"
@@ -137,7 +140,7 @@ def main():
     none = by["none"]
     a_none = sum(r["in_business_day60"] for r in none)
     print("Claude Haiku 5.5 on Aha-Vending (scenario v2), seeds 15 to 29. Generated by code/report_written.py.\n")
-    print("| Setup | In business at day 60 | p vs no memory | Net profit at day 60, median | Account number sent after a refusal | Logbook errors |")
+    print("| Setup | In business at day 60 | p vs no memory | Net profit at day 60, median | Account number sent after a refusal | Register errors |")
     print("|---|---|---|---|---|---|")
     for s in LABEL:
         v = by[s]
@@ -145,16 +148,16 @@ def main():
         p = "" if s == "none" else f"{fisher(a, len(v) - a, a_none, len(none) - a_none):.2g}"
         sh = [r["account_number_share_after_refusal_d1_60"] for r in v if r["account_number_share_after_refusal_d1_60"] is not None]
         print(f"| {LABEL[s]} | {a}/{len(v)} | {p} | {st.median(r['net_profit_day60'] for r in v):+.0f} | "
-              f"{100 * sum(sh) / len(sh):.0f}% (n={len(sh)}) | {sum(r['logbook_errors'] for r in v)} |")
-    print("\nPer written Logbook (5 seeds each), in business at day 60:")
+              f"{100 * sum(sh) / len(sh):.0f}% (n={len(sh)}) | {sum(r['register_errors'] for r in v)} |")
+    print("\nPer written Register (5 seeds each), in business at day 60:")
     lab = defaultdict(list)
     for r in runs:
-        if r["logbook"]:
-            lab[r["logbook"]].append(r)
+        if r["register"]:
+            lab[r["register"]].append(r)
     print("  " + ", ".join(f"{k} {sum(r['in_business_day60'] for r in v)}/5" for k, v in sorted(lab.items())))
     print("\nNet profit, paired by seed (first setup minus the second, same seed):")
-    for key, pairs in (("net_profit_day60", (("opusB", "logbook"), ("opusGP", "logbook"), ("opusGL", "logbook"), ("opusGL", "opusGP"))),
-                       ("net_profit_day100", (("opusB", "logbook"),))):
+    for key, pairs in (("net_profit_day60", (("opusB", "register"), ("opusGP", "register"), ("opusGL", "register"), ("opusGL", "opusGP"))),
+                       ("net_profit_day100", (("opusB", "register"),))):
         idx = {(r["setup"], r["seed"]): r[key] for r in runs if r[key] is not None}
         for a, b in pairs:
             d = [idx[(a, s)] - idx[(b, s)] for s in range(15, 30) if (a, s) in idx and (b, s) in idx]

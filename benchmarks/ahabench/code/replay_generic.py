@@ -1,14 +1,14 @@
-"""Replay logged prompts through the generic Logbook (no API) and print the brief."""
+"""Replay logged prompts through the generic Register (no API) and print the brief."""
 import json, re, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "logbook" / "ahabench"))  # the Logbook code
-from generic_logbook import GenericLogbook
-from logbook_provider import first_json
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "register" / "ahabench"))  # the Register code
+from generic_register import GenericRegister
+from register_provider import first_json
 LAST_RESULT = re.compile(r"LAST TOOL RESULT\s*\n(.*?)\n\s*\n\s*REMINDER:", re.S)
 rows = [json.loads(l) for l in open(sys.argv[1]) if l.strip()]
 upto = int(sys.argv[2]) if len(sys.argv) > 2 else len(rows)
-book = GenericLogbook(v2=len(sys.argv) > 3 and sys.argv[3] == "v2")
+book = GenericRegister(v2=len(sys.argv) > 3 and sys.argv[3] == "v2")
 last = None
 for r in rows[:upto]:
     if r["attempt"] == 1 and last:

@@ -6,7 +6,9 @@ import gzip, json
 from pathlib import Path
 
 RUNS = Path(__file__).resolve().parent.parent / "data" / "runs"
-NAMES = {"icl-claude-sonnet-4-6-rerun": "ICL", "logbook-icl-claude-sonnet-4-6": "ICL + Logbook"}
+# The runs were recorded when the Register was still called the Logbook: their keys say so.
+FORMER = "logbook"
+NAMES = {"icl-claude-sonnet-4-6-rerun": "ICL", "register-icl-claude-sonnet-4-6": "ICL + Register"}
 out = []
 
 
@@ -60,17 +62,18 @@ for run, label in NAMES.items():
         out.append(f"  {label:14s} rollout {it['run_index']}: {sum(vals):+.3f} | worst study {k + 1}/20"
                    f" ({(outs[k].get('metadata') or {}).get('study_name')}) {vals[k]:+.3f} | actions per study {steps}")
 
-out.append("\nLogbook: errors and text length, every call of every rollout and of the stateless baseline")
+out.append("\nRegister: errors and text length, every call of every rollout and of the stateless baseline")
 for task in ("exploitable_poker", "blind_spectrum_monitoring", "cohort_studies", "database_exploration",
              "codebase_adaptation", "sales_prediction"):
-    a = load("logbook-icl-claude-sonnet-4-6", task)
+    a = load("register-icl-claude-sonnet-4-6", task)
     traces = [it["trace"] for it in a["run_traces"]] + [a["baseline_trace"]]
     errs, chars = [], []
     for tr in traces:
         for x in tr.get("interactions") or []:
             m = (x.get("response") or {}).get("metadata") or {}
-            if "logbook_chars" in m:
-                errs.append(m.get("logbook_errors", 0)); chars.append(m["logbook_chars"])
+            m = {k.replace(FORMER, "register"): v for k, v in m.items()}
+            if "register_chars" in m:
+                errs.append(m.get("register_errors", 0)); chars.append(m["register_chars"])
     out.append(f"  {task:26s} calls {len(chars):5d} | errors {max(errs) if errs else 'n/a'} | text {mean(chars):,.0f} characters"
                f" on average, {max(chars) if chars else 0:,} at most")
 

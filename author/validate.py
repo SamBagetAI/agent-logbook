@@ -1,6 +1,6 @@
-"""Run a written Logbook on the steps its author has seen, and print one JSON line.
+"""Run a written Register on the steps its author has seen, and print one JSON line.
 
-  python validate.py my_logbook.py spec.json start|past|<steps file> [max_chars]
+  python validate.py my_register.py spec.json start|past|<steps file> [max_chars]
 
 start: the spec's example step only. past: every step of the spec's past runs
 (`past_runs_steps_file`, a JSON list of {"action", "result", "seen"}, optionally .gz). A path:
@@ -21,11 +21,11 @@ spec = json.loads(spec_path.read_text())
 base = spec_path.parent
 res = {"ok": False}
 try:
-    m = importlib.util.spec_from_file_location("written_logbook", path)
+    m = importlib.util.spec_from_file_location("written_register", path)
     mod = importlib.util.module_from_spec(m)
-    sys.modules["written_logbook"] = mod
+    sys.modules["written_register"] = mod
     m.loader.exec_module(mod)
-    book = mod.Logbook()
+    book = mod.Register()
     if mode == "start":
         steps = [{"action": None, "result": "", "seen": (base / spec["example_step_file"]).read_text()}]
     else:

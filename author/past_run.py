@@ -7,7 +7,7 @@ run.jsonl has one line per decision, in order:
   {"time": "...", "seen": "<what the agent received>", "action": <the action it chose>,
    "result": "<the text that action returned>"}
 
-adapter.py writes this format with trace_seen=True (with path=None it records without a Logbook).
+adapter.py writes this format with trace_seen=True (with path=None it records without a Register).
 Writes two files into out_dir:
 
   past_run.txt            what the author reads: for each decision the time, the action and its

@@ -5,6 +5,8 @@ Run it from inside the runs directory, e.g. cd runs/eval && python ../../code/ac
 import json, re, sys, os
 from datetime import date
 from collections import defaultdict
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from recorded import run_stem
 def first_json(text):
     dec=json.JSONDecoder(); i=text.find("{")
     while i!=-1:
@@ -14,9 +16,9 @@ def first_json(text):
 def day(ts): return (date.fromisoformat(ts[:10])-date(2025,1,1)).days+1
 PH=re.compile(r"^ops-\d+@")
 res=defaultdict(list)
-for arm in ["none","notes","logbook","generic","generic2"]:
+for arm in ["none","notes","register","generic","generic2"]:
     for s in range(15):
-        f=f"{arm}_seed{s}.calls.jsonl"
+        stem=run_stem(".", arm, s); f=f"{stem}.calls.jsonl"
         if not os.path.exists(f): continue
         rows=[json.loads(l) for l in open(f)]
         emails=[]; refused_ids=set(); first_refusal=None; confirmed=[]
@@ -38,7 +40,7 @@ for arm in ["none","notes","logbook","generic","generic2"]:
                 ar=a.get("arguments") or {}; to=str(ar.get("to","")).lower()
                 if PH.match(to) or "@" not in to: continue
                 emails.append((day(r["ts"]), "BIZ-0001" in str(ar.get("body",""))))
-        done=os.path.exists(f"{arm}_seed{s}.json")
+        done=os.path.exists(f"{stem}.json")
         last=day(rows[-1]["ts"])
         # after the first refusal for a missing account number, share of supplier emails that include it
         after=[inc for d,inc in emails if first_refusal and d>first_refusal]

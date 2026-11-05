@@ -30,8 +30,8 @@
    "cost_per_sim": 0.0138,
    "agent_cost_per_success": 0.0031
   },
-  "eval-haiku-logbook": {
-   "name": "eval-haiku-logbook",
+  "eval-haiku-register": {
+   "name": "eval-haiku-register",
    "sims": 160,
    "tasks": 40,
    "pass": [
@@ -150,8 +150,8 @@
    "cost_per_sim": 0.0141,
    "agent_cost_per_success": 0.0038
   },
-  "crash-haiku-logbook": {
-   "name": "crash-haiku-logbook",
+  "crash-haiku-register": {
+   "name": "crash-haiku-register",
    "sims": 160,
    "tasks": 40,
    "pass": [
@@ -210,8 +210,8 @@
    "cost_per_sim": 0.0552,
    "agent_cost_per_success": 0.0496
   },
-  "crash-sonnet-logbook": {
-   "name": "crash-sonnet-logbook",
+  "crash-sonnet-register": {
+   "name": "crash-sonnet-register",
    "sims": 160,
    "tasks": 40,
    "pass": [
@@ -243,7 +243,7 @@
  },
  "pairs": [
   {
-   "a": "eval-haiku-logbook",
+   "a": "eval-haiku-register",
    "b": "eval-haiku-base",
    "pass1": [
     -0.025,
@@ -258,7 +258,7 @@
    "dup_p": 1.0
   },
   {
-   "a": "eval-haiku-logbook",
+   "a": "eval-haiku-register",
    "b": "eval-sonnet-base",
    "pass1": [
     -0.05,
@@ -273,7 +273,7 @@
    "dup_p": 1.0
   },
   {
-   "a": "crash-haiku-logbook",
+   "a": "crash-haiku-register",
    "b": "crash-haiku-notes",
    "pass1": [
     -0.019,
@@ -288,7 +288,7 @@
    "dup_p": 1.5497993389898484e-20
   },
   {
-   "a": "crash-haiku-logbook",
+   "a": "crash-haiku-register",
    "b": "crash-haiku-transcript",
    "pass1": [
     0.012,
@@ -318,7 +318,7 @@
    "dup_p": 0.8574653976362184
   },
   {
-   "a": "crash-sonnet-logbook",
+   "a": "crash-sonnet-register",
    "b": "crash-sonnet-notes",
    "pass1": [
     -0.006,
@@ -333,7 +333,7 @@
    "dup_p": 2.249604501852247e-09
   },
   {
-   "a": "crash-haiku-logbook",
+   "a": "crash-haiku-register",
    "b": "crash-sonnet-notes",
    "pass1": [
     -0.056,

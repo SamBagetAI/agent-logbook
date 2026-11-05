@@ -1,22 +1,22 @@
-"""Rewrite a Logbook in the middle of a run, from what the run has shown so far.
+"""Rewrite a Register in the middle of a run, from what the run has shown so far.
 
-The author wrote the Logbook from a spec, before the run. After some decisions, the run shows what
+The author wrote the Register from a spec, before the run. After some decisions, the run shows what
 the spec could not: a counterpart that changes, a field that matters, a text the agent ignores. Here
-the author reads its own Logbook and the run so far, as the agent saw it, and rewrites it. The new
-Logbook replays every decision so far, so its record is complete, and takes over.
+the author reads its own Register and the run so far, as the agent saw it, and rewrites it. The new
+Register replays every decision so far, so its record is complete, and takes over.
 
-In a loop, with a LogbookAdapter (adapter.py), after some decisions:
+In a loop, with a RegisterAdapter (adapter.py), after some decisions:
 
     from rewrite import rewrite_mid_run
-    new = rewrite_mid_run(book, "my_agent/spec.json", name="my_logbook_2")   # None if the author failed
-    ...the loop goes on unchanged; book now runs the new Logbook
+    new = rewrite_mid_run(book, "my_agent/spec.json", name="my_register_2")   # None if the author failed
+    ...the loop goes on unchanged; book now runs the new Register
 
 Offline, on a trace written with trace=..., trace_seen=True:
 
-    python rewrite.py spec.json --logbook written/my_logbook.py --trace trial/trace.jsonl --at 80 --name my_logbook_2
+    python rewrite.py spec.json --register written/my_register.py --trace trial/trace.jsonl --at 80 --name my_register_2
 
-This cuts the trace after 80 decisions, has the author rewrite the Logbook from them, then replays
-the whole trace through the new Logbook, the decisions after the cut included, and prints what it
+This cuts the trace after 80 decisions, has the author rewrite the Register from them, then replays
+the whole trace through the new Register, the decisions after the cut included, and prints what it
 found: errors, text lengths, the new text at the cut and at the end. Both ways write
 <out>/<name>_input/ (the report and the steps the author got) and <out>/<name>.py and .json.
 """
@@ -30,7 +30,7 @@ import sys
 import time
 from pathlib import Path
 
-from adapter import LogbookAdapter, load_logbook, steps_from_rows
+from adapter import RegisterAdapter, load_register, steps_from_rows
 from trial_report import report
 
 HERE = Path(__file__).resolve().parent
@@ -47,16 +47,16 @@ def write_inputs(rows: list[dict], folder: Path) -> tuple[Path, Path]:
     return folder / "report.txt", steps
 
 
-def run_author(spec: Path, logbook: Path, report_path: Path, steps: Path, name: str, out: Path,
+def run_author(spec: Path, register: Path, report_path: Path, steps: Path, name: str, out: Path,
                author: str = "claude-opus-5-5", outcome: str = "", past_runs: bool = False,
                key_file: Path | None = None, max_tokens: int = 16000, effort: str | None = None,
                thinking: str | None = None) -> Path | None:
-    """author.py in same-run mode. The new Logbook's path, or None when the author failed. A Logbook
+    """author.py in same-run mode. The new Register's path, or None when the author failed. A Register
     already written under this name is reused."""
     log = out / f"{name}.json"
     if not log.exists():
         cmd = [sys.executable, str(HERE / "author.py"), str(spec), "--name", name, "--out", str(out), "--author", author,
-               "--revise-from", str(logbook), "--trial-report", str(report_path), "--same-run",
+               "--revise-from", str(register), "--trial-report", str(report_path), "--same-run",
                "--steps-file", str(steps), "--trial-outcome", outcome, "--max-tokens", str(max_tokens)]
         cmd += ["--past-runs"] if past_runs else []
         cmd += ["--key-file", str(key_file)] if key_file else []
@@ -69,14 +69,14 @@ def run_author(spec: Path, logbook: Path, report_path: Path, steps: Path, name: 
     return out / f"{name}.py" if json.loads(log.read_text()).get("final_ok") else None
 
 
-def rewrite_mid_run(book: LogbookAdapter, spec: str | Path, name: str, out: str | Path = "written",
+def rewrite_mid_run(book: RegisterAdapter, spec: str | Path, name: str, out: str | Path = "written",
                     author: str = "claude-opus-5-5", outcome: str = "", past_runs: bool = False,
                     key_file: str | Path | None = None, max_tokens: int = 16000, effort: str | None = None,
                     thinking: str | None = None) -> Path | None:
-    """The author rewrites the Logbook that `book` runs, from the run so far; the new one replays every
-    decision and takes over. None, and the current Logbook stays, when the author failed."""
+    """The author rewrites the Register that `book` runs, from the run so far; the new one replays every
+    decision and takes over. None, and the current Register stays, when the author failed."""
     if book.path is None:
-        raise ValueError("no Logbook to rewrite: the adapter runs without one")
+        raise ValueError("no Register to rewrite: the adapter runs without one")
     out = Path(out)
     report_path, steps = write_inputs(book.rows, out / f"{name}_input")
     path = run_author(Path(spec), Path(book.path), report_path, steps, name, out, author, outcome, past_runs,
@@ -87,8 +87,8 @@ def rewrite_mid_run(book: LogbookAdapter, spec: str | Path, name: str, out: str 
 
 
 def replay(path: Path, rows: list[dict], show_at: tuple[int, ...]) -> tuple[dict, dict]:
-    """The whole trace through the Logbook at path: errors, lengths, speed, and its text at the given decisions."""
-    book = load_logbook(path)
+    """The whole trace through the Register at path: errors, lengths, speed, and its text at the given decisions."""
+    book = load_register(path)
     errors, longest, slowest, texts = 0, 0, 0.0, {}
     for i, step in enumerate(steps_from_rows(rows), 1):
         t = time.perf_counter()
@@ -107,14 +107,14 @@ def replay(path: Path, rows: list[dict], show_at: tuple[int, ...]) -> tuple[dict
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("spec", type=Path, help="the agent spec (JSON)")
-    ap.add_argument("--logbook", type=Path, required=True, help="the Logbook the run used")
+    ap.add_argument("--register", type=Path, required=True, help="the Register the run used")
     ap.add_argument("--trace", type=Path, required=True, help="the run's trace, with 'seen' (adapter.py, trace_seen=True)")
     ap.add_argument("--at", type=int, required=True, help="rewrite after this many decisions")
-    ap.add_argument("--name", required=True, help="name of the Logbook to write")
+    ap.add_argument("--name", required=True, help="name of the Register to write")
     ap.add_argument("--out", type=Path, default=Path("written"))
     ap.add_argument("--author", default="claude-opus-5-5")
     ap.add_argument("--outcome", default="", help="one sentence on the run so far, e.g. 'After 30 hands: -120 chips.'")
-    ap.add_argument("--past-runs", action="store_true", help="the spec's past run was shown when the Logbook was written")
+    ap.add_argument("--past-runs", action="store_true", help="the spec's past run was shown when the Register was written")
     ap.add_argument("--key-file", type=Path, default=None)
     ap.add_argument("--max-tokens", type=int, default=16000, help="the author's longest answer, thinking included")
     ap.add_argument("--effort", default=None, choices=["low", "medium", "high", "xhigh", "max"])
@@ -127,16 +127,16 @@ def main() -> int:
     so_far[-1]["action"] = so_far[-1]["result"] = None  # the decision the agent is about to make
     report_path, steps = write_inputs(so_far, a.out / f"{a.name}_input")
     print(json.dumps({"decisions_shown": len(so_far), "report_chars": len(report_path.read_text())}))
-    path = run_author(a.spec, a.logbook, report_path, steps, a.name, a.out, a.author, a.outcome, a.past_runs, a.key_file,
+    path = run_author(a.spec, a.register, report_path, steps, a.name, a.out, a.author, a.outcome, a.past_runs, a.key_file,
                       a.max_tokens, a.effort, a.thinking)
     if path is None:
         print("the author failed; see", a.out / f"{a.name}.json")
         return 1
     summary, texts = replay(path, rows, (a.at, len(rows)))
-    (a.out / f"{a.name}_input" / "replay.json").write_text(json.dumps({**summary, "logbook": str(path)}, indent=1))
-    print(json.dumps({"logbook": str(path), **summary}))
+    (a.out / f"{a.name}_input" / "replay.json").write_text(json.dumps({**summary, "register": str(path)}, indent=1))
+    print(json.dumps({"register": str(path), **summary}))
     for i, text in texts.items():
-        print(f"\n--- the new Logbook's text at decision {i} ---\n{text}")
+        print(f"\n--- the new Register's text at decision {i} ---\n{text}")
     return 0
 
 

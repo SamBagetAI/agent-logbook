@@ -10,9 +10,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from analyze_aha import early_late, series, trace_stats  # noqa: E402
+from recorded import run_stem  # noqa: E402
 
 ROOT = Path(sys.argv[1] if len(sys.argv) > 1 else "runs/eval")
-ARMS = ["none", "notes", "logbook"]
+ARMS = ["none", "notes", "register"]
 SEEDS = range(15)
 
 
@@ -31,7 +32,7 @@ def load():
     runs = []
     for arm in ARMS:
         for s in SEEDS:
-            stem = f"{arm}_seed{s}"
+            stem = run_stem(ROOT, arm, s)
             sm_path = ROOT / f"{stem}.json"
             if not sm_path.exists():
                 continue
@@ -80,12 +81,12 @@ def main():
     print()
     for a in ARMS:
         print(a, "terminations:", dict(Counter(r["term"] for r in by[a])))
-    if by["logbook"] and by["none"]:
-        L = sum(1 for r in by["logbook"] if r["days"] >= 60)
+    if by["register"] and by["none"]:
+        L = sum(1 for r in by["register"] if r["days"] >= 60)
         N = sum(1 for r in by["none"] if r["days"] >= 60)
         T = sum(1 for r in by["notes"] if r["days"] >= 60)
-        print(f"Fisher p (alive at day 60) logbook vs none: {fisher_two_sided(L, len(by['logbook']) - L, N, len(by['none']) - N):.2g}; "
-              f"logbook vs notes: {fisher_two_sided(L, len(by['logbook']) - L, T, len(by['notes']) - T):.2g}")
+        print(f"Fisher p (alive at day 60) register vs none: {fisher_two_sided(L, len(by['register']) - L, N, len(by['none']) - N):.2g}; "
+              f"register vs notes: {fisher_two_sided(L, len(by['register']) - L, T, len(by['notes']) - T):.2g}")
     print()
     print("Paper learning metric (profit per day, day 1-90 vs day 90-end), runs that passed day 90:")
     for a in ARMS:
@@ -95,7 +96,7 @@ def main():
             print(f"  {a}: n={len(v)} early {ms([r['early'] for r in v], '{:.2f}')} late {ms([r['late'] for r in v], '{:.2f}')} "
                   f"late>early in {better}/{len(v)}")
     print()
-    print("Units destroyed by failed stock commands: days 1-20 per run (all arms), and after day 20 (logbook)")
+    print("Units destroyed by failed stock commands: days 1-20 per run (all arms), and after day 20 (register)")
     for a in ARMS:
         v = by[a]
         print(f"  {a}: days 1-20 {ms([r['lost_first20'] for r in v])}; after day 20 {ms([r['lost'] - r['lost_first20'] for r in v])}")

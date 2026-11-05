@@ -37,7 +37,7 @@ The AhaBench setup, where the Register won, keeps 8 actions in view, not the run
 
 ## What to change, cheapest and most telling first
 
-1. **A stateless system with the Register** (`logbook_stateless`): the context is reset at every instance, the Register keeps the
+1. **A stateless system with the Register** (`register_stateless`): the context is reset at every instance, the Register keeps the
    record across them. The Register is the memory, nothing else is. A rollout costs what the baseline costs, about $3 instead of
    $13 to $24, and the comparison with the existing stateless baselines is on the same hands. 5 rollouts: about $15. It
    answers the question this run could not: what the Register is worth on poker, apart from the history.

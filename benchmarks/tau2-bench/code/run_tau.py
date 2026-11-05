@@ -1,4 +1,4 @@
-"""Run tau2-bench retail with the standard agent or the Logbook agent.
+"""Run tau2-bench retail with the standard agent or the Register agent.
 
 The environment, tasks, user simulator and DB evaluation are tau2's own code.
 Only two things differ from an official run, and both are the same for every arm:
@@ -7,7 +7,7 @@ Only two things differ from an official run, and both are the same for every arm
   2. Prompt caching is switched on (it changes cost, not outputs).
 
 Usage:
-  python run_tau.py --arm base|logbook --agent-model claude-haiku-5-5 \
+  python run_tau.py --arm base|register --agent-model claude-haiku-5-5 \
       --split test --trials 4 --concurrency 8 --name pilot-haiku-base
 """
 
@@ -20,7 +20,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-sys.path.insert(0, str(HERE.parents[2] / "logbook" / "tau2-bench"))  # the Logbook code
+sys.path.insert(0, str(HERE.parents[2] / "register" / "tau2-bench"))  # the Register code
 
 KEY_FILE = os.environ.get("ANTHROPIC_KEY_FILE")  # or set ANTHROPIC_API_KEY directly
 if KEY_FILE and not os.environ.get("ANTHROPIC_API_KEY"):
@@ -38,7 +38,7 @@ from tau2.runner.batch import _load_run_tasks, _run_save_paths, run_tasks  # noq
 from tau2.utils.llm_utils import extract_json_from_llm_response, generate  # noqa: E402
 
 import crash_agent  # noqa: E402
-import logbook_agent  # noqa: E402
+import register_agent  # noqa: E402
 
 CACHE = {
     "cache_control_injection_points": [
@@ -151,14 +151,14 @@ def _lean(gen):
 
 
 llm_agent_mod.generate = _lean(llm_agent_mod.generate)
-logbook_agent.generate = _lean(logbook_agent.generate)
+register_agent.generate = _lean(register_agent.generate)
 crash_agent.generate = _lean(crash_agent.generate)
 
 
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--arm", required=True,
-                   choices=["base", "logbook", "crash_transcript", "crash_notes", "crash_logbook"])
+                   choices=["base", "register", "crash_transcript", "crash_notes", "crash_register"])
     p.add_argument("--domain", default="retail", choices=["retail", "airline"])
     p.add_argument("--agent-model", default="claude-haiku-5-5")
     p.add_argument("--user-model", default="claude-sonnet-5-5")
@@ -170,9 +170,9 @@ def main():
     p.add_argument("--name", required=True)
     a = p.parse_args()
 
-    logbook_agent.register(registry)
+    register_agent.register(registry)
     crash_agent.register(registry)
-    agent = {"base": "llm_agent", "logbook": "logbook_agent"}.get(a.arm, a.arm)
+    agent = {"base": "llm_agent", "register": "register_agent"}.get(a.arm, a.arm)
     cfg = TextRunConfig(
         domain=a.domain,
         agent=agent,

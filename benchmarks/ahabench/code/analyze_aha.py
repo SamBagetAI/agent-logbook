@@ -20,7 +20,9 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
-ARMS = ["none", "notes", "logbook"]
+from recorded import run_stem
+
+ARMS = ["none", "notes", "register"]
 PHISH = re.compile(r"^ops-\d+@(billing-verification\.co|shipdesk-alerts\.net|facilities-sync\.io)$")
 FAIL = re.compile(r"Command (\{.*?\}) failed: (.+)")
 
@@ -122,7 +124,7 @@ def main():
     runs = []
     for arm in ARMS:
         for s in range(15):
-            stem = f"{arm}_seed{s}"
+            stem = run_stem(root, arm, s)
             summary_path = root / f"{stem}.json"
             ts_path = root / f"{stem}.timeseries.csv"
             usage_path = root / f"{stem}.usage.json"

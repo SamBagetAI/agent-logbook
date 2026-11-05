@@ -106,18 +106,18 @@ The benchmark code, its prompts and its agent loop are unchanged. Each setup is 
 
 - **No memory**: AhaBench's default. Each decision sees the current state and the last 8 actions, nothing older.
 - **Agent's own notes**: the agent can add a `note` to any action; its last 25 notes are shown in every later decision.
-- **Register** ([`vending_logbook.py`](../../logbook/ahabench/vending_logbook.py)): records what the agent was shown since day 1, and puts a short track record in the prompt's PLANNER NOTE block: units and profit per day at each price, sold-out days, effect of assortment and weather, product slot sizes, failed commands and the units they destroyed, supplier search results, quotes and refusals, orders and their issues, losses, money trend. It adds information only and blocks nothing. Every line comes from what the agent had already been shown: `code/verify_replay.py` rebuilds every Register block of every published run, byte for byte, from the prompts the agent received and the actions it chose.
-- **Register without money and sales lines** (`--arm logbook_noout`): the same record minus the money trend, sales, price, assortment and weather lines.
-- **Generic Register** ([`generic_logbook.py`](../../logbook/ahabench/generic_logbook.py), `--arm generic`): knows nothing about the task. After every action it reads the tool's text result, keeps every line that matches a generic failure vocabulary (failed, invalid, insufficient, missing, still need, ...), grouped by message pattern and counted, and the last call that worked per tool. Messages count only when they reply to the agent's own messages; unsolicited ones (possibly phishing) are never repeated back.
+- **Register** ([`vending_register.py`](../../register/ahabench/vending_register.py)): records what the agent was shown since day 1, and puts a short track record in the prompt's PLANNER NOTE block: units and profit per day at each price, sold-out days, effect of assortment and weather, product slot sizes, failed commands and the units they destroyed, supplier search results, quotes and refusals, orders and their issues, losses, money trend. It adds information only and blocks nothing. Every line comes from what the agent had already been shown: `code/verify_replay.py` rebuilds every Register block of every published run, byte for byte, from the prompts the agent received and the actions it chose.
+- **Register without money and sales lines** (`--arm register_noout`): the same record minus the money trend, sales, price, assortment and weather lines.
+- **Generic Register** ([`generic_register.py`](../../register/ahabench/generic_register.py), `--arm generic`): knows nothing about the task. After every action it reads the tool's text result, keeps every line that matches a generic failure vocabulary (failed, invalid, insufficient, missing, still need, ...), grouped by message pattern and counted, and the last call that worked per tool. Messages count only when they reply to the agent's own messages; unsolicited ones (possibly phishing) are never repeated back.
 - **Generic Register v2** (`--arm generic2`): v1 plus every sender of a repeated refusal, and where each address came from (returned by the agent's own tools, or wrote first).
-- **Register written by a model** (`--arm auto2 --logbook-file X.py`, or `--arm auto` for test 1's interface): a Register from [`written_logbooks/`](written_logbooks), or one written with [author/](../../author). The provider calls it with a 2-second limit per call, shows at most 4,200 characters, and keeps the run going if it raises.
+- **Register written by a model** (`--arm auto2 --register-file X.py`, or `--arm auto` for test 1's interface): a Register from [`written_registers/`](written_registers), or one written with [author/](../../author). The provider calls it with a 2-second limit per call, shows at most 4,200 characters, and keeps the run going if it raises.
 
 ## Protocol
 
 - Scenario `v2` (the paper's incident track), `calibrated` mode, 365 days, AhaBench commit `8da1945`.
 - Seeds 0 to 4 (the paper's) plus 5 to 14, because the result depended on survival.
 - Model `claude-haiku-5-5`, default temperature (Claude 5.5 models reject the parameter; the paper used 0.2), up to 8,000 output tokens per call. Same settings for every setup.
-- Code versions: the published `vending_logbook.py` and `logbook_provider.py` include three changes made after the first Haiku runs, none of which changes the full Register's record: a picklable counter (for checkpoints), the `outcomes` switch used by the ablation, and the provider now keeping only replies that are tool calls as the agent's last action.
+- Code versions: the published `vending_register.py` and `register_provider.py` include three changes made after the first Haiku runs, none of which changes the full Register's record: a picklable counter (for checkpoints), the `outcomes` switch used by the ablation, and the provider now keeping only replies that are tool calls as the agent's last action.
 - Metrics, as in the paper's runner (`scripts/run_ahabench.py`): final net profit (net worth minus $500), termination mode, and profit per day from day 1 to day 90 versus day 90 to the end. The runner records net worth every simulated day, the same row the paper's V1 runner writes.
 
 ## Limits
@@ -139,8 +139,8 @@ git clone https://github.com/Marco-Cheng/AhaBench && cd AhaBench && git checkout
 python3.12 -m venv .venv && . .venv/bin/activate
 pip install -e benchmarks/openvending httpx
 export ANTHROPIC_API_KEY=...            # or ANTHROPIC_KEY_FILE=/path/to/key
-CODE=/path/to/agent-logbook/benchmarks/ahabench/code   # a clone of this repo: the runner loads the Register from logbook/
-python $CODE/aha_run_ckpt.py --arm register --seed 0 --out runs/eval     # arms: none, notes, register, logbook_noout, generic, generic2
+CODE=/path/to/agent-register/benchmarks/ahabench/code   # a clone of this repo: the runner loads the Register from register/
+python $CODE/aha_run_ckpt.py --arm register --seed 0 --out runs/eval     # arms: none, notes, register, register_noout, generic, generic2
 python $CODE/report_aha.py runs/eval
 python $CODE/plot_aha.py runs/eval results
 ```
@@ -148,32 +148,34 @@ python $CODE/plot_aha.py runs/eval results
 A Register written by a model, and the loop that writes, tries and rewrites one:
 
 ```bash
-REPO=/path/to/agent-logbook
-python $CODE/aha_run_ckpt.py --arm auto2 --logbook-file $REPO/benchmarks/ahabench/written_logbooks/generic_v2/opusGP1.py \
+REPO=/path/to/agent-register
+python $CODE/aha_run_ckpt.py --arm auto2 --register-file $REPO/benchmarks/ahabench/written_registers/generic_v2/opusGP1.py \
     --label opusGP1 --seed 15 --max-day 60 --out runs/written
-python $REPO/author/author.py $REPO/author/examples/ahabench/spec.json --past-runs --name my_logbook   # writes written/my_logbook.py
-python $CODE/aha_run_ckpt.py --arm auto2 --logbook-file written/my_logbook.py --label my_logbook --seed 201 --max-day 60 --out runs/trial
-python $CODE/trace_from_calls.py runs/trial/my_logbook_seed201 trial.jsonl      # prints how the trial ended
+python $REPO/author/author.py $REPO/author/examples/ahabench/spec.json --past-runs --name my_register   # writes written/my_register.py
+python $CODE/aha_run_ckpt.py --arm auto2 --register-file written/my_register.py --label my_register --seed 201 --max-day 60 --out runs/trial
+python $CODE/trace_from_calls.py runs/trial/my_register_seed201 trial.jsonl      # prints how the trial ended
 python $REPO/author/trial_report.py trial.jsonl trial_report.txt
-python $REPO/author/author.py $REPO/author/examples/ahabench/spec.json --past-runs --revise-from my_logbook \
-    --trial-report trial_report.txt --trial-outcome '<the sentence printed above>' --name my_logbook_2
-python $CODE/report_written.py            # the table of "Can a model write the Register?", from data/written_logbooks_*.zip
+python $REPO/author/author.py $REPO/author/examples/ahabench/spec.json --past-runs --revise-from my_register \
+    --trial-report trial_report.txt --trial-outcome '<the sentence printed above>' --name my_register_2
+python $CODE/report_written.py            # the table of "Can a model write the Register?", from data/written_registers_*.zip
 python $CODE/verify_replay_written.py     # the replay check (a few minutes)
 ```
 
-`aha_run_ckpt.py` adds a checkpoint every simulated day to `aha_run.py` (rerun the command to resume). The first Haiku runs (no memory, notes, Register) used `aha_run.py`; the generic, ablation and Sonnet runs used `aha_run_ckpt.py`, for example: `python $CODE/aha_run_ckpt.py --arm logbook --seed 0 --model claude-sonnet-5-5 --out runs/sonnet`.
+`aha_run_ckpt.py` adds a checkpoint every simulated day to `aha_run.py` (rerun the command to resume). The first Haiku runs (no memory, notes, Register) used `aha_run.py`; the generic, ablation and Sonnet runs used `aha_run_ckpt.py`, for example: `python $CODE/aha_run_ckpt.py --arm register --seed 0 --model claude-sonnet-5-5 --out runs/sonnet`.
 
 ## Files
 
-- `code/logbook_provider.py`: every setup (provider for AhaBench's `--provider python`); it loads the Register from [`logbook/ahabench`](../../logbook/ahabench)
-- [`logbook/ahabench/vending_logbook.py`](../../logbook/ahabench/vending_logbook.py): the task Register for Aha-Vending; [`logbook/ahabench/generic_logbook.py`](../../logbook/ahabench/generic_logbook.py): the generic Register (v1 and v2)
+The runs were recorded when the Register was still called the Logbook: inside `data/`, the file names, the keys and the text the agent saw keep that name, and `code/recorded.py` maps it for the scripts that read them. In the Registers written by a model, that word is the only change; the replay check puts it back and rebuilds the runs byte for byte.
+
+- `code/register_provider.py`: every setup (provider for AhaBench's `--provider python`); it loads the Register from [`register/ahabench`](../../register/ahabench)
+- [`register/ahabench/vending_register.py`](../../register/ahabench/vending_register.py): the task Register for Aha-Vending; [`register/ahabench/generic_register.py`](../../register/ahabench/generic_register.py): the generic Register (v1 and v2)
 - `code/aha_run.py`, `code/aha_run_ckpt.py`: runners (the paper's episode loop plus a daily net-worth series)
 - `code/report_aha.py`, `code/analyze_aha.py`, `code/acct_analysis.py`, `code/compare_sonnet.py`, `code/plot_aha.py`, `code/plot_sonnet.py`, `code/replay_test.py`, `code/replay_generic.py`: analysis
 - `code/verify_replay.py`: replays the published call logs through the Register, offline, and checks that it rebuilds every block the agent saw (37,837 of 37,837 model calls)
-- [`written_logbooks/`](written_logbooks): the 24 Registers written by a model, each with its writing log (`.json`: rounds, validation, tokens, cost). `task_prompt/`: test 1 (`opusA1` ... `haikuB3`; A from the prompts, B after the failed run), with the author that wrote them (`author_task_prompt.py`). `generic_v1/`: test 2 (`opusGA`: from the spec, `opusGB`: with the failed run). `generic_v2/`: test 3 (`opusGP`, and `opusGL` rewritten after a trial), with the 3 trial reports their author read
+- [`written_registers/`](written_registers): the 24 Registers written by a model, each with its writing log (`.json`: rounds, validation, tokens, cost). `task_prompt/`: test 1 (`opusA1` ... `haikuB3`; A from the prompts, B after the failed run), with the author that wrote them (`author_task_prompt.py`). `generic_v1/`: test 2 (`opusGA`: from the spec, `opusGB`: with the failed run). `generic_v2/`: test 3 (`opusGP`, and `opusGL` rewritten after a trial), with the 3 trial reports their author read
 - `code/report_written.py`: the results of the three tests; `code/verify_replay_written.py`: their replay check; `code/trace_from_calls.py`: a run's call log as the trace that [`author/trial_report.py`](../../author/trial_report.py) reads
-- `results/written_logbooks_runs.csv`: one row per run of the three tests (150 runs); `results/written_logbooks_summary.txt`: their report; `results/written_logbooks_replay.txt`: the replay check
-- `data/written_logbooks_calls.zip`: every model call of those runs, of the 3 trials and of the failed run; `data/written_logbooks_per_run.zip`: their summaries, daily net worth and token usage; `data/written_logbooks_traces.zip`: environment traces
-- `results/runs.csv`: one row per run (Haiku setups including `generic`, `generic2`, `logbook_noout`; `sonnet_none`, `sonnet_logbook`); `results/summary.txt`: full report; `results/*.png`: charts
+- `results/written_registers_runs.csv`: one row per run of the three tests (150 runs); `results/written_registers_summary.txt`: their report; `results/written_registers_replay.txt`: the replay check
+- `data/written_registers_calls.zip`: every model call of those runs, of the 3 trials and of the failed run; `data/written_registers_per_run.zip`: their summaries, daily net worth and token usage; `data/written_registers_traces.zip`: environment traces
+- `results/runs.csv`: one row per run (Haiku setups including `generic`, `generic2`, `register_noout`; `sonnet_none`, `sonnet_register`); `results/summary.txt`: full report; `results/*.png`: charts
 - `data/per_run.zip`: benchmark summaries, daily net worth and token usage per run (Sonnet runs under `sonnet/`)
 - `data/logs_calls.zip`: every model call (prompt and reply); `data/logs_traces.zip`: environment traces

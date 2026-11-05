@@ -3,7 +3,7 @@ instance answered by a fixed placeholder policy. Poker and spectrum: seed 7, whi
 Database exploration: question 21, which the evaluation does not use. Cohort studies, codebase adaptation and sales
 prediction ship fixed data, so their example is the first evaluation instance, answered by the placeholder policy.
 
-  CLBENCH_REPO=/path/to/continual-learning-bench python make_specs.py      # writes ../written_logbooks/specs/
+  CLBENCH_REPO=/path/to/continual-learning-bench python make_specs.py      # writes ../written_registers/specs/
 """
 import json
 import os
@@ -18,11 +18,11 @@ os.chdir(REPO)  # some tasks open their data by relative path
 from src.interface import Response, format_task_agent_brief  # noqa: E402
 from src.registry import get_task_class  # noqa: E402
 
-OUT = Path(__file__).resolve().parent.parent / "written_logbooks" / "specs"
+OUT = Path(__file__).resolve().parent.parent / "written_registers" / "specs"
 VIEW = ("At each step the agent receives the task's prompt for that step (the first step of each instance repeats the brief). "
         "It answers with one JSON object that matches the response schema named in <tools>, and then receives feedback on that answer. "
         "The agent keeps the whole run in its context: every prompt, every answer and every piece of feedback, across all instances, "
-        "in order. In these runs nothing is dropped (the context holds about 1,000,000 tokens). The Logbook's text is added to the "
+        "in order. In these runs nothing is dropped (the context holds about 1,000,000 tokens). The Register's text is added to the "
         "current prompt only. In step[\"action\"], \"tool\" is the name of the response schema and \"arguments\" is the agent's JSON answer; "
         "step[\"result\"] is the feedback text.")
 

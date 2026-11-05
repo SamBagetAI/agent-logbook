@@ -1,7 +1,7 @@
-"""Offline check, no API call: the Logbook text reaches the API payload's last user message only,
+"""Offline check, no API call: the Register text reaches the API payload's last user message only,
 and the history the system stores stays the ICL history.
 
-  CLBENCH_REPO=/path/to/continual-learning-bench python test_injection.py   # logbook_icl copied into src/systems/
+  CLBENCH_REPO=/path/to/continual-learning-bench python test_injection.py   # register_icl copied into src/systems/
 """
 import json, os, sys
 from pathlib import Path
@@ -21,11 +21,11 @@ def fake_request(self, payload):
             "usage": {"input_tokens": 10, "output_tokens": 5}, "stop_reason": "end_turn"}
 pa.ProviderTurnClient._anthropic_request = fake_request
 
-for name in ("icl", "logbook_icl"):
+for name in ("icl", "register_icl"):
     payloads.clear()
     kw = {"model": "claude-sonnet-5-5"}
-    if name == "logbook_icl":
-        kw["logbook_dir"] = str(HERE.parent / "written_logbooks")
+    if name == "register_icl":
+        kw["register_dir"] = str(HERE.parent / "written_registers")
     sysm = get_system_class(name)(**kw)
     task = get_task_class("exploitable_poker")(schedule="quick_test")
     q = task.reset(); sysm.reset()
@@ -38,5 +38,5 @@ for name in ("icl", "logbook_icl"):
     last = payloads[-1]["messages"][-1]["content"]
     texts = [b.get("text", "")[:90].replace("\n", " | ") for b in last]
     hist = sysm._provider_client.state.native_messages
-    stored = sum("Logbook" in b.get("text", "") for m in hist for b in m.get("content", []))
-    print(name, "| calls", len(payloads), "| last user message blocks:", texts, "| Logbook copies stored in history:", stored)
+    stored = sum("Register" in b.get("text", "") for m in hist for b in m.get("content", []))
+    print(name, "| calls", len(payloads), "| last user message blocks:", texts, "| Register copies stored in history:", stored)

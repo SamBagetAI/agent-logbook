@@ -1,4 +1,4 @@
-"""Prosus Vending Bench with Claude through the Anthropic API, notes vs Logbook.
+"""Prosus Vending Bench with Claude through the Anthropic API, notes vs Register.
 
 This is the benchmark's own MCP-only runner (scripts/run_openrouter.py) with the
 transport swapped from OpenRouter to the Anthropic API through LiteLLM. Same
@@ -7,7 +7,7 @@ same memory policy, same scoring. Two arms:
 
   notes    the benchmark as published: the agent keeps memory with write_note,
            read_notes and reminders
-  logbook  the same, plus a Logbook layer between the agent and the tools: it
+  register  the same, plus a Register layer between the agent and the tools: it
            records every action and fact automatically, appends a short brief
            to get_status and wait_for_next_day, and refuses a few actions the
            briefing says are irreversible mistakes
@@ -83,7 +83,7 @@ def assistant_dict(message) -> dict:
 
 
 async def execute_tools(client, calls, allowed, layer):
-    """run_openrouter.execute_tools, with an optional Logbook layer around each call."""
+    """run_openrouter.execute_tools, with an optional Register layer around each call."""
     results = []
     for call in calls:
         try:
@@ -117,7 +117,7 @@ async def play(arm, model, seed, args):
                       VENDING_STATE_PATH=str(out / "live-state.json"), VENDING_RESUME="0")
     os.environ["ANTHROPIC_API_KEY"] = _api_key()
     sys.path[:0] = [str(SIM), str(ROOT / "scripts"), str(HERE),
-                    str(HERE.parents[2] / "logbook" / "vending-bench")]  # the Logbook code
+                    str(HERE.parents[2] / "register" / "vending-bench")]  # the Register code
     import litellm
     import server
     import sync_config
@@ -126,9 +126,9 @@ async def play(arm, model, seed, args):
 
     litellm.suppress_debug_info = True
     layer = None
-    if arm == "logbook":
-        from vb_logbook import Logbook
-        layer = Logbook()  # sees tool results only, never the simulator state
+    if arm == "register":
+        from vb_register import Register
+        layer = Register()  # sees tool results only, never the simulator state
 
     prompt = sync_config.render()
     (out / "instruction.md").write_text(prompt + "\n\n" + MEMORY_POLICY)
@@ -219,7 +219,7 @@ async def play(arm, model, seed, args):
     score = server.ENGINE.score(finalize=True)
     write_json(out / "trajectory.json", server.ENGINE.s)
     if layer:
-        write_json(out / "logbook.json", layer.dump())
+        write_json(out / "register.json", layer.dump())
     record = {**score, "arm": arm, "model": model, "seed": seed, "horizon_days": args.days,
               "api_cost_usd": round(spent, 4), "tokens": tokens,
               "llm_cost_eur": round(spent * EUR_PER_USD, 2),
@@ -238,7 +238,7 @@ def worker(arm, model, seed, args):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--arm", choices=["notes", "logbook"], required=True)
+    ap.add_argument("--arm", choices=["notes", "register"], required=True)
     ap.add_argument("--model", default="claude-haiku-5-5")
     ap.add_argument("--seeds", nargs="+", type=int, default=[1])
     ap.add_argument("--days", type=int, default=30)

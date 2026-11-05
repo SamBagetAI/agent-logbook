@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 HERE = Path(__file__).resolve().parent
 board = json.loads((HERE.parent / "results" / "compare.json").read_text())["board_6_tasks"]
 NAMES = {
-    "logbook-icl-claude-sonnet-4-6": "ICL + Logbook · Claude Sonnet 4.6",
+    "register-icl-claude-sonnet-4-6": "ICL + Register · Claude Sonnet 4.6",
     "icl-claude-sonnet-4.6": "ICL · Claude Sonnet 4.6", "icl-gpt-5.4": "ICL · GPT-5.4",
     "claude-code-sonnet-4.6": "Claude Code · Sonnet 4.6", "icl-claude-opus-4.7": "ICL · Claude Opus 4.7",
     "mem0-gpt-5.4": "Mem0 · GPT-5.4", "icl-notepad-claude-sonnet-4-6": "ICL Notepad · Claude Sonnet 4.6",
@@ -20,8 +20,8 @@ NAMES = {
     "icl-notepad-gemini-3.1-pro-preview": "ICL Notepad · Gemini 3.1 Pro Preview",
     "icl-gemini-3.1-pro-preview": "ICL · Gemini 3.1 Pro Preview",
 }
-OURS = "logbook-icl-claude-sonnet-4-6"
-GREEN, OTHER = "#1baf7a", "#b9b7ae"  # green = with the Logbook, as in the other charts; gray = published systems
+OURS = "register-icl-claude-sonnet-4-6"
+GREEN, OTHER = "#1baf7a", "#b9b7ae"  # green = with the Register, as in the other charts; gray = published systems
 INK, MUTED, GRID = "#1f1f1e", "#6b6a64", "#e6e5e0"
 plt.rcParams["font.family"] = "Inter"
 
@@ -48,7 +48,7 @@ ax.spines["bottom"].set_color(GRID)
 ax.grid(axis="x", color=GRID, linewidth=0.8)
 ax.set_axisbelow(True)
 ax.set_xlabel("Mean normalized reward over the 6 tasks (%), the leaderboard's ranking metric", color=MUTED, fontsize=9)
-fig.suptitle("Continual Learning Bench, all 6 tasks: the 12 published systems and ICL with a Logbook",
+fig.suptitle("Continual Learning Bench, all 6 tasks: the 12 published systems and ICL with a Register",
              x=0.015, ha="left", fontsize=11, color=INK)
 fig.tight_layout()
 out = HERE.parent / "results" / "board.png"

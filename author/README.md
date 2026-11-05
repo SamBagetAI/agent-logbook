@@ -1,6 +1,6 @@
 # The Register author
 
-The Registers in [logbook/](../logbook) were each written by hand for one benchmark. Here a model writes the Register for any agent. You describe the agent in a spec: its goal, its instructions, its tools, what it keeps in view, one example step, and optionally a past run. Claude Opus 5.5 then writes the Register as Python code. Nothing in the prompt is specific to a benchmark: everything specific comes from the spec.
+The Registers in [register/](../register) were each written by hand for one benchmark. Here a model writes the Register for any agent. You describe the agent in a spec: its goal, its instructions, its tools, what it keeps in view, one example step, and optionally a past run. Claude Opus 5.5 then writes the Register as Python code. Nothing in the prompt is specific to a benchmark: everything specific comes from the spec.
 
 ## Result on AhaBench
 
@@ -11,12 +11,12 @@ The Registers in [logbook/](../logbook) were each written by hand for one benchm
 | Register written by Opus 5.5 with this prompt, from the spec and one failed run | **15/15** | +$56 |
 | The same Registers, rewritten once after a trial run | 15/15 | +$89 |
 
-3 written Registers per row, each run on 5 seeds, runs stopped after day 60. On profit at day 60, the Registers written with this prompt were ahead of the hand-written one on 15 of 15 seeds. The earlier prompt versions, the 24 Registers written in the tests and the full protocol are in [benchmarks/ahabench](../benchmarks/ahabench#can-a-model-write-the-logbook).
+3 written Registers per row, each run on 5 seeds, runs stopped after day 60. On profit at day 60, the Registers written with this prompt were ahead of the hand-written one on 15 of 15 seeds. The earlier prompt versions, the 24 Registers written in the tests and the full protocol are in [benchmarks/ahabench](../benchmarks/ahabench#can-a-model-write-the-register).
 
 ## How to use it
 
 ```text
-spec.json ──> author.py ──> my_logbook.py ──> adapter.py, in your agent loop
+spec.json ──> author.py ──> my_register.py ──> adapter.py, in your agent loop
                   ^                                  │
                   └── trial_report.py <── trace ─────┘   (optional: try it, then let the author rewrite it)
                   └── rewrite.py <── the run so far ──┘   (optional: rewrite it in the middle of the run)
@@ -32,7 +32,7 @@ A JSON file. Paths are relative to the spec. [`examples/ahabench/spec.json`](exa
 | `instructions_file` | the agent's instructions, as it receives them (its system prompt) | [`instructions.txt`](examples/ahabench/instructions.txt) |
 | `tools_file` | its tools: name, description and parameters, as JSON | [`tools.json`](examples/ahabench/tools.json), 12 tools |
 | `view` | what the agent keeps in view from one step to the next. What leaves it is lost to the agent: that is what the Register is for | "[...] its last 8 actions with each result cut to 260 characters, and the full result of its previous action. Nothing else is kept between steps." |
-| `harness_files` | optional: the agent's side of its loop, as files. The code that builds each prompt and cuts the history, and anything the agent may load during a run: skills, memory, notes. A list of `{"file", "what"}`, `what` being one line on the file's role. Never the environment's code | not used in the tests. It would be [`logbook_provider.py`](../benchmarks/ahabench/code/logbook_provider.py), which builds every prompt of the AhaBench runs |
+| `harness_files` | optional: the agent's side of its loop, as files. The code that builds each prompt and cuts the history, and anything the agent may load during a run: skills, memory, notes. A list of `{"file", "what"}`, `what` being one line on the file's role. Never the environment's code | not used in the tests. It would be [`register_provider.py`](../benchmarks/ahabench/code/register_provider.py), which builds every prompt of the AhaBench runs |
 | `example_step_file` | one step exactly as the agent receives it, which is what the Register will get as `step["seen"]` | [`example_step.txt`](examples/ahabench/example_step.txt), the day-1 prompt |
 | `past_runs_intro` | optional: one sentence on the past run (which agent, without a Register, how it ended) | "[...] After 60 days its net worth was $118.96; it started with $500.00." |
 | `past_runs_file` | optional: the past run as the author reads it | [`past_run.txt`](examples/ahabench/past_run.txt), 60 simulated days |
@@ -51,10 +51,10 @@ python past_run.py past_run.jsonl my_agent/    # writes my_agent/past_run.txt an
 ```bash
 pip install httpx
 export ANTHROPIC_API_KEY=...            # or ANTHROPIC_KEY_FILE=/path/to/key
-python author.py my_agent/spec.json --past-runs --name my_logbook
+python author.py my_agent/spec.json --past-runs --name my_register
 ```
 
-This writes `written/my_logbook.py` and `written/my_logbook.json` (every round: the author's full answer, its validation, tokens and cost; with the spec and, for a rewrite, the `_input/` folder, every call can be read again without being made again). [`validate.py`](validate.py) runs each draft on the steps the author saw, in a separate process: no exception, a text within the limit, every call under a second, a picklable object. On a problem the author gets the error and fixes it, at most twice. No human edits.
+This writes `written/my_register.py` and `written/my_register.json` (every round: the author's full answer, its validation, tokens and cost; with the spec and, for a rewrite, the `_input/` folder, every call can be read again without being made again). [`validate.py`](validate.py) runs each draft on the steps the author saw, in a separate process: no exception, a text within the limit, every call under a second, a picklable object. On a problem the author gets the error and fixes it, at most twice. No human edits.
 
 With AhaBench's spec and past run (about 115,000 input tokens), a Register cost $0.77 to $1.54 with Opus 5.5. All 24 Registers written in the tests passed validation at their first complete draft; the extra rounds came from first drafts cut by the 16,000-token answer limit (`--max-tokens`).
 
@@ -82,9 +82,9 @@ class Register:
 [`adapter.py`](adapter.py) calls it from any loop, with the guards used in the AhaBench runs: 2 seconds per call, an error or a timeout never stops the run (the last text that worked is shown again), the text is cut at 4,200 characters.
 
 ```python
-from adapter import LogbookAdapter
+from adapter import RegisterAdapter
 
-book = LogbookAdapter("written/my_logbook.py", trace="trial/trace.jsonl")   # trace is optional
+book = RegisterAdapter("written/my_register.py", trace="trial/trace.jsonl")   # trace is optional
 action, result = None, ""
 while not done:
     seen = ...                                           # what the agent receives at this step
@@ -96,7 +96,7 @@ book.close(action, result)
 
 - `action` in the shape the author was told: `{"tool": "send_email", "arguments": {...}}`.
 - `seen` must match the spec's `view` and `example_step_file`: the whole prompt if your loop rebuilds it at every step (as AhaBench does), the new messages if it is a conversation.
-- Where the text goes is up to the loop. On AhaBench it replaces the PLANNER NOTE block of each prompt ([`logbook_provider.py`](../benchmarks/ahabench/code/logbook_provider.py), arm `auto2`).
+- Where the text goes is up to the loop. On AhaBench it replaces the PLANNER NOTE block of each prompt ([`register_provider.py`](../benchmarks/ahabench/code/register_provider.py), arm `auto2`).
 
 ### 4. Optional: try it, then let the author rewrite it
 
@@ -104,9 +104,9 @@ Run the agent with the Register on a seed or task you will not evaluate on, with
 
 ```bash
 python trial_report.py trial/trace.jsonl trial/report.txt
-python author.py my_agent/spec.json --past-runs --revise-from my_logbook --trial-report trial/report.txt \
+python author.py my_agent/spec.json --past-runs --revise-from my_register --trial-report trial/report.txt \
     --trial-outcome 'The trial ran for 60 days. Its net worth at the end was $616.84; it started with $500.00.' \
-    --name my_logbook_2
+    --name my_register_2
 ```
 
 For each decision of the trial, the report shows what was new in the Register's text, the action the agent chose and its result. The author reads it after its own Register, looks for where the agent ignored or misread it and what it lacked, and rewrites it. On AhaBench this gained nothing measurable at day 60 (15/15 before and after, profit ahead on 8 of 15 seeds).
@@ -119,7 +119,7 @@ In the loop, after K decisions:
 
 ```python
 from rewrite import rewrite_mid_run
-new_path = rewrite_mid_run(book, "my_agent/spec.json", name="my_logbook_2")   # book: the LogbookAdapter
+new_path = rewrite_mid_run(book, "my_agent/spec.json", name="my_register_2")   # book: the RegisterAdapter
 ```
 
 One author call, one to three minutes, during which the loop waits; `None` when the author failed, and the current Register stays. The author gets, under `<run_so_far>`, every decision so far: the lines that were new in what the agent received, the lines that were new in the Register's text, the action and its result, then the full prompt of the last decision. It is told to count what these decisions show, not to hard-code it, since the Register must work as well on the decisions that follow. Its drafts are validated on those decisions. When to call it is the loop's choice; a fixed point, 10 to 20% into the run, is the simplest.
@@ -127,7 +127,7 @@ One author call, one to three minutes, during which the loop waits; `None` when 
 Offline, on a trace recorded with `trace_seen=True`:
 
 ```bash
-python rewrite.py my_agent/spec.json --logbook written/my_logbook.py --trace trial/trace.jsonl --at 80 --name my_logbook_2
+python rewrite.py my_agent/spec.json --register written/my_register.py --trace trial/trace.jsonl --at 80 --name my_register_2
 ```
 
 This cuts the trace after 80 decisions, has the author rewrite the Register from them, then replays the whole trace through the new Register, the decisions after the cut included, and prints its text at the cut and at the end.

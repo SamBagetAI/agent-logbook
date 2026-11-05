@@ -59,7 +59,7 @@ def _new_opp():
             "hands": 0, "net": 0, "folds": 0, "fold_lost": 0, "sd": []}
 
 
-class Logbook:
+class Register:
     def __init__(self):
         self.hands = {}
         self.order = []
@@ -244,14 +244,14 @@ class Logbook:
         try:
             return self._brief()[:4000]
         except Exception:
-            return "LOGBOOK: unavailable"
+            return "REGISTER: unavailable"
 
     def _brief(self):
         fin = [self.hands[n] for n in self.order if self.hands[n]["net"] is not None]
         tot = self.total if self.total is not None else sum(h["net"] for h in fin)
         cur = self.cur_opp
         o = self._os(cur)
-        L = ["=== LOGBOOK (facts from this run) ==="]
+        L = ["=== REGISTER (facts from this run) ==="]
         L.append("[1] RESULTS: hands done %d, total profit %+d | current opp: %s" % (len(fin), tot, cur))
         names = [k for k in self.opps if self.opps[k]["hands"]]
         if len(names) > 1:

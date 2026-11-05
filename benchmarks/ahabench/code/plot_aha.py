@@ -1,6 +1,8 @@
 """Two charts for the README: share of runs still in business, mean net profit by day."""
 import csv, json, sys
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from recorded import run_stem  # noqa: E402
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -9,8 +11,8 @@ ROOT = Path(sys.argv[1] if len(sys.argv) > 1 else "runs/eval")
 OUT = Path(sys.argv[2] if len(sys.argv) > 2 else "results")
 SETUPS = [("none", "No memory (AhaBench default)", "#2a78d6"),
           ("notes", "Agent's own notes", "#eb6834"),
-          ("logbook", "Logbook", "#1baf7a")]
-SHORT = {"No memory (AhaBench default)": "No memory", "Agent's own notes": "own notes", "Logbook": "Logbook"}
+          ("register", "Register", "#1baf7a")]
+SHORT = {"No memory (AhaBench default)": "No memory", "Agent's own notes": "own notes", "Register": "Register"}
 INK, MUTED, GRID = "#1f1f1e", "#6b6a64", "#e6e5e0"
 days = list(range(1, 366))
 
@@ -18,12 +20,13 @@ days = list(range(1, 366))
 def load(arm):
     runs = []
     for s in range(15):
-        sm = ROOT / f"{arm}_seed{s}.json"
+        stem = run_stem(ROOT, arm, s)
+        sm = ROOT / f"{stem}.json"
         if not sm.exists():
             continue
         last_day = json.loads(sm.read_text())["simulated_days"]
         prof = {}
-        with (ROOT / f"{arm}_seed{s}.timeseries.csv").open() as fh:
+        with (ROOT / f"{stem}.timeseries.csv").open() as fh:
             for r in csv.DictReader(fh):
                 prof[int(r["day"])] = float(r["net_profit"])
         runs.append((last_day, prof))

@@ -1,7 +1,7 @@
-"""Summarise tau2 runs: pass^k, DB-only pass^k, cost, Logbook events, policy checks.
+"""Summarise tau2 runs: pass^k, DB-only pass^k, cost, Register events, policy checks.
 
-  python report_tau.py smoke-haiku-base smoke-haiku-logbook
-  python report_tau.py --detail smoke-haiku-logbook
+  python report_tau.py smoke-haiku-base smoke-haiku-register
+  python report_tau.py --detail smoke-haiku-register
 """
 
 import json
@@ -11,7 +11,7 @@ import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "logbook" / "tau2-bench"))  # the Logbook code
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "register" / "tau2-bench"))  # the Register code
 SIM = Path(os.environ.get("TAU2_SIMULATIONS", "tau2-bench/data/simulations"))
 AIR_TOOLS = {"get_reservation_details", "book_reservation", "cancel_reservation",
              "update_reservation_baggages", "update_reservation_flights",
@@ -41,16 +41,16 @@ def pass_hat_k(results_by_task, k):
 
 
 def violations(msgs):
-    """Replay the Logbook rules on the executed trajectory (same detector for both arms).
+    """Replay the Register rules on the executed trajectory (same detector for both arms).
 
     Returns a Counter of rule ids broken by writes that actually reached the environment.
     """
-    from logbook_agent import RetailLogbook
-    from logbook_airline import AirlineLogbook
+    from register_agent import RetailRegister
+    from register_airline import AirlineRegister
     from tau2.data_model.message import AssistantMessage, ToolCall, ToolMessage, UserMessage
 
     airline = any(c.get("name") in AIR_TOOLS for m in msgs for c in (m.get("tool_calls") or []))
-    book = AirlineLogbook() if airline else RetailLogbook()
+    book = AirlineRegister() if airline else RetailRegister()
     hist, pending, broken = [], {}, Counter()
     done_keys, dup = set(), 0
     for m in msgs:
@@ -96,7 +96,7 @@ def sim_row(s):
             writes += len(w)
             if w and len(calls) > 1:
                 batched_write += 1
-            ev = (m.get("raw_data") or {}).get("logbook_events") if isinstance(m.get("raw_data"), dict) else None
+            ev = (m.get("raw_data") or {}).get("register_events") if isinstance(m.get("raw_data"), dict) else None
             if ev:
                 events += ev
     for chk in ri.get("nl_assertions") or []:
@@ -143,7 +143,7 @@ def summary(name, ks=(1, 2, 3, 4)):
         "user_cost": round(sum(r["user_cost"] for r in rows), 3),
         "terminations": dict(Counter(r["term"] for r in rows)),
         "batched_writes": sum(r["batched_write"] for r in rows),
-        "logbook_events": dict(ev), "refusal_rules": dict(rules),
+        "register_events": dict(ev), "refusal_rules": dict(rules),
         "judge_errors": sum(r["judge_err"] for r in rows),
         "writes": sum(r["writes"] for r in rows),
         "executed_writes_breaking_a_rule": dict(broken_total),

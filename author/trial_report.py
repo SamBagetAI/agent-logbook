@@ -1,4 +1,4 @@
-"""Turn a trial run with a written Logbook into what its author reads before rewriting it.
+"""Turn a trial run with a written Register into what its author reads before rewriting it.
 
   python trial_report.py trace.jsonl report.txt [--seen]
 
@@ -6,13 +6,13 @@ trace.jsonl has one line per decision of the run, in order (adapter.py writes it
 
   {"time": "day 3, 08:05",
    "seen": "<what the agent received at this decision>",         (with trace_seen=True)
-   "brief": "<the text the Logbook showed before this decision>",
+   "brief": "<the text the Register showed before this decision>",
    "action": <the action the agent chose, as a JSON object, or its raw reply when it is not one>,
    "result": "<the text that action returned>"}
 
 "result" is null for the last decision when the run ended before it came back.
 
-For each decision the report gives the lines that were new in the Logbook's text (a line where only
+For each decision the report gives the lines that were new in the Register's text (a line where only
 numbers changed does not count as new), the action and its result. With --seen, also the lines that
 were new in what the agent received, and at the end the full prompt of the last decision: a mid-run
 rewrite needs it (rewrite.py), since the author must see what the agent saw. Results and prompt
@@ -54,7 +54,7 @@ def report(steps: list[dict], seen: bool = False, end: str = "(end of the trial)
             if new_seen:
                 lines.append("NEW IN PROMPT: " + " | ".join(new_seen))
         if new:
-            lines.append("NEW IN LOGBOOK: " + " | ".join(new))
+            lines.append("NEW IN REGISTER: " + " | ".join(new))
         act, res = s.get("action"), s.get("result")
         if act is None and res is None:
             lines.append("ACTION: (not taken yet)")

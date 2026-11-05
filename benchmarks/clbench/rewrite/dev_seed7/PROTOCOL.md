@@ -5,10 +5,10 @@ Written before the run's result was read (2026-11-03, 18:10).
 **Question.** Does a Register rewritten in the middle of the rollout, by a model, from the rollout so far, change what the
 agent does on a schedule whose opponents change, compared with the Register written before the run?
 
-**What runs.** `clbench run exploitable_poker --system logbook_icl --schedule dev_seed7 --runs 1`, Claude Sonnet 4.6 as the
+**What runs.** `clbench run exploitable_poker --system register_icl --schedule dev_seed7 --runs 1`, Claude Sonnet 4.6 as the
 agent (the model of the published runs), with:
 
-- the published poker Register ([`../../written_logbooks/exploitable_poker.py`](../../written_logbooks/exploitable_poker.py)),
+- the published poker Register ([`../../written_registers/exploitable_poker.py`](../../written_registers/exploitable_poker.py)),
   written before any run from the task's brief, unchanged, as the starting Register;
 - `rewrite_after_instances=30`: at the first turn of hand 31, 25% of the 120 hands, the author rewrites it from the
   rollout so far. The fraction is the same rule for every task; it was not chosen after looking at this run;

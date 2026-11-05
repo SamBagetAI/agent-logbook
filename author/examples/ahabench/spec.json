@@ -4,7 +4,7 @@
  "tools_file": "tools.json",
  "view": "At each step the agent receives a new prompt: the current state of the business (money, storage, machine slots, outstanding orders, headers of unread emails, the latest daily summary, recent transactions), its last 8 actions with each result cut to 260 characters, and the full result of its previous action. Nothing else is kept between steps.",
  "example_step_file": "example_step.txt",
- "past_runs_intro": "One earlier run of the same agent, without a Logbook, on a different random seed: its first 60 simulated days. For each step, the time, the action and its result (long results are cut at 2,500 characters). After 60 days its net worth was $118.96; it started with $500.00.",
+ "past_runs_intro": "One earlier run of the same agent, without a Register, on a different random seed: its first 60 simulated days. For each step, the time, the action and its result (long results are cut at 2,500 characters). After 60 days its net worth was $118.96; it started with $500.00.",
  "past_runs_file": "past_run.txt",
  "past_runs_steps_file": "past_run_steps.json.gz"
 }

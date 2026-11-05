@@ -14,9 +14,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from report_tau import load, pass_hat_k, sim_row  # noqa: E402
 
-STANDARD = ["eval-haiku-base", "eval-haiku-logbook", "eval-sonnet-base", "eval-sonnet-logbook"]
-CRASH = ["crash-haiku-transcript", "crash-haiku-notes", "crash-haiku-logbook",
-         "crash-sonnet-transcript", "crash-sonnet-notes", "crash-sonnet-logbook"]
+STANDARD = ["eval-haiku-base", "eval-haiku-register", "eval-sonnet-base", "eval-sonnet-register"]
+CRASH = ["crash-haiku-transcript", "crash-haiku-notes", "crash-haiku-register",
+         "crash-sonnet-transcript", "crash-sonnet-notes", "crash-sonnet-register"]
 SIM = Path(os.environ.get("TAU2_SIMULATIONS", "tau2-bench/data/simulations"))
 
 
@@ -96,11 +96,11 @@ if __name__ == "__main__":
         s = S[n]
         print(f"{n:26} {s['sims']:>4} {s['pass'][0]:>6} {s['pass'][3]:>6} {s['db_pass'][0]:>5} {s['db_pass'][3]:>5} "
               f"{s['violations']:>4} {s['sims_with_duplicate']:>4} {s['refusals']:>4} {s['cost_per_sim']:>7} {s['agent_cost_per_success']:>9}")
-    pairs = [("eval-haiku-logbook", "eval-haiku-base"), ("eval-haiku-logbook", "eval-sonnet-base"),
-             ("eval-sonnet-logbook", "eval-sonnet-base"),
-             ("crash-haiku-logbook", "crash-haiku-notes"), ("crash-haiku-logbook", "crash-haiku-transcript"),
+    pairs = [("eval-haiku-register", "eval-haiku-base"), ("eval-haiku-register", "eval-sonnet-base"),
+             ("eval-sonnet-register", "eval-sonnet-base"),
+             ("crash-haiku-register", "crash-haiku-notes"), ("crash-haiku-register", "crash-haiku-transcript"),
              ("crash-haiku-notes", "crash-haiku-transcript"),
-             ("crash-sonnet-logbook", "crash-sonnet-notes"), ("crash-haiku-logbook", "crash-sonnet-notes")]
+             ("crash-sonnet-register", "crash-sonnet-notes"), ("crash-haiku-register", "crash-sonnet-notes")]
     out = {"configs": {n: {k: v for k, v in S[n].items() if k != "_by"} for n in present}, "pairs": []}
     print("\npaired differences over tasks (bootstrap 95% interval)")
     for a, b in pairs:

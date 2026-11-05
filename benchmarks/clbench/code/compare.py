@@ -1,4 +1,4 @@
-"""Leaderboard metrics for ICL + Logbook (6 tasks) and our ICL rerun (3 tasks), with CL-Bench's own analysis code.
+"""Leaderboard metrics for ICL + Register (6 tasks) and our ICL rerun (3 tasks), with CL-Bench's own analysis code.
 
   CLBENCH_REPO=/path/to/continual-learning-bench python compare.py
 
@@ -29,7 +29,7 @@ def r_max_from_sources():
 A.load_task_r_max_values = r_max_from_sources
 TASKS = ["exploitable_poker", "blind_spectrum_monitoring", "cohort_studies"]  # the three with our ICL rerun
 ALL_TASKS = TASKS + ["database_exploration", "codebase_adaptation", "sales_prediction"]
-OURS = ["icl-claude-sonnet-4-6-rerun", "logbook-icl-claude-sonnet-4-6"]
+OURS = ["icl-claude-sonnet-4-6-rerun", "register-icl-claude-sonnet-4-6"]
 RUNS = sorted(A.DEFAULT_RUN_NAMES) + OURS
 
 # one results folder with the published runs and ours side by side
@@ -73,8 +73,8 @@ for t in TASKS:
     a = [x["normalized_gain"] for x in points.get(OURS[1], {}).get(t, [])]
     b = [x["normalized_gain"] for x in points.get(OURS[0], {}).get(t, [])]
     if a and b:
-        tests[t] = {"logbook": a, "icl": b, "p_one_sided": perm_p(a, b),
-                    "logbook_min_above_icl_max": min(a) > max(b)}
+        tests[t] = {"register": a, "icl": b, "p_one_sided": perm_p(a, b),
+                    "register_min_above_icl_max": min(a) > max(b)}
 
 board = []
 for run, by_task in summ.items():
@@ -109,8 +109,8 @@ for t in ALL_TASKS:
                   f" | reward {100*s['normalized_reward_mean']:6.1f}% ±{100*(s['normalized_reward_se'] or 0):4.1f}"
                   f" | cost/rollout ${s['cost_mean'] or 0:5.2f} | n {s['n_runs']}")
     if t in tests:
-        print(f"  permutation p (Logbook > ICL rerun, one-sided): {tests[t]['p_one_sided']:.4f};"
-              f" every Logbook rollout above every ICL rollout: {tests[t]['logbook_min_above_icl_max']}")
+        print(f"  permutation p (Register > ICL rerun, one-sided): {tests[t]['p_one_sided']:.4f};"
+              f" every Register rollout above every ICL rollout: {tests[t]['register_min_above_icl_max']}")
 print("\nThree-task board (mean over poker, BSM, cohort), sorted by normalized gain:")
 for i, r in enumerate(board, 1):
     print(f"  {i:2d}. {r['run']:36s} gain {100*r['gain_3']:6.1f}% | reward {100*r['reward_3']:6.1f}% | cost ${r['cost_3']:.2f}")

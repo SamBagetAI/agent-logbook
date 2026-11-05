@@ -3,7 +3,7 @@ benchmark.run_episode), with one addition: a daily snapshot of net worth, the sa
 paper's V1 runner writes (bank + machine cash + inventory value), so the early vs late
 earning rate can be computed for V2 too. The snapshot only reads the environment.
 
-Usage: python -I aha_run.py --arm none|notes|logbook --seed N --out DIR [--model M]
+Usage: python -I aha_run.py --arm none|notes|register --seed N --out DIR [--model M]
 The arm is passed to the provider through AHA_ARM.
 """
 from __future__ import annotations
@@ -20,12 +20,12 @@ import open_vending_bench.benchmark as B
 from open_vending_bench.agents.runtime import AgentRuntimeConfig
 from open_vending_bench.utils import write_json
 
-PROVIDER = str(Path(__file__).resolve().parent / "logbook_provider.py") + ":AnthropicLogbookProvider"
+PROVIDER = str(Path(__file__).resolve().parent / "register_provider.py") + ":AnthropicRegisterProvider"
 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--arm", required=True, choices=["none", "notes", "logbook", "logbook_checks", "generic", "generic2", "logbook_noout"])
+    ap.add_argument("--arm", required=True, choices=["none", "notes", "register", "register_checks", "generic", "generic2", "register_noout"])
     ap.add_argument("--seed", type=int, required=True)
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--model", default="claude-haiku-5-5")

@@ -1,4 +1,4 @@
-A block headed [Logbook] opens each of your messages. A program keeps it, not you: counts of what you were shown in this run, and nothing else.
+A block headed [Register] opens each of your messages. A program keeps it, not you: counts of what you were shown in this run, and nothing else.
 A count is a count. 0 of 2 is two observations, not a rule. Start again from today's numbers at every decision.
 It holds no advice. What you conclude from it is yours, and it can change when the numbers change.
 Do not restate it in your reasoning; use it.

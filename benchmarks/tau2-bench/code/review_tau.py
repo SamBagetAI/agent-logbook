@@ -2,9 +2,9 @@
 
 The judge reads each conversation with the policy, the scenario and the expected
 actions, and flags agent errors. It never sees which arm produced the
-conversation: the Logbook's refusals stay inside the agent and leave no trace.
+conversation: the Register's refusals stay inside the agent and leave no trace.
 
-  python review_tau.py eval-haiku-base eval-haiku-logbook --trial 0
+  python review_tau.py eval-haiku-base eval-haiku-register --trial 0
 """
 
 import argparse

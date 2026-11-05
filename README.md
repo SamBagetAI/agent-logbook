@@ -2,7 +2,7 @@
 
 # Agent Register
 
-Until 4 November 2026 this was called the Logbook; the code, the folder names and the run names still say `logbook` until the next release.
+Until 4 November 2026 this was called the Logbook. The runs recorded under that name keep it in their data and traces; everything else says Register.
 
 An agent only knows what it is sent at each call. The Register is a record kept by code, outside the model, and shown to the agent at every decision.
 
@@ -40,7 +40,7 @@ During the run, at every step:
 3. The agent gets its message with the memory block on top, decides, and acts.
 4. The world answers. Back to 1.
 
-The agent's own context can stay short: its last 8 actions on AhaBench, the current episode only in the `logbook_only` variant. The memory is what carries over, and it costs nothing: no model call, a few milliseconds.
+The agent's own context can stay short: its last 8 actions on AhaBench, the current episode only in the `register_only` variant. The memory is what carries over, and it costs nothing: no model call, a few milliseconds.
 
 Before the run:
 
@@ -53,18 +53,18 @@ Before the run:
 Describe your agent in a spec, and a model writes its Register ([author/](author)):
 
 ```bash
-python author/author.py my_agent/spec.json --past-runs --name my_logbook
+python author/author.py my_agent/spec.json --past-runs --name my_register
 ```
 
 Then call it in your agent loop:
 
 ```python
-from adapter import LogbookAdapter                 # author/adapter.py
-book = LogbookAdapter("written/my_logbook.py")
+from adapter import RegisterAdapter                # author/adapter.py
+book = RegisterAdapter("written/my_register.py")
 text = book.step(action, result, seen)             # before each decision; add text to the agent's context
 ```
 
-The Registers written by hand for each benchmark are in [logbook/](logbook).
+The Registers written by hand for each benchmark are in [register/](register).
 
 ## Limits
 
@@ -78,7 +78,7 @@ The Registers written by hand for each benchmark are in [logbook/](logbook).
 Not built, or built and not measured. Each is a change to the harness, not to the model.
 
 - **The record checks the agent's reasoning.** Where the agent's answers carry its reasoning, a `check(reasoning)` next to `observe` and `brief` would compare what the agent states about the record with the record, and show each mismatch as one line of fact at the next decision: an absolute ("never", "always", "0%") resting on fewer than five observations, a number that is no longer the current count, a claim about a counterpart the record has never seen. In a poker rollout with the whole history in context, 62 decisions of 293 state a "never" or "always" on four observations or fewer; without the history, 1 or 2, but about one absolute per decision remains without its count. Nothing of the reasoning would be stored, and the line would never say what to do. The risk is that the agent argues with the line instead of reading the counts. Cost to try: one Register rewritten offline, one rollout.
-- **The Register as the only memory.** Clear the agent's context at the end of every episode, keep the Register. Being measured on Continual Learning Bench; see [benchmarks/clbench/logbook_only](benchmarks/clbench/logbook_only).
+- **The Register as the only memory.** Clear the agent's context at the end of every episode, keep the Register. Being measured on Continual Learning Bench; see [benchmarks/clbench/register_only](benchmarks/clbench/register_only).
 - **A skill for reading it.** Four lines in the agent's instructions: counts are counts, not rules; start from today's numbers; no advice in there; do not restate it. Being measured with the above.
 - **A rewrite during the run.** The author rereads its Register and the run so far, and rewrites the code ([author/](author), step 5). Runs end to end; no gain shown on the one task tried.
 - **A database behind the record.** Worth it when the record outgrows a dictionary: thousands of counterparts, several agents feeding one record, a record kept from one run to the next. Same shape either way: code writes, code queries, a short text goes into every prompt.
@@ -87,7 +87,7 @@ Not built, or built and not measured. Each is a change to the harness, not to th
 
 ```text
 author/       a model writes the Register for your agent
-logbook/      the Registers written by hand
+register/     the Registers written by hand
 benchmarks/   ahabench, clbench, tau2-bench, vending-bench: protocol, results, every run
 ```
 

@@ -4,8 +4,8 @@ successful write, and a fresh instance takes over the same conversation.
 What survives the restart, by arm:
   crash_transcript : the chat transcript only (user and agent text messages)
   crash_notes      : the transcript + notes the agent kept with a save_notes tool
-  crash_logbook    : the transcript + the Logbook brief (recorded automatically),
-                     and the Logbook keeps checking every write
+  crash_register    : the transcript + the Register brief (recorded automatically),
+                     and the Register keeps checking every write
 
 Everything else is tau2's own code: tasks, environment, user simulator, scoring.
 The tool result of the write that triggered the restart is lost for the
@@ -30,8 +30,8 @@ from tau2.data_model.message import (
 from tau2.environment.tool import as_tool
 from tau2.utils.llm_utils import generate
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "logbook" / "tau2-bench"))  # the Logbook code
-from logbook_agent import WRITES, LogbookAgent  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "register" / "tau2-bench"))  # the Register code
+from register_agent import WRITES, RegisterAgent  # noqa: E402
 
 PRE = {
     "transcript": "This service may restart you at any time without warning. After a "
@@ -41,9 +41,9 @@ PRE = {
              "restart, only the chat transcript and your notes survive; your tool calls "
              "and their results are lost. Keep your notes current with the save_notes "
              "tool (each call replaces the previous notes).",
-    "logbook": "This service may restart you at any time without warning. After a "
-               "restart, only the chat transcript and the Logbook survive; your tool calls "
-               "and their results are lost. The Logbook records your actions "
+    "register": "This service may restart you at any time without warning. After a "
+               "restart, only the chat transcript and the Register survive; your tool calls "
+               "and their results are lost. The Register records your actions "
                "automatically; you do not need to do anything for it.",
 }
 POST = ("RESTART: you are a new instance taking over this conversation. The previous "
@@ -116,11 +116,11 @@ class _CrashMixin:
         if self.crash_info and not self.crash_info.get("tagged"):
             self.crash_info["tagged"] = True
             msg.raw_data = dict(msg.raw_data or {})
-            ev = list(msg.raw_data.get("logbook_events") or [])
+            ev = list(msg.raw_data.get("register_events") or [])
             ev.append({"event": "crash", "tool": self.crash_info["after"], "args": {},
                        "recovery_chars": self.crash_info["recovery_chars"],
                        "recovery": self.crash_info["recovery"]})
-            msg.raw_data["logbook_events"] = ev
+            msg.raw_data["register_events"] = ev
         return msg
 
 
@@ -202,7 +202,7 @@ class CrashNotesAgent(_CrashMixin, LLMAgent):
             if others:
                 # the environment only sees the real tool calls
                 out = msg.model_copy(update={"tool_calls": others,
-                                             "raw_data": {"logbook_events": saved}})
+                                             "raw_data": {"register_events": saved}})
                 if out.cost is not None:
                     out.cost += extra
                 return out, state
@@ -211,27 +211,27 @@ class CrashNotesAgent(_CrashMixin, LLMAgent):
             msg.cost += extra
         if saved:
             msg.raw_data = dict(msg.raw_data or {})
-            msg.raw_data["logbook_events"] = list(msg.raw_data.get("logbook_events") or []) + saved
+            msg.raw_data["register_events"] = list(msg.raw_data.get("register_events") or []) + saved
         state.messages.append(msg)
         return msg, state
 
 
-class CrashLogbookAgent(_CrashMixin, LogbookAgent):
-    ARM = "logbook"
+class CrashRegisterAgent(_CrashMixin, RegisterAgent):
+    ARM = "register"
 
     def __init__(self, *a, **k):
         super().__init__(*a, **k)
         self._init_crash()
 
     def _recovery(self) -> str:
-        return "Logbook brief:\n" + self.book.brief()
+        return "Register brief:\n" + self.book.brief()
 
     def generate_next_message(self, message, state):
         if not self.crashed:
             after = first_write_done(self, message, state)
             if after:
                 self.turn += 1
-                self._observe(message, state)  # the Logbook is durable: it keeps the result
+                self._observe(message, state)  # the Register is durable: it keeps the result
                 self.crashed = True
                 rec = self._recovery()
                 state = self._restart(state, rec)
@@ -244,7 +244,7 @@ class CrashLogbookAgent(_CrashMixin, LogbookAgent):
 def _factory(cls):
     def create(tools, domain_policy, **kwargs):
         extra = {}
-        if cls is CrashLogbookAgent:
+        if cls is CrashRegisterAgent:
             extra["task_id"] = getattr(kwargs.get("task"), "id", None)
         return cls(tools=tools, domain_policy=domain_policy, llm=kwargs.get("llm"),
                    llm_args=kwargs.get("llm_args"),
@@ -256,6 +256,6 @@ def _factory(cls):
 def register(registry) -> None:
     for name, cls in (("crash_transcript", CrashTranscriptAgent),
                       ("crash_notes", CrashNotesAgent),
-                      ("crash_logbook", CrashLogbookAgent)):
+                      ("crash_register", CrashRegisterAgent)):
         if registry.get_agent_factory(name) is None:
             registry.register_agent_factory(_factory(cls), name)
