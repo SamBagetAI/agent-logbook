@@ -9,11 +9,12 @@ An agent only knows what it is sent at each call. The Register is a record kept 
 
 ## Results
 
-Four public benchmarks, each scored with its own metrics.
+Five public benchmarks, each scored with its own metrics.
 
 | Benchmark | What the agent sees | Effect of the Register |
 |---|---|---|
 | [AhaBench](benchmarks/ahabench): a year running a vending business | its last 8 actions | runs still in business at day 60: 0/15 → **12/15** |
+| [YC-Bench](benchmarks/yc-bench): a year running a simulated AI startup | its last 20 turns, plus its own notes | final funds: $1.04M → **$1.98M**, higher on 5/5 seeds (Claude Haiku 5.5) |
 | [Continual Learning Bench](benchmarks/clbench): 6 tasks, from poker to code fixes | the whole run | leaderboard score: 19.6% → **27.4%**, 1st of the 12 published systems (Claude Sonnet 4.6) |
 | [τ²-bench](benchmarks/tau2-bench): customer service conversations | the whole conversation | none |
 | [Vending Bench](benchmarks/vending-bench): 30 days of a vending business | its last 8 to 9 days, plus its own notes | none |
@@ -24,8 +25,10 @@ Four public benchmarks, each scored with its own metrics.
 
 ![Continual Learning Bench, all 6 tasks, mean normalized reward: ICL with a Register, Claude Sonnet 4.6, 27.4%; then the 12 published systems, led by ICL with Claude Sonnet 4.6 at 19.6%, ICL with GPT-5.4 at 18.9% and Claude Code with Sonnet 4.6 at 18.5%.](benchmarks/clbench/results/board.png)
 
-- **It helps when the agent needs a total over many steps**: a refusal that left its view 8 actions ago, a transmitter seen in earlier scans but silent in this one. When one prompt already holds what the agent needs, it gains nothing, and it is not free: on the poker task the model wrote twice as much reasoning with it, at twice the cost, and on cohort studies one run applied the rule set the Register listed as best and collapsed.
-- **A small model with a Register can beat a bigger one without.** On AhaBench, Claude Haiku 5.5 with the Register beat Claude Sonnet 5.5 without it on 4 of 5 seeds, at about 1/26 of the cost.
+![YC-Bench, final funds per seed after one simulated year, Claude Haiku 5.5: with its own notes only $0.87M to $1.37M; with the Register $1.48M to $2.25M, higher on every seed; the published Sonnet 5.5 and Opus 5.5 runs of seeds 1 to 3 shown for reference.](benchmarks/yc-bench/results/funds.png)
+
+- **It helps when the agent needs a total over many steps**: a refusal that left its view 8 actions ago, a transmitter seen in earlier scans but silent in this one, a client whose contracts failed weeks ago. When one prompt already holds what the agent needs, it gains nothing, and it is not free: on the poker task the model wrote twice as much reasoning with it, at twice the cost, and on cohort studies one run applied the rule set the Register listed as best and collapsed.
+- **A small model with a Register can beat a bigger one without.** On AhaBench, Claude Haiku 5.5 with the Register beat Claude Sonnet 5.5 without it on 4 of 5 seeds, at about 1/26 of the cost. On YC-Bench, it matched the published runs of Claude Sonnet 5.5 on the same seeds ($1.86M against $1.74M) at about 1/15 of the cost.
 - **What the record says matters.** A raw list of error messages did not change the agent's behavior. The same facts in the task's terms ("order refused, missing: account number") did.
 - **A model can write it.** From a description of the agent and one failed run, Claude Opus 5.5 wrote Registers that kept Haiku in business at day 60 in 15/15 runs (no memory: 5/15). From the task descriptions alone, it wrote the six Registers used on Continual Learning Bench.
 
@@ -88,7 +91,7 @@ Not built, or built and not measured. Each is a change to the harness, not to th
 ```text
 author/       a model writes the Register for your agent
 register/     the Registers written by hand
-benchmarks/   ahabench, clbench, tau2-bench, vending-bench: protocol, results, every run
+benchmarks/   ahabench, clbench, tau2-bench, vending-bench, yc-bench: protocol, results, every run
 ```
 
 Runs use Claude models through the [Anthropic](https://www.anthropic.com) API. License: MIT ([LICENSE](LICENSE)).

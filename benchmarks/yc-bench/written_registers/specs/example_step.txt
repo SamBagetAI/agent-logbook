@@ -1,0 +1,21 @@
+## Simulation Start — Take Immediate Action
+- current_time: 2025-01-01T09:00:00
+- horizon_end: 2026-01-01T09:00:00
+- funds: $200,000.00
+- monthly_payroll: $38,005.03
+- runway: ~5.3 months
+- employees: 8
+- active_tasks: 0
+- planned_tasks: 0
+
+**Your immediate priority**: generate revenue before payroll drains your runway.
+Complete these steps now (multiple commands per turn are fine):
+1. `yc-bench market browse` — see available tasks
+2. `yc-bench task accept --task-id Task-42` — accept a task
+3. `yc-bench task assign-all --task-id Task-42` — assign employees (or use `task assign` to pick individuals)
+4. `yc-bench task dispatch --task-id Task-42` — start work
+5. `yc-bench sim resume` — advance time
+
+**IMPORTANT**: Check each command's result before proceeding to the next.
+If `task accept` fails (trust or prestige too low), try a different task.
+Do NOT call `sim resume` unless you have at least one active task — it will skip forward with zero revenue.

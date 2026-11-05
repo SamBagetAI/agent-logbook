@@ -1,0 +1,111 @@
+diff --git a/src/yc_bench/agent/loop.py b/src/yc_bench/agent/loop.py
+index e77dcab..f624dd2 100644
+--- a/src/yc_bench/agent/loop.py
++++ b/src/yc_bench/agent/loop.py
+@@ -153,6 +153,7 @@ def run_agent_loop(
+ ) -> RunState:
+     run_state.start()
+     turns_since_resume = 0  # consecutive turns without sim resume
++    last_sim_time, stalled_turns = None, 0  # agent-register stall guard, below
+ 
+     logger.info(
+         "Starting agent loop: model=%s seed=%d auto_advance_after=%d turns max_turns=%s",
+@@ -266,6 +267,20 @@ def run_agent_loop(
+             len(commands_executed),
+         )
+ 
++        # agent-register stall guard, the same in every setup. sim resume needs an active task, so with none
++        # the clock cannot move: after 50 turns with nothing active and the clock still, the run is stuck and
++        # ends here (seen at the end of the year, when no task can finish before the horizon). 1,500 turns at most.
++        if not run_state.terminal:
++            with db_factory() as db:
++                now = _snapshot_state(db, company_id)
++            stalled_turns = stalled_turns + 1 if (now["sim_time"] == last_sim_time and now["active_tasks"] == 0) else 0
++            last_sim_time = now["sim_time"]
++            if stalled_turns >= 50 or run_state.turn_count >= 1500:
++                detail = (f"clock at {last_sim_time}, nothing active for {stalled_turns} turns" if stalled_turns >= 50
++                          else "1,500 turns")
++                logger.info("Stopping: %s", detail)
++                run_state.mark_terminal(TerminalReason.STALLED, detail)
++
+     logger.info(
+         "Agent loop finished: turns=%d terminal=%s reason=%s",
+         run_state.turn_count,
+diff --git a/src/yc_bench/agent/run_state.py b/src/yc_bench/agent/run_state.py
+index 14a4bd0..957e680 100644
+--- a/src/yc_bench/agent/run_state.py
++++ b/src/yc_bench/agent/run_state.py
+@@ -12,6 +12,7 @@ class TerminalReason(str, Enum):
+     BANKRUPTCY = "bankruptcy"
+     HORIZON_END = "horizon_end"
+     ERROR = "error"
++    STALLED = "stalled"  # agent-register harness: see the stall guard in loop.py
+ 
+ 
+ @dataclass
+diff --git a/src/yc_bench/agent/runtime/litellm_runtime.py b/src/yc_bench/agent/runtime/litellm_runtime.py
+index cecff67..0480567 100644
+--- a/src/yc_bench/agent/runtime/litellm_runtime.py
++++ b/src/yc_bench/agent/runtime/litellm_runtime.py
+@@ -48,6 +48,13 @@ class _Session:
+     messages: list = field(default_factory=list)
+     scratchpad: str | None = None
+     turn_logs: list = field(default_factory=list)  # full API call logs per turn
++    last_tool_calls: list | None = None  # the previous turn's commands and results (for the Register)
++    register_text: str = ""  # the Register's text for this turn
++
++
++# agent-register: where the Register's text goes, after the scratchpad in the system prompt.
++REGISTER_HEADER = "\n\n[Register: kept by code since the start of this run, from your commands and their results]\n"
++REGISTER_FOOTER = "\n[End of Register]"
+ 
+ 
+ class LiteLLMRuntime(AgentRuntime):
+@@ -83,6 +90,18 @@ class LiteLLMRuntime(AgentRuntime):
+ 
+         self._history_keep_rounds = settings.history_keep_rounds
+ 
++        # agent-register: YC_REGISTER_FILE shows a written Register's text next to the scratchpad;
++        # YC_REGISTER_TRACE alone records every decision (what the agent saw, its commands, their results)
++        # without changing anything the agent sees. YC_REGISTER_AUTHOR_DIR is agent-register's author/ folder.
++        self._register = None
++        self._register_shown = bool(os.environ.get("YC_REGISTER_FILE"))
++        if os.environ.get("YC_REGISTER_FILE") or os.environ.get("YC_REGISTER_TRACE"):
++            import sys as _sys
++            _sys.path.insert(0, os.environ["YC_REGISTER_AUTHOR_DIR"])
++            from adapter import RegisterAdapter
++            self._register = RegisterAdapter(os.environ.get("YC_REGISTER_FILE") or None, cap=4000,
++                                             trace=os.environ.get("YC_REGISTER_TRACE") or None, trace_seen=True)
++
+         logger.info(
+             "LiteLLMRuntime configured: model=%s api_base=%s history_keep_rounds=%d",
+             self._settings.model,
+@@ -101,6 +120,11 @@ class LiteLLMRuntime(AgentRuntime):
+         # Proactively drop old rounds before appending new input.
+         self._proactive_truncate(session)
+         session.messages.append({"role": "user", "content": request.user_input})
++        if self._register is not None:  # one step per decision: the previous turn's commands, their results, the new message
++            prev = session.last_tool_calls
++            action = None if prev is None else {"tool": "run_command", "arguments": {"commands": [c["command"] for c in prev]}}
++            result = "" if prev is None else json.dumps([{"command": c["command"], "output": c["result"]} for c in prev])
++            session.register_text = self._register.step(action, result, request.user_input)
+ 
+         result = None
+         last_err = None
+@@ -130,6 +154,7 @@ class LiteLLMRuntime(AgentRuntime):
+             raise RuntimeError("run_turn failed without result") from last_err
+ 
+         final_output, tool_calls_made, resume_payload, turn_cost = result
++        session.last_tool_calls = tool_calls_made
+         # Include latest turn log for transcript saving
+         latest_log = session.turn_logs[-1] if session.turn_logs else {}
+         return RuntimeTurnResult(
+@@ -277,6 +302,8 @@ class LiteLLMRuntime(AgentRuntime):
+         # Append scratchpad to system prompt (avoids duplication in message history)
+         if session.scratchpad:
+             system_prompt = system_prompt + f"\n\n## Your Scratchpad Notes\n{session.scratchpad}"
++        if self._register_shown and session.register_text:
++            system_prompt = system_prompt + REGISTER_HEADER + session.register_text + REGISTER_FOOTER
+         messages = [{"role": "system", "content": system_prompt}] + session.messages
+ 
+         kwargs = dict(
